@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnhouse.app.dao.DeptDao">
+  <resultMap id="BaseResultMap" type="com.jnhouse.app.bean.Dept">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="dept_name" jdbcType="VARCHAR" property="dept_name" />
+    <result column="dept_level" jdbcType="INTEGER" property="dept_level" />
+    <result column="father_id" jdbcType="INTEGER" property="father_id" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="is_delete" jdbcType="INTEGER" property="is_delete" />
+    <result column="updated_by" jdbcType="INTEGER" property="updated_by" />
+    <result column="created_by" jdbcType="INTEGER" property="created_by" />
+    <result column="updated_time" jdbcType="TIMESTAMP" property="updated_time" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="created_time" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, dept_name, dept_level, father_id, sort, is_delete, updated_by, created_by, updated_time, 
+    created_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from fke_dept
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="delete" parameterType="java.lang.Integer">
+    delete from fke_dept where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jnhouse.app.bean.Dept">
+    insert into fke_dept (dept_name, dept_level, father_id, 
+      sort, is_delete, updated_by, 
+      created_by, updated_time, created_time
+      )
+    values (#{dept_name,jdbcType=VARCHAR}, #{dept_level,jdbcType=INTEGER}, #{father_id,jdbcType=INTEGER}, 
+      #{sort,jdbcType=INTEGER}, #{is_delete,jdbcType=INTEGER}, #{updated_by,jdbcType=INTEGER}, 
+      #{created_by,jdbcType=INTEGER}, #{updated_time,jdbcType=TIMESTAMP}, #{created_time,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <select id="findAll" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from fke_dept order by sort
+  </select>
+  <insert id="save" keyProperty="id" parameterType="com.jnhouse.app.bean.Dept" useGeneratedKeys="true">
+    insert into fke_dept (dept_name, dept_level, father_id, 
+      sort, is_delete, updated_by, 
+      created_by, updated_time, created_time
+      )
+    values (#{dept_name,jdbcType=VARCHAR}, #{dept_level,jdbcType=INTEGER}, #{father_id,jdbcType=INTEGER}, 
+      #{sort,jdbcType=INTEGER}, #{is_delete,jdbcType=INTEGER}, #{updated_by,jdbcType=INTEGER}, 
+      #{created_by,jdbcType=INTEGER}, #{updated_time,jdbcType=TIMESTAMP}, #{created_time,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jnhouse.app.bean.Dept">
+    insert into fke_dept
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dept_name != null">
+        dept_name,
+      </if>
+      <if test="dept_level != null">
+        dept_level,
+      </if>
+      <if test="father_id != null">
+        father_id,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="is_delete != null">
+        is_delete,
+      </if>
+      <if test="updated_by != null">
+        updated_by,
+      </if>
+      <if test="created_by != null">
+        created_by,
+      </if>
+      <if test="updated_time != null">
+        updated_time,
+      </if>
+      <if test="created_time != null">
+        created_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dept_name != null">
+        #{dept_name,jdbcType=VARCHAR},
+      </if>
+      <if test="dept_level != null">
+        #{dept_level,jdbcType=INTEGER},
+      </if>
+      <if test="father_id != null">
+        #{father_id,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="is_delete != null">
+        #{is_delete,jdbcType=INTEGER},
+      </if>
+      <if test="updated_by != null">
+        #{updated_by,jdbcType=INTEGER},
+      </if>
+      <if test="created_by != null">
+        #{created_by,jdbcType=INTEGER},
+      </if>
+      <if test="updated_time != null">
+        #{updated_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created_time != null">
+        #{created_time,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map">
+    update fke_dept
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.dept_name != null">
+        dept_name = #{record.dept_name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dept_level != null">
+        dept_level = #{record.dept_level,jdbcType=INTEGER},
+      </if>
+      <if test="record.father_id != null">
+        father_id = #{record.father_id,jdbcType=INTEGER},
+      </if>
+      <if test="record.sort != null">
+        sort = #{record.sort,jdbcType=INTEGER},
+      </if>
+      <if test="record.is_delete != null">
+        is_delete = #{record.is_delete,jdbcType=INTEGER},
+      </if>
+      <if test="record.updated_by != null">
+        updated_by = #{record.updated_by,jdbcType=INTEGER},
+      </if>
+      <if test="record.created_by != null">
+        created_by = #{record.created_by,jdbcType=INTEGER},
+      </if>
+      <if test="record.updated_time != null">
+        updated_time = #{record.updated_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.created_time != null">
+        created_time = #{record.created_time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update fke_dept
+    set id = #{record.id,jdbcType=INTEGER},
+      dept_name = #{record.dept_name,jdbcType=VARCHAR},
+      dept_level = #{record.dept_level,jdbcType=INTEGER},
+      father_id = #{record.father_id,jdbcType=INTEGER},
+      sort = #{record.sort,jdbcType=INTEGER},
+      is_delete = #{record.is_delete,jdbcType=INTEGER},
+      updated_by = #{record.updated_by,jdbcType=INTEGER},
+      created_by = #{record.created_by,jdbcType=INTEGER},
+      updated_time = #{record.updated_time,jdbcType=TIMESTAMP},
+      created_time = #{record.created_time,jdbcType=TIMESTAMP}
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jnhouse.app.bean.Dept">
+    update fke_dept
+    <set>
+      <if test="dept_name != null">
+        dept_name = #{dept_name,jdbcType=VARCHAR},
+      </if>
+      <if test="dept_level != null">
+        dept_level = #{dept_level,jdbcType=INTEGER},
+      </if>
+      <if test="father_id != null">
+        father_id = #{father_id,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="is_delete != null">
+        is_delete = #{is_delete,jdbcType=INTEGER},
+      </if>
+      <if test="updated_by != null">
+        updated_by = #{updated_by,jdbcType=INTEGER},
+      </if>
+      <if test="created_by != null">
+        created_by = #{created_by,jdbcType=INTEGER},
+      </if>
+      <if test="updated_time != null">
+        updated_time = #{updated_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created_time != null">
+        created_time = #{created_time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jnhouse.app.bean.Dept">
+    update fke_dept
+    set dept_name = #{dept_name,jdbcType=VARCHAR},
+      dept_level = #{dept_level,jdbcType=INTEGER},
+      father_id = #{father_id,jdbcType=INTEGER},
+      sort = #{sort,jdbcType=INTEGER},
+      is_delete = #{is_delete,jdbcType=INTEGER},
+      updated_by = #{updated_by,jdbcType=INTEGER},
+      created_by = #{created_by,jdbcType=INTEGER},
+      updated_time = #{updated_time,jdbcType=TIMESTAMP},
+      created_time = #{created_time,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

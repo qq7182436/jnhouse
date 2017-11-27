@@ -8,6 +8,6 @@
 		<setting name="mapUnderscoreToCamelCase" value="true" />
 	</settings>
 	<typeAliases>
-		<package name="com.xintai.changshun.bean" />
+		<package name="com.jnhouse.app.bean" />
 	</typeAliases>
 </configuration>

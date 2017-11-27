@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnhouse.app.dao.MenuDao">
+  <resultMap id="BaseResultMap" type="com.jnhouse.app.bean.Menu">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="menu_name" jdbcType="VARCHAR" property="menu_name" />
+    <result column="menu_level" jdbcType="INTEGER" property="menu_level" />
+    <result column="father_id" jdbcType="INTEGER" property="father_id" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="is_delete" jdbcType="INTEGER" property="is_delete" />
+    <result column="updated_by" jdbcType="INTEGER" property="updated_by" />
+    <result column="created_by" jdbcType="INTEGER" property="created_by" />
+    <result column="updated_time" jdbcType="TIMESTAMP" property="updated_time" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="created_time" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, menu_name, menu_level, father_id, url, sort, is_delete, updated_by, created_by, 
+    updated_time, created_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from fke_menu
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from fke_menu
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jnhouse.app.bean.Menu">
+    insert into fke_menu (menu_name, menu_level, father_id, 
+      url, sort, is_delete, 
+      updated_by, created_by, updated_time, 
+      created_time)
+    values (#{menu_name,jdbcType=VARCHAR}, #{menu_level,jdbcType=INTEGER}, #{father_id,jdbcType=INTEGER}, 
+      #{url,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, #{is_delete,jdbcType=INTEGER}, 
+      #{updated_by,jdbcType=INTEGER}, #{created_by,jdbcType=INTEGER}, #{updated_time,jdbcType=TIMESTAMP}, 
+      #{created_time,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jnhouse.app.bean.Menu">
+    insert into fke_menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="menu_name != null">
+        menu_name,
+      </if>
+      <if test="menu_level != null">
+        menu_level,
+      </if>
+      <if test="father_id != null">
+        father_id,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="is_delete != null">
+        is_delete,
+      </if>
+      <if test="updated_by != null">
+        updated_by,
+      </if>
+      <if test="created_by != null">
+        created_by,
+      </if>
+      <if test="updated_time != null">
+        updated_time,
+      </if>
+      <if test="created_time != null">
+        created_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="menu_name != null">
+        #{menu_name,jdbcType=VARCHAR},
+      </if>
+      <if test="menu_level != null">
+        #{menu_level,jdbcType=INTEGER},
+      </if>
+      <if test="father_id != null">
+        #{father_id,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="is_delete != null">
+        #{is_delete,jdbcType=INTEGER},
+      </if>
+      <if test="updated_by != null">
+        #{updated_by,jdbcType=INTEGER},
+      </if>
+      <if test="created_by != null">
+        #{created_by,jdbcType=INTEGER},
+      </if>
+      <if test="updated_time != null">
+        #{updated_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created_time != null">
+        #{created_time,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map">
+    update fke_menu
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.menu_name != null">
+        menu_name = #{record.menu_name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.menu_level != null">
+        menu_level = #{record.menu_level,jdbcType=INTEGER},
+      </if>
+      <if test="record.father_id != null">
+        father_id = #{record.father_id,jdbcType=INTEGER},
+      </if>
+      <if test="record.url != null">
+        url = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sort != null">
+        sort = #{record.sort,jdbcType=INTEGER},
+      </if>
+      <if test="record.is_delete != null">
+        is_delete = #{record.is_delete,jdbcType=INTEGER},
+      </if>
+      <if test="record.updated_by != null">
+        updated_by = #{record.updated_by,jdbcType=INTEGER},
+      </if>
+      <if test="record.created_by != null">
+        created_by = #{record.created_by,jdbcType=INTEGER},
+      </if>
+      <if test="record.updated_time != null">
+        updated_time = #{record.updated_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.created_time != null">
+        created_time = #{record.created_time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update fke_menu
+    set id = #{record.id,jdbcType=INTEGER},
+      menu_name = #{record.menu_name,jdbcType=VARCHAR},
+      menu_level = #{record.menu_level,jdbcType=INTEGER},
+      father_id = #{record.father_id,jdbcType=INTEGER},
+      url = #{record.url,jdbcType=VARCHAR},
+      sort = #{record.sort,jdbcType=INTEGER},
+      is_delete = #{record.is_delete,jdbcType=INTEGER},
+      updated_by = #{record.updated_by,jdbcType=INTEGER},
+      created_by = #{record.created_by,jdbcType=INTEGER},
+      updated_time = #{record.updated_time,jdbcType=TIMESTAMP},
+      created_time = #{record.created_time,jdbcType=TIMESTAMP}
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jnhouse.app.bean.Menu">
+    update fke_menu
+    <set>
+      <if test="menu_name != null">
+        menu_name = #{menu_name,jdbcType=VARCHAR},
+      </if>
+      <if test="menu_level != null">
+        menu_level = #{menu_level,jdbcType=INTEGER},
+      </if>
+      <if test="father_id != null">
+        father_id = #{father_id,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="is_delete != null">
+        is_delete = #{is_delete,jdbcType=INTEGER},
+      </if>
+      <if test="updated_by != null">
+        updated_by = #{updated_by,jdbcType=INTEGER},
+      </if>
+      <if test="created_by != null">
+        created_by = #{created_by,jdbcType=INTEGER},
+      </if>
+      <if test="updated_time != null">
+        updated_time = #{updated_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created_time != null">
+        created_time = #{created_time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jnhouse.app.bean.Menu">
+    update fke_menu
+    set menu_name = #{menu_name,jdbcType=VARCHAR},
+      menu_level = #{menu_level,jdbcType=INTEGER},
+      father_id = #{father_id,jdbcType=INTEGER},
+      url = #{url,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      is_delete = #{is_delete,jdbcType=INTEGER},
+      updated_by = #{updated_by,jdbcType=INTEGER},
+      created_by = #{created_by,jdbcType=INTEGER},
+      updated_time = #{updated_time,jdbcType=TIMESTAMP},
+      created_time = #{created_time,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

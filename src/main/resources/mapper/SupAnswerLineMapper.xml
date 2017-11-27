@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jnhouse.app.dao.SupAnswerLineMapper">
+<mapper namespace="com.jnhouse.app.dao.SupAnswerLineDao">
   <resultMap id="BaseResultMap" type="com.jnhouse.app.bean.SupAnswerLine">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="header_id" jdbcType="INTEGER" property="header_id" />
@@ -13,82 +13,10 @@
     <result column="updated_time" jdbcType="TIMESTAMP" property="updated_time" />
     <result column="created_time" jdbcType="TIMESTAMP" property="created_time" />
   </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
   <sql id="Base_Column_List">
     id, header_id, problem_id, answer_num, answer, photo, score, is_delete, updated_time, 
     created_time
   </sql>
-  <select id="selectByExample" parameterType="com.jnhouse.app.bean.SupAnswerLineExample" resultMap="BaseResultMap">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from fke_sup_answer_line
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -99,16 +27,7 @@
     delete from fke_sup_answer_line
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.jnhouse.app.bean.SupAnswerLineExample">
-    delete from fke_sup_answer_line
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
   <insert id="insert" parameterType="com.jnhouse.app.bean.SupAnswerLine">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      VALUES IDENTITY_VAL_LOCAL()
-    </selectKey>
     insert into fke_sup_answer_line (header_id, problem_id, answer_num, 
       answer, photo, score, 
       is_delete, updated_time, created_time
@@ -119,9 +38,6 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.jnhouse.app.bean.SupAnswerLine">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      VALUES IDENTITY_VAL_LOCAL()
-    </selectKey>
     insert into fke_sup_answer_line
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="header_id != null">
@@ -182,12 +98,6 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.jnhouse.app.bean.SupAnswerLineExample" resultType="java.lang.Long">
-    select count(*) from fke_sup_answer_line
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
   <update id="updateByExampleSelective" parameterType="map">
     update fke_sup_answer_line
     <set>
@@ -222,9 +132,6 @@
         created_time = #{record.created_time,jdbcType=TIMESTAMP},
       </if>
     </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
   </update>
   <update id="updateByExample" parameterType="map">
     update fke_sup_answer_line
@@ -238,9 +145,6 @@
       is_delete = #{record.is_delete,jdbcType=INTEGER},
       updated_time = #{record.updated_time,jdbcType=TIMESTAMP},
       created_time = #{record.created_time,jdbcType=TIMESTAMP}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.jnhouse.app.bean.SupAnswerLine">
     update fke_sup_answer_line
