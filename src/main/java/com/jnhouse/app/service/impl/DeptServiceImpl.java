@@ -37,13 +37,19 @@ public class DeptServiceImpl extends BaseServiceImpl<Dept> implements DeptServic
 	@Override
 	public Dept getById(Integer id) {
 		// TODO Auto-generated method stub
-		return null;
+		return deptDao.getById(id);
 	}
 
 	@Override
 	public List<Dept> findAll() {
 		// TODO Auto-generated method stub
 		return deptDao.findAll();
+	}
+
+	@Override
+	public Integer findMaxValue(Dept dept) {
+		// TODO Auto-generated method stub
+		return deptDao.findMaxValue(dept);
 	}
 
 }

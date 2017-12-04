@@ -17,7 +17,7 @@
     id, dept_name, dept_level, father_id, sort, is_delete, updated_by, created_by, updated_time, 
     created_time
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="getById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from fke_dept
@@ -39,7 +39,13 @@
   <select id="findAll" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from fke_dept order by sort
+    from fke_dept where is_delete = '1' order by dept_level desc, sort
+  </select>
+  <select id="findMaxValue" parameterType="com.jnhouse.app.bean.Dept" resultType="java.lang.Integer">
+    select 
+    MAX(sort)
+    from fke_dept where is_delete = '1' and dept_level = #{dept_level,jdbcType=INTEGER} and father_id = #{father_id,jdbcType=INTEGER} 
+    order by dept_level desc, sort
   </select>
   <insert id="save" keyProperty="id" parameterType="com.jnhouse.app.bean.Dept" useGeneratedKeys="true">
     insert into fke_dept (dept_name, dept_level, father_id, 
@@ -48,7 +54,7 @@
       )
     values (#{dept_name,jdbcType=VARCHAR}, #{dept_level,jdbcType=INTEGER}, #{father_id,jdbcType=INTEGER}, 
       #{sort,jdbcType=INTEGER}, #{is_delete,jdbcType=INTEGER}, #{updated_by,jdbcType=INTEGER}, 
-      #{created_by,jdbcType=INTEGER}, #{updated_time,jdbcType=TIMESTAMP}, #{created_time,jdbcType=TIMESTAMP}
+      #{created_by,jdbcType=INTEGER}, NOW(), NOW()
       )
   </insert>
   <insert id="insertSelective" parameterType="com.jnhouse.app.bean.Dept">

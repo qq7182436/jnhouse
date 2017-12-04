@@ -1,9 +1,15 @@
 package com.jnhouse.app.bean;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class DeptAuthority {
-    private Integer id;
+public class DeptAuthority implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private Integer id;
 
     private Integer dept_id;
 

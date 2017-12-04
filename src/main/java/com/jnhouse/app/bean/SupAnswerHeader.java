@@ -1,9 +1,19 @@
 package com.jnhouse.app.bean;
 
+import java.io.Serializable;
 import java.util.Date;
+/**
+ * 模版答案表
+ * @author lou
+ *
+ */
+public class SupAnswerHeader implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-public class SupAnswerHeader {
-    private Integer id;
+	private Integer id;
 
     private Integer template_id;
 

@@ -276,7 +276,7 @@ iframe{border:none;}
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs">Alexander Pierce</span>
+              <span class="hidden-xs">${user.username }</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -284,8 +284,8 @@ iframe{border:none;}
                 <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                 <p>
-                  Alexander Pierce - Web Developer
-                  <small>Member since Nov. 2012</small>
+                  ${user.username } - 技术部技术专员
+                  <small>2017-08-31入职</small>
                 </p>
               </li>
               <!-- Menu Body -->
@@ -306,10 +306,10 @@ iframe{border:none;}
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  <a href="#" class="btn btn-default btn-flat">详情</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="#" onclick="index.action" class="btn btn-default btn-flat">注销</a>
                 </div>
               </li>
             </ul>
@@ -333,7 +333,7 @@ iframe{border:none;}
           <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>虚伪的家人</p>
+          <p>${user.username }</p>
           <a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
         </div>
       </div>
@@ -360,8 +360,9 @@ iframe{border:none;}
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="active"><a  href="javascript:;" onclick="reIframeHeight('role.action');" ><i class="fa fa-circle-o"></i> 角色管理</a></li>
-            <li><a onclick="reIframeHeight('dept.action');" href="javascript:;" ><i class="fa fa-circle-o"></i> 菜单管理</a></li>
+            <li class="active"><a  href="javascript:;" onclick="reIframeHeight('dept_views.action');" ><i class="fa fa-circle-o"></i> 部门管理</a></li>
+            <li><a onclick="reIframeHeight('menu/menu_views.action');" href="javascript:;" ><i class="fa fa-circle-o"></i> 菜单管理</a></li>
+            <li><a onclick="reIframeHeight('role/role_views.action');" href="javascript:;" ><i class="fa fa-circle-o"></i> 角色管理</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -525,7 +526,7 @@ iframe{border:none;}
     <!-- /.sidebar -->
   </aside>
 
-  <iframe   id="content" scroll="no"  min-height=""  src="dept.action"></iframe>
+  <iframe   id="content" scroll="no"  min-height=""  src="dept_views.action"></iframe>
 
   
 

@@ -18,25 +18,36 @@
     id, menu_name, menu_level, father_id, url, sort, is_delete, updated_by, created_by, 
     updated_time, created_time
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="getById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from fke_menu
     where id = #{id,jdbcType=INTEGER}
   </select>
+    <select id="findMaxValue" parameterType="com.jnhouse.app.bean.Menu" resultType="java.lang.Integer">
+    select 
+    MAX(sort)
+    from fke_menu where is_delete = '1' and menu_level = #{menu_level,jdbcType=INTEGER} and father_id = #{father_id,jdbcType=INTEGER} 
+    order by menu_level desc, sort
+  </select>
+   <select id="findAll" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from fke_menu order by sort
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from fke_menu
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.jnhouse.app.bean.Menu">
+  <insert id="save" keyProperty="id" useGeneratedKeys="true" parameterType="com.jnhouse.app.bean.Menu">
     insert into fke_menu (menu_name, menu_level, father_id, 
       url, sort, is_delete, 
       updated_by, created_by, updated_time, 
       created_time)
     values (#{menu_name,jdbcType=VARCHAR}, #{menu_level,jdbcType=INTEGER}, #{father_id,jdbcType=INTEGER}, 
       #{url,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, #{is_delete,jdbcType=INTEGER}, 
-      #{updated_by,jdbcType=INTEGER}, #{created_by,jdbcType=INTEGER}, #{updated_time,jdbcType=TIMESTAMP}, 
-      #{created_time,jdbcType=TIMESTAMP})
+      #{updated_by,jdbcType=INTEGER}, #{created_by,jdbcType=INTEGER}, NOW(), 
+      NOW())
   </insert>
   <insert id="insertSelective" parameterType="com.jnhouse.app.bean.Menu">
     insert into fke_menu

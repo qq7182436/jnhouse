@@ -34,21 +34,7 @@
       <property name="enableSubPackages" value="true" />
     </javaClientGenerator>
 
-    <table schema="DB2ADMIN" tableName="fke_dept" domainObjectName="Dept" >
-      <property name="useActualColumnNames" value="true"/>
-      <generatedKey column="ID" sqlStatement="DB2" identity="true" />
-      <columnOverride column="DATE_FIELD" property="startDate" />
-      <ignoreColumn column="FRED" />
-      <columnOverride column="LONG_VARCHAR_FIELD" jdbcType="VARCHAR" />
-    </table>
-    <table schema="DB2ADMIN" tableName="fke_dept_user" domainObjectName="DeptUser" >
-      <property name="useActualColumnNames" value="true"/>
-      <generatedKey column="ID" sqlStatement="DB2" identity="true" />
-      <columnOverride column="DATE_FIELD" property="startDate" />
-      <ignoreColumn column="FRED" />
-      <columnOverride column="LONG_VARCHAR_FIELD" jdbcType="VARCHAR" />
-    </table>
-    <table schema="DB2ADMIN" tableName="fke_menu" domainObjectName="Menu" >
+    <table schema="DB2ADMIN" tableName="fke_role_menu" domainObjectName="RoleMenu" >
       <property name="useActualColumnNames" value="true"/>
       <generatedKey column="ID" sqlStatement="DB2" identity="true" />
       <columnOverride column="DATE_FIELD" property="startDate" />
@@ -56,7 +42,7 @@
       <columnOverride column="LONG_VARCHAR_FIELD" jdbcType="VARCHAR" />
     </table>
     
-    <table schema="DB2ADMIN" tableName="fke_dept_authority" domainObjectName="DeptAuthority" >
+    <table schema="DB2ADMIN" tableName="fke_role" domainObjectName="Role" >
       <property name="useActualColumnNames" value="true"/>
       <generatedKey column="ID" sqlStatement="DB2" identity="true" />
       <columnOverride column="DATE_FIELD" property="startDate" />

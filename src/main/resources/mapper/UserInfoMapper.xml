@@ -1,0 +1,585 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnhouse.app.dao.UserInfoMapper">
+  <resultMap id="BaseResultMap" type="com.jnhouse.app.bean.UserInfo">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="realname" jdbcType="VARCHAR" property="realname" />
+    <result column="city_id" jdbcType="INTEGER" property="city_id" />
+    <result column="cityarea_id" jdbcType="INTEGER" property="cityarea_id" />
+    <result column="cityarea2_id" jdbcType="INTEGER" property="cityarea2_id" />
+    <result column="broker_mobile" jdbcType="VARCHAR" property="broker_mobile" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <result column="idcard_pic" jdbcType="VARCHAR" property="idcard_pic" />
+    <result column="idcard" jdbcType="VARCHAR" property="idcard" />
+    <result column="aptitude" jdbcType="VARCHAR" property="aptitude" />
+    <result column="business" jdbcType="VARCHAR" property="business" />
+    <result column="signed" jdbcType="VARCHAR" property="signed" />
+    <result column="company" jdbcType="VARCHAR" property="company" />
+    <result column="outlet" jdbcType="VARCHAR" property="outlet" />
+    <result column="outlet_addr" jdbcType="VARCHAR" property="outlet_addr" />
+    <result column="post_code" jdbcType="VARCHAR" property="post_code" />
+    <result column="com_tell" jdbcType="VARCHAR" property="com_tell" />
+    <result column="com_fax" jdbcType="VARCHAR" property="com_fax" />
+    <result column="gender" jdbcType="BIT" property="gender" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
+    <result column="borough_id" jdbcType="INTEGER" property="borough_id" />
+    <result column="qq" jdbcType="VARCHAR" property="qq" />
+    <result column="msn" jdbcType="VARCHAR" property="msn" />
+    <result column="broker_type" jdbcType="TINYINT" property="broker_type" />
+    <result column="outlet_first" jdbcType="VARCHAR" property="outlet_first" />
+    <result column="outlet_last" jdbcType="VARCHAR" property="outlet_last" />
+    <result column="specialty" jdbcType="INTEGER" property="specialty" />
+    <result column="banner" jdbcType="VARCHAR" property="banner" />
+    <result column="background" jdbcType="VARCHAR" property="background" />
+    <result column="working_life" jdbcType="INTEGER" property="working_life" />
+    <result column="max_refresh_manual" jdbcType="INTEGER" property="max_refresh_manual" />
+    <result column="verify_status" jdbcType="BIT" property="verify_status" />
+    <result column="is_broker" jdbcType="BIT" property="is_broker" />
+    <result column="max_refresh_auto" jdbcType="INTEGER" property="max_refresh_auto" />
+    <result column="vip_status" jdbcType="BIT" property="vip_status" />
+    <result column="vip_endtime" jdbcType="INTEGER" property="vip_endtime" />
+    <result column="feature_status" jdbcType="BIT" property="feature_status" />
+    <result column="feature_time" jdbcType="VARCHAR" property="feature_time" />
+    <result column="recommend_1" jdbcType="BIT" property="recommend_1" />
+    <result column="recommend_2" jdbcType="BIT" property="recommend_2" />
+    <result column="recommend_3" jdbcType="BIT" property="recommend_3" />
+    <result column="recommend_4" jdbcType="BIT" property="recommend_4" />
+    <result column="recommend_5" jdbcType="BIT" property="recommend_5" />
+    <result column="recommend_6" jdbcType="BIT" property="recommend_6" />
+    <result column="recommend_7" jdbcType="BIT" property="recommend_7" />
+    <result column="recommend_8" jdbcType="BIT" property="recommend_8" />
+    <result column="recommend_9" jdbcType="BIT" property="recommend_9" />
+    <result column="r1_time" jdbcType="INTEGER" property="r1_time" />
+    <result column="r2_time" jdbcType="INTEGER" property="r2_time" />
+    <result column="r3_time" jdbcType="INTEGER" property="r3_time" />
+    <result column="r4_time" jdbcType="INTEGER" property="r4_time" />
+    <result column="r5_time" jdbcType="INTEGER" property="r5_time" />
+    <result column="r6_time" jdbcType="INTEGER" property="r6_time" />
+    <result column="r7_time" jdbcType="INTEGER" property="r7_time" />
+    <result column="r8_time" jdbcType="INTEGER" property="r8_time" />
+    <result column="r9_time" jdbcType="INTEGER" property="r9_time" />
+    <result column="summary" jdbcType="VARCHAR" property="summary" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, realname, city_id, cityarea_id, cityarea2_id, broker_mobile, avatar, idcard_pic, 
+    idcard, aptitude, business, signed, company, outlet, outlet_addr, post_code, com_tell, 
+    com_fax, gender, birthday, borough_id, qq, msn, broker_type, outlet_first, outlet_last, 
+    specialty, banner, background, working_life, max_refresh_manual, verify_status, is_broker, 
+    max_refresh_auto, vip_status, vip_endtime, feature_status, feature_time, recommend_1, 
+    recommend_2, recommend_3, recommend_4, recommend_5, recommend_6, recommend_7, recommend_8, 
+    recommend_9, r1_time, r2_time, r3_time, r4_time, r5_time, r6_time, r7_time, r8_time, 
+    r9_time, summary
+  </sql>
+  <insert id="insert" parameterType="com.jnhouse.app.bean.UserInfo">
+    insert into fke_broker_info (realname, city_id, cityarea_id, 
+      cityarea2_id, broker_mobile, avatar, 
+      idcard_pic, idcard, aptitude, 
+      business, signed, company, 
+      outlet, outlet_addr, post_code, 
+      com_tell, com_fax, gender, 
+      birthday, borough_id, qq, 
+      msn, broker_type, outlet_first, 
+      outlet_last, specialty, banner, 
+      background, working_life, max_refresh_manual, 
+      verify_status, is_broker, max_refresh_auto, 
+      vip_status, vip_endtime, feature_status, 
+      feature_time, recommend_1, recommend_2, 
+      recommend_3, recommend_4, recommend_5, 
+      recommend_6, recommend_7, recommend_8, 
+      recommend_9, r1_time, r2_time, 
+      r3_time, r4_time, r5_time, 
+      r6_time, r7_time, r8_time, 
+      r9_time, summary, introduce
+      )
+    values (#{realname,jdbcType=VARCHAR}, #{city_id,jdbcType=INTEGER}, #{cityarea_id,jdbcType=INTEGER}, 
+      #{cityarea2_id,jdbcType=INTEGER}, #{broker_mobile,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, 
+      #{idcard_pic,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, #{aptitude,jdbcType=VARCHAR}, 
+      #{business,jdbcType=VARCHAR}, #{signed,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR}, 
+      #{outlet,jdbcType=VARCHAR}, #{outlet_addr,jdbcType=VARCHAR}, #{post_code,jdbcType=VARCHAR}, 
+      #{com_tell,jdbcType=VARCHAR}, #{com_fax,jdbcType=VARCHAR}, #{gender,jdbcType=BIT}, 
+      #{birthday,jdbcType=DATE}, #{borough_id,jdbcType=INTEGER}, #{qq,jdbcType=VARCHAR}, 
+      #{msn,jdbcType=VARCHAR}, #{broker_type,jdbcType=TINYINT}, #{outlet_first,jdbcType=VARCHAR}, 
+      #{outlet_last,jdbcType=VARCHAR}, #{specialty,jdbcType=INTEGER}, #{banner,jdbcType=VARCHAR}, 
+      #{background,jdbcType=VARCHAR}, #{working_life,jdbcType=INTEGER}, #{max_refresh_manual,jdbcType=INTEGER}, 
+      #{verify_status,jdbcType=BIT}, #{is_broker,jdbcType=BIT}, #{max_refresh_auto,jdbcType=INTEGER}, 
+      #{vip_status,jdbcType=BIT}, #{vip_endtime,jdbcType=INTEGER}, #{feature_status,jdbcType=BIT}, 
+      #{feature_time,jdbcType=VARCHAR}, #{recommend_1,jdbcType=BIT}, #{recommend_2,jdbcType=BIT}, 
+      #{recommend_3,jdbcType=BIT}, #{recommend_4,jdbcType=BIT}, #{recommend_5,jdbcType=BIT}, 
+      #{recommend_6,jdbcType=BIT}, #{recommend_7,jdbcType=BIT}, #{recommend_8,jdbcType=BIT}, 
+      #{recommend_9,jdbcType=BIT}, #{r1_time,jdbcType=INTEGER}, #{r2_time,jdbcType=INTEGER}, 
+      #{r3_time,jdbcType=INTEGER}, #{r4_time,jdbcType=INTEGER}, #{r5_time,jdbcType=INTEGER}, 
+      #{r6_time,jdbcType=INTEGER}, #{r7_time,jdbcType=INTEGER}, #{r8_time,jdbcType=INTEGER}, 
+      #{r9_time,jdbcType=INTEGER}, #{summary,jdbcType=VARCHAR}, #{introduce,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jnhouse.app.bean.UserInfo">
+    insert into fke_broker_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="realname != null">
+        realname,
+      </if>
+      <if test="city_id != null">
+        city_id,
+      </if>
+      <if test="cityarea_id != null">
+        cityarea_id,
+      </if>
+      <if test="cityarea2_id != null">
+        cityarea2_id,
+      </if>
+      <if test="broker_mobile != null">
+        broker_mobile,
+      </if>
+      <if test="avatar != null">
+        avatar,
+      </if>
+      <if test="idcard_pic != null">
+        idcard_pic,
+      </if>
+      <if test="idcard != null">
+        idcard,
+      </if>
+      <if test="aptitude != null">
+        aptitude,
+      </if>
+      <if test="business != null">
+        business,
+      </if>
+      <if test="signed != null">
+        signed,
+      </if>
+      <if test="company != null">
+        company,
+      </if>
+      <if test="outlet != null">
+        outlet,
+      </if>
+      <if test="outlet_addr != null">
+        outlet_addr,
+      </if>
+      <if test="post_code != null">
+        post_code,
+      </if>
+      <if test="com_tell != null">
+        com_tell,
+      </if>
+      <if test="com_fax != null">
+        com_fax,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="borough_id != null">
+        borough_id,
+      </if>
+      <if test="qq != null">
+        qq,
+      </if>
+      <if test="msn != null">
+        msn,
+      </if>
+      <if test="broker_type != null">
+        broker_type,
+      </if>
+      <if test="outlet_first != null">
+        outlet_first,
+      </if>
+      <if test="outlet_last != null">
+        outlet_last,
+      </if>
+      <if test="specialty != null">
+        specialty,
+      </if>
+      <if test="banner != null">
+        banner,
+      </if>
+      <if test="background != null">
+        background,
+      </if>
+      <if test="working_life != null">
+        working_life,
+      </if>
+      <if test="max_refresh_manual != null">
+        max_refresh_manual,
+      </if>
+      <if test="verify_status != null">
+        verify_status,
+      </if>
+      <if test="is_broker != null">
+        is_broker,
+      </if>
+      <if test="max_refresh_auto != null">
+        max_refresh_auto,
+      </if>
+      <if test="vip_status != null">
+        vip_status,
+      </if>
+      <if test="vip_endtime != null">
+        vip_endtime,
+      </if>
+      <if test="feature_status != null">
+        feature_status,
+      </if>
+      <if test="feature_time != null">
+        feature_time,
+      </if>
+      <if test="recommend_1 != null">
+        recommend_1,
+      </if>
+      <if test="recommend_2 != null">
+        recommend_2,
+      </if>
+      <if test="recommend_3 != null">
+        recommend_3,
+      </if>
+      <if test="recommend_4 != null">
+        recommend_4,
+      </if>
+      <if test="recommend_5 != null">
+        recommend_5,
+      </if>
+      <if test="recommend_6 != null">
+        recommend_6,
+      </if>
+      <if test="recommend_7 != null">
+        recommend_7,
+      </if>
+      <if test="recommend_8 != null">
+        recommend_8,
+      </if>
+      <if test="recommend_9 != null">
+        recommend_9,
+      </if>
+      <if test="r1_time != null">
+        r1_time,
+      </if>
+      <if test="r2_time != null">
+        r2_time,
+      </if>
+      <if test="r3_time != null">
+        r3_time,
+      </if>
+      <if test="r4_time != null">
+        r4_time,
+      </if>
+      <if test="r5_time != null">
+        r5_time,
+      </if>
+      <if test="r6_time != null">
+        r6_time,
+      </if>
+      <if test="r7_time != null">
+        r7_time,
+      </if>
+      <if test="r8_time != null">
+        r8_time,
+      </if>
+      <if test="r9_time != null">
+        r9_time,
+      </if>
+      <if test="summary != null">
+        summary,
+      </if>
+      <if test="introduce != null">
+        introduce,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="realname != null">
+        #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="city_id != null">
+        #{city_id,jdbcType=INTEGER},
+      </if>
+      <if test="cityarea_id != null">
+        #{cityarea_id,jdbcType=INTEGER},
+      </if>
+      <if test="cityarea2_id != null">
+        #{cityarea2_id,jdbcType=INTEGER},
+      </if>
+      <if test="broker_mobile != null">
+        #{broker_mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null">
+        #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard_pic != null">
+        #{idcard_pic,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null">
+        #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="aptitude != null">
+        #{aptitude,jdbcType=VARCHAR},
+      </if>
+      <if test="business != null">
+        #{business,jdbcType=VARCHAR},
+      </if>
+      <if test="signed != null">
+        #{signed,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null">
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="outlet != null">
+        #{outlet,jdbcType=VARCHAR},
+      </if>
+      <if test="outlet_addr != null">
+        #{outlet_addr,jdbcType=VARCHAR},
+      </if>
+      <if test="post_code != null">
+        #{post_code,jdbcType=VARCHAR},
+      </if>
+      <if test="com_tell != null">
+        #{com_tell,jdbcType=VARCHAR},
+      </if>
+      <if test="com_fax != null">
+        #{com_fax,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=BIT},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=DATE},
+      </if>
+      <if test="borough_id != null">
+        #{borough_id,jdbcType=INTEGER},
+      </if>
+      <if test="qq != null">
+        #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="msn != null">
+        #{msn,jdbcType=VARCHAR},
+      </if>
+      <if test="broker_type != null">
+        #{broker_type,jdbcType=TINYINT},
+      </if>
+      <if test="outlet_first != null">
+        #{outlet_first,jdbcType=VARCHAR},
+      </if>
+      <if test="outlet_last != null">
+        #{outlet_last,jdbcType=VARCHAR},
+      </if>
+      <if test="specialty != null">
+        #{specialty,jdbcType=INTEGER},
+      </if>
+      <if test="banner != null">
+        #{banner,jdbcType=VARCHAR},
+      </if>
+      <if test="background != null">
+        #{background,jdbcType=VARCHAR},
+      </if>
+      <if test="working_life != null">
+        #{working_life,jdbcType=INTEGER},
+      </if>
+      <if test="max_refresh_manual != null">
+        #{max_refresh_manual,jdbcType=INTEGER},
+      </if>
+      <if test="verify_status != null">
+        #{verify_status,jdbcType=BIT},
+      </if>
+      <if test="is_broker != null">
+        #{is_broker,jdbcType=BIT},
+      </if>
+      <if test="max_refresh_auto != null">
+        #{max_refresh_auto,jdbcType=INTEGER},
+      </if>
+      <if test="vip_status != null">
+        #{vip_status,jdbcType=BIT},
+      </if>
+      <if test="vip_endtime != null">
+        #{vip_endtime,jdbcType=INTEGER},
+      </if>
+      <if test="feature_status != null">
+        #{feature_status,jdbcType=BIT},
+      </if>
+      <if test="feature_time != null">
+        #{feature_time,jdbcType=VARCHAR},
+      </if>
+      <if test="recommend_1 != null">
+        #{recommend_1,jdbcType=BIT},
+      </if>
+      <if test="recommend_2 != null">
+        #{recommend_2,jdbcType=BIT},
+      </if>
+      <if test="recommend_3 != null">
+        #{recommend_3,jdbcType=BIT},
+      </if>
+      <if test="recommend_4 != null">
+        #{recommend_4,jdbcType=BIT},
+      </if>
+      <if test="recommend_5 != null">
+        #{recommend_5,jdbcType=BIT},
+      </if>
+      <if test="recommend_6 != null">
+        #{recommend_6,jdbcType=BIT},
+      </if>
+      <if test="recommend_7 != null">
+        #{recommend_7,jdbcType=BIT},
+      </if>
+      <if test="recommend_8 != null">
+        #{recommend_8,jdbcType=BIT},
+      </if>
+      <if test="recommend_9 != null">
+        #{recommend_9,jdbcType=BIT},
+      </if>
+      <if test="r1_time != null">
+        #{r1_time,jdbcType=INTEGER},
+      </if>
+      <if test="r2_time != null">
+        #{r2_time,jdbcType=INTEGER},
+      </if>
+      <if test="r3_time != null">
+        #{r3_time,jdbcType=INTEGER},
+      </if>
+      <if test="r4_time != null">
+        #{r4_time,jdbcType=INTEGER},
+      </if>
+      <if test="r5_time != null">
+        #{r5_time,jdbcType=INTEGER},
+      </if>
+      <if test="r6_time != null">
+        #{r6_time,jdbcType=INTEGER},
+      </if>
+      <if test="r7_time != null">
+        #{r7_time,jdbcType=INTEGER},
+      </if>
+      <if test="r8_time != null">
+        #{r8_time,jdbcType=INTEGER},
+      </if>
+      <if test="r9_time != null">
+        #{r9_time,jdbcType=INTEGER},
+      </if>
+      <if test="summary != null">
+        #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="introduce != null">
+        #{introduce,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update fke_broker_info
+    set id = #{record.id,jdbcType=INTEGER},
+      realname = #{record.realname,jdbcType=VARCHAR},
+      city_id = #{record.city_id,jdbcType=INTEGER},
+      cityarea_id = #{record.cityarea_id,jdbcType=INTEGER},
+      cityarea2_id = #{record.cityarea2_id,jdbcType=INTEGER},
+      broker_mobile = #{record.broker_mobile,jdbcType=VARCHAR},
+      avatar = #{record.avatar,jdbcType=VARCHAR},
+      idcard_pic = #{record.idcard_pic,jdbcType=VARCHAR},
+      idcard = #{record.idcard,jdbcType=VARCHAR},
+      aptitude = #{record.aptitude,jdbcType=VARCHAR},
+      business = #{record.business,jdbcType=VARCHAR},
+      signed = #{record.signed,jdbcType=VARCHAR},
+      company = #{record.company,jdbcType=VARCHAR},
+      outlet = #{record.outlet,jdbcType=VARCHAR},
+      outlet_addr = #{record.outlet_addr,jdbcType=VARCHAR},
+      post_code = #{record.post_code,jdbcType=VARCHAR},
+      com_tell = #{record.com_tell,jdbcType=VARCHAR},
+      com_fax = #{record.com_fax,jdbcType=VARCHAR},
+      gender = #{record.gender,jdbcType=BIT},
+      birthday = #{record.birthday,jdbcType=DATE},
+      borough_id = #{record.borough_id,jdbcType=INTEGER},
+      qq = #{record.qq,jdbcType=VARCHAR},
+      msn = #{record.msn,jdbcType=VARCHAR},
+      broker_type = #{record.broker_type,jdbcType=TINYINT},
+      outlet_first = #{record.outlet_first,jdbcType=VARCHAR},
+      outlet_last = #{record.outlet_last,jdbcType=VARCHAR},
+      specialty = #{record.specialty,jdbcType=INTEGER},
+      banner = #{record.banner,jdbcType=VARCHAR},
+      background = #{record.background,jdbcType=VARCHAR},
+      working_life = #{record.working_life,jdbcType=INTEGER},
+      max_refresh_manual = #{record.max_refresh_manual,jdbcType=INTEGER},
+      verify_status = #{record.verify_status,jdbcType=BIT},
+      is_broker = #{record.is_broker,jdbcType=BIT},
+      max_refresh_auto = #{record.max_refresh_auto,jdbcType=INTEGER},
+      vip_status = #{record.vip_status,jdbcType=BIT},
+      vip_endtime = #{record.vip_endtime,jdbcType=INTEGER},
+      feature_status = #{record.feature_status,jdbcType=BIT},
+      feature_time = #{record.feature_time,jdbcType=VARCHAR},
+      recommend_1 = #{record.recommend_1,jdbcType=BIT},
+      recommend_2 = #{record.recommend_2,jdbcType=BIT},
+      recommend_3 = #{record.recommend_3,jdbcType=BIT},
+      recommend_4 = #{record.recommend_4,jdbcType=BIT},
+      recommend_5 = #{record.recommend_5,jdbcType=BIT},
+      recommend_6 = #{record.recommend_6,jdbcType=BIT},
+      recommend_7 = #{record.recommend_7,jdbcType=BIT},
+      recommend_8 = #{record.recommend_8,jdbcType=BIT},
+      recommend_9 = #{record.recommend_9,jdbcType=BIT},
+      r1_time = #{record.r1_time,jdbcType=INTEGER},
+      r2_time = #{record.r2_time,jdbcType=INTEGER},
+      r3_time = #{record.r3_time,jdbcType=INTEGER},
+      r4_time = #{record.r4_time,jdbcType=INTEGER},
+      r5_time = #{record.r5_time,jdbcType=INTEGER},
+      r6_time = #{record.r6_time,jdbcType=INTEGER},
+      r7_time = #{record.r7_time,jdbcType=INTEGER},
+      r8_time = #{record.r8_time,jdbcType=INTEGER},
+      r9_time = #{record.r9_time,jdbcType=INTEGER},
+      summary = #{record.summary,jdbcType=VARCHAR},
+      introduce = #{record.introduce,jdbcType=LONGVARCHAR}
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update fke_broker_info
+    set id = #{record.id,jdbcType=INTEGER},
+      realname = #{record.realname,jdbcType=VARCHAR},
+      city_id = #{record.city_id,jdbcType=INTEGER},
+      cityarea_id = #{record.cityarea_id,jdbcType=INTEGER},
+      cityarea2_id = #{record.cityarea2_id,jdbcType=INTEGER},
+      broker_mobile = #{record.broker_mobile,jdbcType=VARCHAR},
+      avatar = #{record.avatar,jdbcType=VARCHAR},
+      idcard_pic = #{record.idcard_pic,jdbcType=VARCHAR},
+      idcard = #{record.idcard,jdbcType=VARCHAR},
+      aptitude = #{record.aptitude,jdbcType=VARCHAR},
+      business = #{record.business,jdbcType=VARCHAR},
+      signed = #{record.signed,jdbcType=VARCHAR},
+      company = #{record.company,jdbcType=VARCHAR},
+      outlet = #{record.outlet,jdbcType=VARCHAR},
+      outlet_addr = #{record.outlet_addr,jdbcType=VARCHAR},
+      post_code = #{record.post_code,jdbcType=VARCHAR},
+      com_tell = #{record.com_tell,jdbcType=VARCHAR},
+      com_fax = #{record.com_fax,jdbcType=VARCHAR},
+      gender = #{record.gender,jdbcType=BIT},
+      birthday = #{record.birthday,jdbcType=DATE},
+      borough_id = #{record.borough_id,jdbcType=INTEGER},
+      qq = #{record.qq,jdbcType=VARCHAR},
+      msn = #{record.msn,jdbcType=VARCHAR},
+      broker_type = #{record.broker_type,jdbcType=TINYINT},
+      outlet_first = #{record.outlet_first,jdbcType=VARCHAR},
+      outlet_last = #{record.outlet_last,jdbcType=VARCHAR},
+      specialty = #{record.specialty,jdbcType=INTEGER},
+      banner = #{record.banner,jdbcType=VARCHAR},
+      background = #{record.background,jdbcType=VARCHAR},
+      working_life = #{record.working_life,jdbcType=INTEGER},
+      max_refresh_manual = #{record.max_refresh_manual,jdbcType=INTEGER},
+      verify_status = #{record.verify_status,jdbcType=BIT},
+      is_broker = #{record.is_broker,jdbcType=BIT},
+      max_refresh_auto = #{record.max_refresh_auto,jdbcType=INTEGER},
+      vip_status = #{record.vip_status,jdbcType=BIT},
+      vip_endtime = #{record.vip_endtime,jdbcType=INTEGER},
+      feature_status = #{record.feature_status,jdbcType=BIT},
+      feature_time = #{record.feature_time,jdbcType=VARCHAR},
+      recommend_1 = #{record.recommend_1,jdbcType=BIT},
+      recommend_2 = #{record.recommend_2,jdbcType=BIT},
+      recommend_3 = #{record.recommend_3,jdbcType=BIT},
+      recommend_4 = #{record.recommend_4,jdbcType=BIT},
+      recommend_5 = #{record.recommend_5,jdbcType=BIT},
+      recommend_6 = #{record.recommend_6,jdbcType=BIT},
+      recommend_7 = #{record.recommend_7,jdbcType=BIT},
+      recommend_8 = #{record.recommend_8,jdbcType=BIT},
+      recommend_9 = #{record.recommend_9,jdbcType=BIT},
+      r1_time = #{record.r1_time,jdbcType=INTEGER},
+      r2_time = #{record.r2_time,jdbcType=INTEGER},
+      r3_time = #{record.r3_time,jdbcType=INTEGER},
+      r4_time = #{record.r4_time,jdbcType=INTEGER},
+      r5_time = #{record.r5_time,jdbcType=INTEGER},
+      r6_time = #{record.r6_time,jdbcType=INTEGER},
+      r7_time = #{record.r7_time,jdbcType=INTEGER},
+      r8_time = #{record.r8_time,jdbcType=INTEGER},
+      r9_time = #{record.r9_time,jdbcType=INTEGER},
+      summary = #{record.summary,jdbcType=VARCHAR}
+  </update>
+</mapper>
