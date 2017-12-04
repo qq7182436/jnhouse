@@ -1,9 +1,20 @@
 package com.jnhouse.app.bean;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class SupTemplate {
-    private Integer id;
+/**
+ * 模版表
+ * @author lou
+ *
+ */
+public class SupTemplate implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private Integer id;
 
     private String menu_title;
 

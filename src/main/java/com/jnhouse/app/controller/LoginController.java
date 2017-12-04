@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
@@ -16,8 +15,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.jnhouse.app.bean.Dept;
 import com.jnhouse.app.bean.DeptAuthority;
-import com.jnhouse.app.service.DeptAuthorityService;
-import com.jnhouse.app.service.DeptService;
+import com.jnhouse.app.bean.Menu;
+import com.jnhouse.app.bean.User;
+import com.jnhouse.app.utils.MD5Util;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -26,7 +26,7 @@ import net.sf.json.JSONObject;
 
 /**
  * 登录
- * @author Administrator
+ * @author lou
  *
  */
 @Controller
@@ -45,26 +45,25 @@ public class LoginController extends BaseController{
 		deptAuthority.setCreated_time(new Date());
 		/*deptAuthorityService.save(deptAuthority);*/
 		System.err.println("--------");
-		modelAndView.setViewName("home");
+		modelAndView.setViewName("login");
 		return modelAndView;
 	}
 	
-	@RequestMapping(value="/dept")
-	public ModelAndView dept(HttpServletRequest request) {
-		Dept dept = new Dept();
-		dept.setDept_name("西北战区");
-		dept.setFather_id(0);
-		dept.setSort(40);
-		dept.setDept_level(1);
-		dept.setUpdated_by(1);
-		dept.setCreated_by(1);
-		dept.setUpdated_time(new Date());
-		dept.setCreated_time(new Date());
-		dept.setIs_delete(1);
-		/*int id = deptService.save(dept);*/
+	@RequestMapping(value="/dept_views")
+	public ModelAndView dept_views(HttpServletRequest request) {
+		Menu menu = new Menu();
+		menu.setFather_id(0);
+		menu.setMenu_level(1);
+		menu.setMenu_name("系统管理");
+		menu.setUrl("");
+		menu.setSort(1);
+		menu.setIs_delete(1);;
+		menu.setCreated_by(1);
+		menu.setUpdated_by(1);;
+		menu.setSort(1);
 		ModelAndView modelAndView = new ModelAndView();
 		/*System.err.println(dept.getId() + "--------2");*/
-		modelAndView.setViewName("dept/test2");
+		modelAndView.setViewName("sys/dept");
 		return modelAndView;
 	}
 	
@@ -72,7 +71,7 @@ public class LoginController extends BaseController{
 	public ModelAndView role(HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
 		System.err.println("--------3");
-		modelAndView.setViewName("dept/test");
+		modelAndView.setViewName("sys/dept");
 		return modelAndView;
 	}
 	
@@ -91,6 +90,7 @@ public class LoginController extends BaseController{
 			jsonobj.put("pId", depts.get(i).getFather_id());
 			jsonobj.put("name", depts.get(i).getDept_name());
 			jsonobj.put("sort", depts.get(i).getSort());
+			jsonobj.put("dept_level", depts.get(i).getDept_level());
 			if (depts.get(i).getDept_level() == 1) {
 				jsonobj.put("open", true);
 				jsonobj.put("iconSkin", "pIcon01");
@@ -105,8 +105,51 @@ public class LoginController extends BaseController{
 		map.put("zNodes", jsonArray);
 		JSONObject jsonObject = JSONObject.fromObject(map);
 		System.err.println(jsonObject.toString());
-	/*	modelAndView.addObject(jsonObject);
-		modelAndView.setViewName("dept/test2");*/
 		return jsonObject;
+	}
+	/**
+	 * 登录验证用户
+	 * @param request
+	 * @author lou
+	 * @return
+	 */
+	@RequestMapping(value="login/login_in",method = RequestMethod.POST)
+	@ResponseBody
+	public  JSONObject login_in(HttpServletRequest request) {
+		String userName = request.getParameter("login");
+		String pwd = request.getParameter("pwd");
+		User user = new User();
+		user.setUsername(userName);
+		pwd = MD5Util.getMD5(pwd);
+		user.setPasswd(pwd);
+		User user2 = userService.findUser(user);
+		int userId = 0;
+		if (null != user2) {
+			request.getSession().setAttribute("user", user2);
+			userId = user2.getId();
+		}
+		Map<String,Object> map = new HashMap<String,Object>();  
+		map.put("userId", userId);
+		JSONObject jsonObject = JSONObject.fromObject(map);
+		System.err.println(jsonObject.toString());
+		return jsonObject;
+	}
+	/**
+	 * 登录成功跳转主页
+	 * @param request
+	 * @author lou
+	 * @return
+	 */
+	@RequestMapping(value="login/home")
+	public ModelAndView home(HttpServletRequest request) {
+		ModelAndView modelAndView = new ModelAndView();
+		User user = (User)request.getSession().getAttribute("user"); //取得session中的user
+		if (null != user && null != user.getId()) {
+			modelAndView.setViewName("home");
+			modelAndView.addObject(user);
+		}else{
+			modelAndView.setViewName("login");
+		}
+		return modelAndView;
 	}
 }

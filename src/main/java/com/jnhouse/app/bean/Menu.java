@@ -1,9 +1,19 @@
 package com.jnhouse.app.bean;
 
+import java.io.Serializable;
 import java.util.Date;
+/**
+ * 菜单表
+ * @author lou
+ *
+ */
+public class Menu implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-public class Menu {
-    private Integer id;
+	private Integer id;
 
     private String menu_name;
 

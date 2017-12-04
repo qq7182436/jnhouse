@@ -40,14 +40,6 @@
 		$(function() {
 
 			var setting = {
-				view: {
-					addHoverDom: addHoverDom
-				},
-				edit: {
-					enable: true,
-					showRemoveBtn: false,
-					showRenameBtn: false
-				},
 				data : {
 					simpleData : {
 						enable : true
@@ -90,26 +82,16 @@
 				 $("#father_name").val(''); 
 			 }
 			$("#dept_id").val(treeNode.id);
+			$("#dept_sort").val(treeNode.sort);
+			$("#sort").val(treeNode.sort);
+			$("#dept_level").val(treeNode.dept_level);
+			$("#father_id").val(treeNode.pId);
 			$(".btn").prop({
 				  disabled: false
 				});
 			treeNode_1 = treeNode;
 		}	
 		
-		
-		function addHoverDom(treeId, treeNode) {
-			var sObj = $("#" + treeNode.tId + "_span");
-			if (treeNode.editNameFlag || $("#addBtn_"+treeNode.tId).length>0) return;
-			var addStr = "<span class='button add' id='addBtn_" + treeNode.tId
-				+ "' title='add node' onfocus='this.blur();'></span>";
-			sObj.after(addStr);
-			var btn = $("#addBtn_"+treeNode.tId);
-			if (btn) btn.bind("click", function(){
-				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-				zTree.addNodes(treeNode, {id:(100 + newCount), pId:treeNode.id, name:"new node" + (newCount++)});
-				return false;
-			});
-		};
 		//一般直接写在一个js文件中
 		layui.use(['layer', 'form'], function(){
 		  var layer = layui.layer
@@ -118,10 +100,16 @@
 		
 		function removeHoverDom(treeId, treeNode) {
 			if(treeNode == '1'){
-			 var dept_id = $("#dept_id").val();
+			var dept_id = $("#dept_id").val();
+			if(dept_id == ''){
+					layer.msg('请选择要删除的部门'); 
+					return false;
+			}
 			 layer.confirm('确定要删除吗？', {
-				  btn: ['删除', '取消'] //可以无限个按钮
+				  btn: ['删除', '取消'], //可以无限个按钮
+				  offset: '100px'
 				}, function(index){
+					layer.close(index);
 					 $.ajax({
 							url : 'dept/delete_dept.action',
 							type : 'POST', //GET
@@ -146,6 +134,114 @@
 			}
 			
 		};
+		
+		function add_same_levels(){
+			var dept_level = treeNode_1.dept_level;
+			$("#dept_level").val(treeNode_1.dept_level);
+			var father_id = null;
+			if(treeNode_1.pId == null){
+				father_id = "0";
+			}else{
+				father_id = treeNode_1.pId
+			}
+			$("#father_id").val(father_id);
+			layer.load(1,{offset: '250px'});
+			$.ajax({
+				url : 'dept/add_same_level.action',
+				type : 'POST', //GET
+				async : true, //或false,是否异步
+				data : {
+					"dept_level" : dept_level,
+					"father_id" : father_id
+				},
+				timeout : 5000, //超时时间
+				dataType : 'json', //返回的数据格式：json/xml/html/script/jsonp/text
+				success : function(data) {
+					$("#dept_sort").val(data.maxSort + 1);
+					$("#sort").val(data.maxSort + 1);
+					$("#dept_id").val('');
+					$("#name").val('');
+					setTimeout(function(){
+						  layer.closeAll('loading');
+						}, 1000);
+				},
+				error : function(data) {
+					alert("错误");
+					console.log('错误')
+				}
+			})
+		}
+		
+		
+		function save_dept(){
+			var dept_level = $("#dept_level").val();
+			var father_id = $("#father_id").val();
+			var name = $("#name").val();
+			var sort = $("#sort").val();
+			layer.load(1,{offset: '250px'});
+			$.ajax({
+				url : 'dept/save_dept.action',
+				type : 'POST', //GET
+				async : true, //或false,是否异步
+				data : {
+					"dept_level" : dept_level,
+					"father_id" : father_id,
+					"name" : name,
+					"sort" : sort,
+				},
+				timeout : 5000, //超时时间
+				dataType : 'json', //返回的数据格式：json/xml/html/script/jsonp/text
+				success : function(data) {
+					var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+					if(treeNode_1.getParentNode() == null){
+						zTree.addNodes(treeNode_1, data.treeNode);
+					}else{
+						zTree.addNodes(treeNode_1.getParentNode(), data.treeNode);
+					}
+					setTimeout(function(){
+						  layer.closeAll('loading');
+						}, 1000);
+				},
+				error : function(data) {
+					alert("错误");
+					console.log('错误')
+				}
+			})
+		}
+		
+		function add_next_levels(){
+			var dept_level = treeNode_1.dept_level;
+			dept_level = dept_level + 1;
+			$("#dept_level").val(dept_level);
+			var father_id = treeNode_1.id;
+			$("#father_id").val(father_id);
+			$("#father_name").val(treeNode_1.name);
+			layer.load(1,{offset: '250px'});
+			$.ajax({
+				url : 'dept/add_same_level.action',
+				type : 'POST', //GET
+				async : true, //或false,是否异步
+				data : {
+					"dept_level" : dept_level,
+					"father_id" : father_id
+				},
+				timeout : 5000, //超时时间
+				dataType : 'json', //返回的数据格式：json/xml/html/script/jsonp/text
+				success : function(data) {
+					setTimeout(function(){
+						  layer.closeAll('loading');
+						}, 1000);
+					$("#dept_sort").val(data.maxSort + 1);
+					$("#sort").val(data.maxSort + 1);
+					$("#dept_id").val('');
+					$("#name").val('');
+				},
+				error : function(data) {
+					alert("错误");
+					console.log('错误')
+				}
+			})
+		}
 	</script>
 <style type="text/css">
 .content-wrapper, .main-footer {
@@ -267,17 +363,18 @@ body {
 									</div>
 								</div>
 							</div>
+							<form action="">
 							<div class="panel panel-default" style="float:right;width: 1326px;height:893px;">
 							  <div class="panel-body" style="padding-left: 150px;">
 							  	<div class="btn-group btn-group-justified" role="group" aria-label="..." style="margin-bottom: 20px;width:300px;">
 								  <div class="btn-group" role="group">
-								    <button type="button" class="btn btn-primary active" disabled="disabled">
+								    <button id="add_same_level" type="button" onclick="add_same_levels();" class="btn btn-primary active" disabled="disabled">
 								    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 								    	添加同级
 								    </button>
 								  </div>
 								  <div class="btn-group" role="group">
-								    <button type="button" class="btn btn-primary active" disabled="disabled">
+								    <button type="button" onclick="add_next_levels();" class="btn btn-primary active" disabled="disabled">
 								    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 								  	  添加下级
 								    </button>
@@ -315,8 +412,11 @@ body {
 								</div>
 								</div>
 								<input type="hidden" name="hidden" id="dept_id">
+								<input type="hidden" name="hidden" id="dept_sort">
+								<input type="hidden" name="hidden" id="dept_level">
+								<input type="hidden" name="hidden" id="father_id">
 								<p style="margin-left:300px;">
-									<button type="button" class="btn btn-primary  btn-lg">
+									<button type="button" onclick="save_dept()" class="btn btn-primary  btn-lg">
 										<span class="glyphicon glyphicon-floppy-save" ></span>
 									保存
 									</button>
@@ -326,6 +426,7 @@ body {
 									</button>
 								</p>
 							  </div>
+							  </form>
 							</div>
 						</div>
 					</div>

@@ -1,9 +1,20 @@
 package com.jnhouse.app.bean;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class DeptUser {
-    private Integer id;
+/**
+ * 部门员工关系表
+ * @author lou
+ *
+ */
+public class DeptUser implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private Integer id;
 
     private Integer dept_id;
 

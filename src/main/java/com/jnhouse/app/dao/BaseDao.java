@@ -48,4 +48,5 @@ public interface BaseDao<T> {
      * @return 
      */  
     List<T> findAll(); 
+    
 }
