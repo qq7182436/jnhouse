@@ -214,30 +214,10 @@ public class SupTemplateController extends BaseController{
 		String jc_store_picture = (String)request.getParameter("jc_store_picture");
 		String jc_picture="";
 		
-		//MultipartFile file = MultipartHttpServletRequest request).getFile("jc_store_picture");//稽查门店图片
-/*		 Iterator<String> filesNames = (Iterator<String>) multiRequest.getFile("jc_store_picture"); //获得所有的文件名  
-         try {
-			while(filesNames.hasNext()){    //迭代，对单个文件进行操作  
-			     String fileName =filesNames.next();  
-			     MultipartFile file =  multiRequest.getFile(fileName);  
-			     if(!file.isEmpty()){  
-			         //log.debug("Process file: {}", file.getOriginalFilename());  
-			         FileUtils.copyInputStreamToFile(file.getInputStream(), new File("D:\\123",   
-			                 System.currentTimeMillis()+ file.getOriginalFilename()));  
-			     }  
 
-			 }
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}  */
 
-		try {
-			
-			
-			
-		/*	String fileDir="E:\\123";
-			java.io.File file = FileUploadUtils.uploadFilesSpecifyPath(request, fileDir, jc_store_picture);*/
+		/*try {
+
 			//运算符是用来在运行时指出对象是否是特定类的一个实例
 			if (request instanceof MultipartHttpServletRequest) {
 			
@@ -270,7 +250,7 @@ public class SupTemplateController extends BaseController{
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 			
 		re.put("code", "0");
 		return re;
