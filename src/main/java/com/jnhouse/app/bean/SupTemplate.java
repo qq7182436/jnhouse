@@ -16,10 +16,13 @@ public class SupTemplate implements Serializable{
 
 	private Integer id;
 
+	private Integer parent_id;
     private String menu_title;
 
     private Integer menu_level;
 
+    private Integer sort;
+    
     private Integer is_delete;
 
     private Date updated_time;
@@ -73,4 +76,20 @@ public class SupTemplate implements Serializable{
     public void setCreated_time(Date created_time) {
         this.created_time = created_time;
     }
+
+	public Integer getParent_id() {
+		return parent_id;
+	}
+
+	public void setParent_id(Integer parent_id) {
+		this.parent_id = parent_id;
+	}
+
+	public Integer getSort() {
+		return sort;
+	}
+
+	public void setSort(Integer sort) {
+		this.sort = sort;
+	}
 }
