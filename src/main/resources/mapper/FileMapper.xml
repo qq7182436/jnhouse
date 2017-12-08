@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnhouse.app.dao.FileDao">
+	<!-- <resultMap type="BaseResultMap" id="com.jnhouse.app.bean.File">
+	   <id column="id" jdbcType="INTEGER" property="id" />
+	    <result column="file_name" jdbcType="VARCHAR" property="file_name" />
+	    <result column="file_type" jdbcType="INTEGER" property="file_type" />
+	    <result column="file_url" jdbcType="VARCHAR" property="file_url" />
+	    <result column="is_delete" jdbcType="INTEGER" property="is_delete" />
+	    <result column="created_by" jdbcType="INTEGER" property="created_by" />
+	    <result column="updated_time" jdbcType="TIMESTAMP" property="updated_time" />
+	    <result column="created_time" jdbcType="TIMESTAMP" property="created_time" />
+    </resultMap> -->
+
+	<!-- <select id="getById" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="file_Column_List" />
+		from fke_file
+		where id = #{id,jdbcType=INTEGER}
+	</select> -->
+	
+<!-- 	 <sql id="file_Column_List">
+    	id, file_name, file_type, file_url, is_delete, created_by, updated_time, created_time
+  	</sql>
+	 <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+	    select 
+	    <include refid="file_Column_List" />
+	    from fke_file
+	    where id = #{id,jdbcType=INTEGER}
+  	</select> -->
+	
+	
+  
+     <insert id="insertSelective" parameterType="com.jnhouse.app.bean.File">
+    insert into fke_file
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="file_name != null">
+        file_name,
+      </if>
+      <if test="file_type != null">
+        file_type,
+      </if>
+      <if test="file_url != null">
+        file_url,
+      </if>
+      <if test="is_delete != null">
+        is_delete,
+      </if>
+      <if test="created_by != null">
+        created_by,
+      </if>
+      <if test="updated_time != null">
+        updated_time,
+      </if>
+      <if test="created_time != null">
+        created_titme,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="file_name != null">
+        #{file_name,jdbcType=VARCHAR},
+      </if>
+      <if test="file_type != null">
+        #{file_type,jdbcType=INTEGER},
+      </if>
+      <if test="file_url != null">
+        #{file_url,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="is_delete != null">
+        #{is_delete,jdbcType=INTEGER},
+      </if>
+
+      <if test="created_by != null">
+        #{created_by,jdbcType=INTEGER},
+      </if>
+      <if test="updated_time != null">
+        #{updated_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created_time != null">
+        #{created_time,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+</mapper>
