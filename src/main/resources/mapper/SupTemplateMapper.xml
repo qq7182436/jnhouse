@@ -127,4 +127,16 @@
       created_time = #{created_time,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="fke_template" resultType="com.jnhouse.app.bean.Template">
+  	 select 
+  	 	id id,
+  	 	parent_id parentid,
+  	 	menu_title menutitle,
+  	 	menu_level menulevel,
+  	 	sort sort,
+  	 	is_delete isdelete,
+  	 	updated_time updatedtime,
+  	 	created_time createdtime
+  	  from fke_supervision_template order by sort
+  </select>
 </mapper>

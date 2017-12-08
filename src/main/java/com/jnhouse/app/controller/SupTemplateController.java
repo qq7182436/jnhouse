@@ -14,22 +14,27 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.jnhouse.app.bean.SupTemplate;
+import com.jnhouse.app.bean.Template;
 import com.jnhouse.app.service.SupTemplateService;
-import com.jnhouse.app.utils.DateTimeUtils;
-import com.jnhouse.app.utils.FileUploadFtpUtils;
-import com.jnhouse.app.utils.FileUploadUtils;
+//import com.jnhouse.app.utils.DateTimeUtils;
+//import com.jnhouse.app.utils.FileUploadFtpUtils;
+//import com.jnhouse.app.utils.FileUploadUtils;
 import com.jnhouse.app.utils.StringUtils;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 @Controller
 public class SupTemplateController extends BaseController{
 
-	@Resource
-	ObjectMapper objectMapper;
+	
+	ObjectMapper objectMapper = new ObjectMapper();
 	
 	
 	@Resource
@@ -255,6 +260,44 @@ public class SupTemplateController extends BaseController{
 		re.put("code", "0");
 		return re;
 	
+	}
+	
+	@RequestMapping(value = "/jc_house/template")
+	public ModelAndView template_views(HttpServletRequest request) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("sys/template");
+		return modelAndView;
+	}
+	
+	@RequestMapping(value = "/jc_house/fke_template",method = RequestMethod.POST)
+	@ResponseBody
+	public JSONObject fke_template(HttpServletRequest request) {
+		List<Template> template = supTemplateService.fke_template();
+		JSONArray jsonArray = new JSONArray();
+		JSONObject jsonobj = new JSONObject(); 
+		Map<String,Object> map = new HashMap<String,Object>(); 
+		 //循环建立菜单树
+		for (int i = 0; i < template.size(); i++) {
+			jsonobj.put("id",template.get(i).getId());
+			jsonobj.put("pId", template.get(i).getParentid());
+			jsonobj.put("name", template.get(i).getMenutitle());
+			jsonobj.put("sort", template.get(i).getSort());
+			jsonobj.put("menu_level", template.get(i).getMenulevel());
+			//jsonobj.put("menu_url", template.get(i).getUrl());
+			if (template.get(i).getMenulevel() == 1) {
+				jsonobj.put("open", true);
+				jsonobj.put("iconSkin", "pIcon01");
+			}else if (template.get(i).getMenulevel() == 2) {
+				jsonobj.put("iconSkin", "icon03");
+			}else {
+				jsonobj.put("iconSkin", "icon03");
+			}
+			
+			jsonArray.add(jsonobj);
+		}
+		map.put("zNodes", jsonArray);
+		JSONObject jsonObject = JSONObject.fromObject(map);
+		return jsonObject;
 	}
 }
 
