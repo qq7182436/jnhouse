@@ -46,6 +46,7 @@
 				},
 				callback: {
 					onClick: onClick
+					
 				}
 			};
 			var zNodes;
@@ -82,11 +83,9 @@
 				 $("#father_name").val(''); 
 			 }
 			$("#menu_id").val(treeNode.id);
-			$("#menu_sort").val(treeNode.sort);
 			$("#sort").val(treeNode.sort);
-			$("#menu_level").val(treeNode.menu_level);
-			$("#father_id").val(treeNode.pId);
-			$("#menu_url").val(treeNode.menu_url);
+			$("#menu_level").val(treeNode.menu_level);			
+			$("#score").val(treeNode.score);
 			$(".btn").prop({
 				  disabled: false
 				});
@@ -174,30 +173,44 @@
 		
 		function save_template(){
 			var menu_level = $("#menu_level").val();
-			var father_id = $("#father_id").val();
+			var father_name = $("#father_name").val();
 			var name = $("#name").val();
-			var sort = $("#sort").val();
-			var menu_url = $("#menu_url").val();
+			var score = $("#score").val();
+			var id = $("#menu_id").val();
+			var url = null;
+			if(id == null || ''==id){
+				url = "jc_house/save_next_template.action";
+			}else{
+				url = "jc_house/save_template.action";
+			}
+			
 			$.ajax({
-				url : 'jc_house/save_template.action',
+				url : url,
 				type : 'POST', //GET
 				async : true, //或false,是否异步
 				data : {
 					"menu_level" : menu_level,
-					"menu_url" : menu_url,
-					"father_id" : father_id,
+					"father_name" : father_name,
 					"name" : name,
-					"sort" : sort,
+					"score" : score,
+					"id":id
 				},
 				timeout : 5000, //超时时间
 				dataType : 'json', //返回的数据格式：json/xml/html/script/jsonp/text
 				success : function(data) {
-					var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+					/* var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 					alert(treeNode_1.getParentNode() + "----" + data.treeNode.name);
 					if(treeNode_1.getParentNode() == null){
 						zTree.addNodes(treeNode_1, data.treeNode);
 					}else{
 						zTree.addNodes(treeNode_1.getParentNode(), data.treeNode);
+					} */
+					if(data.success){
+						alert("更新成功");
+						location.reload();
+					}
+					else{
+						alert("fail")
 					}
 				},
 				error : function(data) {
@@ -207,7 +220,7 @@
 			})
 		}
 		
-		function add_next_levels(){
+		 function add_next_levels(){
 			var menu_level = treeNode_1.menu_level;
 			menu_level = menu_level + 1;
 			$("#menu_level").val(menu_level);
@@ -236,7 +249,7 @@
 					console.log('错误')
 				}
 			})
-		}
+		} 
 	</script>
 <style type="text/css">
 .content-wrapper, .main-footer {
@@ -339,7 +352,7 @@ body {
 				<ol class="breadcrumb">
 					<li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
 					<li><a href="#">模板管理</a></li>
-					<li class="active">列表</li>
+					<li class="active">模板列表</li>
 				</ol>
 			</section>
 
@@ -349,8 +362,8 @@ body {
 					<div class="col-xs-12">
 						<div class="box" style="height:893px;">
 							<div class="panel panel-primary"
-								style="width: 100%; min-height: 30%;float:left;">
-								<div class="panel-heading">列表</div>
+								style="width: 100%; min-height: 40%;float:left;">
+								<div class="panel-heading">模板列表</div>
 								<div class="content_wrap">
 									<div class="zTreeDemoBackground left">
 										<ul id="treeDemo" class="ztree"></ul>
@@ -382,7 +395,7 @@ body {
 							    <div class="input-group input-group-lg" style="margin-bottom: 20px;">
 									  <div class="input-group-btn">
 									  <button type="button" class="btn btn-default" aria-label="Bold">
-									  <span class="glyphicon glyphicon-king">考核内容</span>
+									  <span class="glyphicon glyphicon-king">内容</span>
 									  </button>
 									  </div>
 									  <input id="name" type="text" style="width:70%" class="form-control" placeholder="考核内容" aria-describedby="sizing-addon1">
@@ -390,10 +403,26 @@ body {
 								<div class="input-group input-group-lg" style="margin-bottom: 20px;">
 									  <div class="input-group-btn">
 									  <button  type="button" class="btn btn-default" aria-label="Bold">
-									  <span class="glyphicon glyphicon-pawn">考核类别</span>
+									  <span class="glyphicon glyphicon-pawn">类别</span>
 									  </button>
 									  </div>
 									  <input id="father_name" readonly="readonly" type="text" style="width:70%" class="form-control" placeholder="考核类别" aria-describedby="sizing-addon1">
+								</div>
+								<div class="input-group input-group-lg" style="margin-bottom: 20px;">
+									  <div class="input-group-btn">
+									  <button type="button" class="btn btn-default" aria-label="Bold">
+									  <span class="glyphicon glyphicon-th-list">级别</span>
+									  </button>
+									  </div>
+									  <input id="menu_level" type="text" style="width:70%" class="form-control" placeholder="级别" aria-describedby="sizing-addon1">
+								</div>
+								<div class="input-group input-group-lg" style="margin-bottom: 20px;">
+									  <div class="input-group-btn">
+									  <button type="button" class="btn btn-default" aria-label="Bold">
+									  <span class="glyphicon glyphicon-th-list">分数</span>
+									  </button>
+									  </div>
+									  <input id="score" type="text" style="width:70%" class="form-control" placeholder="分数" aria-describedby="sizing-addon1">
 								</div>
 								</div>
 								<input type="hidden" name="hidden" id="menu_id">

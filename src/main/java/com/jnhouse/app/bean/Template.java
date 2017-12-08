@@ -13,6 +13,7 @@ public class Template implements Serializable{
 	private Integer isdelete;
 	private Date updatedtime;
 	private Date createdtime;
+	private String score;
 	public Integer getId() {
 		return id;
 	}
@@ -60,6 +61,12 @@ public class Template implements Serializable{
 	}
 	public void setCreatedtime(Date createdtime) {
 		this.createdtime = createdtime;
+	}
+	public String getScore() {
+		return score;
+	}
+	public void setScore(String score) {
+		this.score = score;
 	}
 	
 

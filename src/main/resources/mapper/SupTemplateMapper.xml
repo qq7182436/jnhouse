@@ -134,9 +134,30 @@
   	 	menu_title menutitle,
   	 	menu_level menulevel,
   	 	sort sort,
+  	 	score score,
   	 	is_delete isdelete,
   	 	updated_time updatedtime,
   	 	created_time createdtime
   	  from fke_supervision_template order by sort
   </select>
+  <select id="getParentidByfm" parameterType="java.lang.String" resultType="int">
+  	select id from fke_supervision_template where menu_title = #{fm}
+  </select>
+  
+  <update id="updateTemplate" parameterType="Map">
+		update fke_supervision_template set
+		<trim suffixOverrides=",">
+			<if test="menu_level!=null">menu_level=#{menu_level},</if>
+			<if test="menu_title!=null">menu_title=#{menu_title},</if>
+			<if test="score!=null">score=#{score},</if>			
+		</trim>
+		<where>id=#{id}</where>
+  </update>
+  
+  <insert id="insertNexteTemplate" parameterType="Map">  	
+		insert into
+			fke_supervision_template(parent_id,menu_title,menu_level,sort,score,is_delete,updated_time,created_time)
+		 values
+			(${parent_id}, #{menu_title},#{menu_level}, 0, ${score}, 1,#{updated_time},#{created_time})	
+  </insert>
 </mapper>
