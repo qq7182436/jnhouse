@@ -101,9 +101,9 @@
 		
 		function removeHoverDom(treeId, treeNode) {
 			if(treeNode == '1'){
-			var menu_id = $("#menu_id").val();
-			if(menu_id == ''){
-					layer.msg('请选择要删除的部门'); 
+			var template_id = $("#menu_id").val();
+			if(template_id == ''){
+					layer.msg('请选择要删除的模板'); 
 					return false;
 			}
 			 layer.confirm('确定要删除吗？', {
@@ -112,11 +112,11 @@
 				}, function(index){
 					layer.close(index);
 					 $.ajax({
-							url : 'menu/delete_menu.action',
+							url : 'jc_house/delete_template.action',
 							type : 'POST', //GET
 							async : true, //或false,是否异步
 							data : {
-								"menu_id" : menu_id
+								"template_id" : template_id
 							},
 							timeout : 5000, //超时时间
 							dataType : 'json', //返回的数据格式：json/xml/html/script/jsonp/text
@@ -176,14 +176,14 @@
 			var father_name = $("#father_name").val();
 			var name = $("#name").val();
 			var score = $("#score").val();
-			var id = $("#menu_id").val();
+			var id = $("#menu_id").val();			
 			var url = null;
-			if(id == null || ''==id){
+			
+			if(id == null || id ==''){
 				url = "jc_house/save_next_template.action";
 			}else{
 				url = "jc_house/save_template.action";
-			}
-			
+			}			
 			$.ajax({
 				url : url,
 				type : 'POST', //GET
@@ -198,20 +198,20 @@
 				timeout : 5000, //超时时间
 				dataType : 'json', //返回的数据格式：json/xml/html/script/jsonp/text
 				success : function(data) {
-					/* var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+					 /* var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 					alert(treeNode_1.getParentNode() + "----" + data.treeNode.name);
 					if(treeNode_1.getParentNode() == null){
 						zTree.addNodes(treeNode_1, data.treeNode);
 					}else{
 						zTree.addNodes(treeNode_1.getParentNode(), data.treeNode);
-					} */
-					if(data.success){
+					}  */
+					 if(data.success){
 						alert("更新成功");
 						location.reload();
 					}
 					else{
 						alert("fail")
-					}
+					} 
 				},
 				error : function(data) {
 					alert("错误");
@@ -339,7 +339,7 @@ body {
 }
 </style>
 </head>
-<body>
+<body style="overflow: hidden">
 	<div>
 
 		<!-- Content Wrapper. Contains page content -->

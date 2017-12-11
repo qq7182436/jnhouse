@@ -158,6 +158,9 @@
 		insert into
 			fke_supervision_template(parent_id,menu_title,menu_level,sort,score,is_delete,updated_time,created_time)
 		 values
-			(${parent_id}, #{menu_title},#{menu_level}, 0, ${score}, 1,#{updated_time},#{created_time})	
+			(#{parent_id}, #{menu_title},#{menu_level}, 0, #{score}, 1,#{updated_time},#{created_time})	
   </insert>
+  <delete id="delete_template" parameterType="int">
+  	delete from fke_supervision_template where id = #{id} or parent_id=#{id}
+  </delete>
 </mapper>

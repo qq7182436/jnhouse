@@ -21,4 +21,5 @@ public interface SupTemplateDao extends BaseDao<SupTemplate>{
 	int getParentidByfm(String fm);
 	void updateTemplate(Map<String,Object> param);
 	void insertNexteTemplate(Map<String,Object> param);
+	void delete_template(int id);
 }

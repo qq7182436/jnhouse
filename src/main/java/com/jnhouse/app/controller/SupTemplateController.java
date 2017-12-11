@@ -337,13 +337,17 @@ public class SupTemplateController extends BaseController{
 		String fathername = request.getParameter("father_name");
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
 		Map<String,Object> param = new HashMap<>();
-		int id = supTemplateService.getParentidByfm(fathername);
 		param.put("menu_level",menu_level );
 		param.put("score", score);
 		param.put("menu_title", name);
-		param.put("parent_id", id);
 		param.put("updated_time", df.format(new Date()));
 		param.put("created_time", df.format(new Date()));
+		if(Integer.parseInt(menu_level) == 0) {
+			param.put("parent_id", 0);
+		}else {
+			int id = supTemplateService.getParentidByfm(fathername);			
+			param.put("parent_id", id);
+		}
 		try {
 			supTemplateService.insertNexteTemplate(param);
 			json.put("success", true);
@@ -353,6 +357,23 @@ public class SupTemplateController extends BaseController{
 		}
 		
 		return json;
+	}
+	@RequestMapping(value="/jc_house/delete_template",method = RequestMethod.POST)
+	@ResponseBody
+	public  JSONObject delete_dept(HttpServletRequest request) {
+		JSONObject jsonObject = new JSONObject();
+		String template_id = request.getParameter("template_id");
+		try {			
+			int id = Integer.parseInt(template_id);
+			supTemplateService.delete_template(id);			  
+			jsonObject.put("msg", "删除成功");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			jsonObject.put("msg", "删除失败");
+		}
+
+		return jsonObject;
 	}
 }
 

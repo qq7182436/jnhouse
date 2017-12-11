@@ -95,6 +95,12 @@ public class SupTemplateServiceImpl extends BaseServiceImpl<SupTemplate> impleme
 		// TODO Auto-generated method stub
 		supTemplateDao.insertNexteTemplate(param);
 	}
+
+	@Override
+	public void delete_template(int id) {
+		// TODO Auto-generated method stub
+		supTemplateDao.delete_template(id);
+	}
 	
 
 	
