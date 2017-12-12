@@ -375,6 +375,7 @@ iframe{border:none;}
           </a>
           <ul class="treeview-menu">
             <li><a onclick="reIframeHeight('jc_house/template.action');" href="javascript:;" ><i class="fa fa-circle-o"></i> 模板管理</a></li>
+            <li><a onclick="reIframeHeight('answer/answer.action');" href="javascript:;" ><i class="fa fa-circle-o"></i> 答案管理</a></li>
           </ul>
         </li>
         <li>
