@@ -337,9 +337,12 @@ body {
 	vertical-align: top;
 	*vertical-align: middle
 }
+::-webkit-scrollbar {/*隐藏滚动条*/
+display: none;
+}
 </style>
 </head>
-<body style="overflow: hidden">
+<body>
 	<div>
 
 		<!-- Content Wrapper. Contains page content -->
@@ -370,7 +373,7 @@ body {
 									</div>
 								</div>
 							</div>
-							<div class="panel panel-default" style="float:right;width: 100%;height:100%;">
+							<div class="panel panel-default" style="float:right;width: 100%;height:60%;">
 							  <div class="panel-body" style="padding-left: 10px;">
 							  	<div class="btn-group btn-group-justified" role="group" aria-label="..." style="margin-bottom: 20px;width:300px;">
 								  <div class="btn-group" role="group">

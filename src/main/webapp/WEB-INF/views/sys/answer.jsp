@@ -118,6 +118,9 @@ body {
 	vertical-align: top;
 	*vertical-align: middle
 }
+::-webkit-scrollbar {/*隐藏滚动条*/
+display: none;
+}
 </style>
 <script type="text/javascript">
 	$(function () {  
@@ -136,7 +139,8 @@ body {
 
 function template(v){
 	if(v=='11'){return '模板二';}
-	if(v=='12'){return '模板三';}
+	else if(v=='12'){return '模板三';}
+	else {return '未知模板';}
 }
 </script>
 </head>
