@@ -254,4 +254,10 @@
       created_time = #{created_time,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="selectAnswer" resultMap="BaseResultMap">
+	select 
+		<include refid="Base_Column_List" />
+	from fke_sup_answer_header
+</select>
 </mapper>

@@ -2,10 +2,10 @@ package com.jnhouse.app.service;
 
 import java.util.List;
 
-import com.jnhouse.app.bean.Answer_header;
+import com.jnhouse.app.bean.SupAnswerHeader;
 
-public interface AnswerService extends BaseService<Answer_header>{
+public interface AnswerService{
 	
-	List<Answer_header> selectAnswer();
+	List<SupAnswerHeader> selectAnswer();
 
 }
