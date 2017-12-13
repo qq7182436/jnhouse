@@ -8,6 +8,9 @@
     <result column="is_delete" jdbcType="INTEGER" property="is_delete" />
     <result column="updated_time" jdbcType="TIMESTAMP" property="updated_time" />
     <result column="created_time" jdbcType="TIMESTAMP" property="created_time" />
+    <result column="score" jdbcType="VARCHAR" property="score" />
+    <result column="parent_id" jdbcType="INTEGER" property="parent_id" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
   </resultMap>
   <sql id="Base_Column_List">
     id, menu_title, menu_level, is_delete, updated_time, created_time
@@ -127,17 +130,17 @@
       created_time = #{created_time,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="fke_template" resultType="com.jnhouse.app.bean.Template">
+  <select id="fke_template" resultMap="BaseResultMap">
   	 select 
   	 	id id,
-  	 	parent_id parentid,
-  	 	menu_title menutitle,
-  	 	menu_level menulevel,
+  	 	parent_id parent_id,
+  	 	menu_title menu_title,
+  	 	menu_level menu_level,
   	 	sort sort,
   	 	score score,
-  	 	is_delete isdelete,
-  	 	updated_time updatedtime,
-  	 	created_time createdtime
+  	 	is_delete is_delete,
+  	 	updated_time updated_time,
+  	 	created_time created_time
   	  from fke_supervision_template order by sort
   </select>
   <select id="getParentidByfm" parameterType="java.lang.String" resultType="int">

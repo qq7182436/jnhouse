@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.jnhouse.app.bean.Menu;
 import com.jnhouse.app.bean.SupTemplate;
-import com.jnhouse.app.bean.Template;
 import com.jnhouse.app.service.SupTemplateService;
 //import com.jnhouse.app.utils.DateTimeUtils;
 //import com.jnhouse.app.utils.FileUploadFtpUtils;
@@ -274,22 +273,22 @@ public class SupTemplateController extends BaseController{
 	@RequestMapping(value = "/jc_house/fke_template",method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject fke_template(HttpServletRequest request) {
-		List<Template> template = supTemplateService.fke_template();
+		List<SupTemplate> template = supTemplateService.fke_template();
 		JSONArray jsonArray = new JSONArray();
 		JSONObject jsonobj = new JSONObject(); 
 		Map<String,Object> map = new HashMap<String,Object>(); 
 		 //循环建立菜单树
 		for (int i = 0; i < template.size(); i++) {
 			jsonobj.put("id",template.get(i).getId());
-			jsonobj.put("pId", template.get(i).getParentid());
-			jsonobj.put("name", template.get(i).getMenutitle());
+			jsonobj.put("pId", template.get(i).getParent_id());
+			jsonobj.put("name", template.get(i).getMenu_title());
 			jsonobj.put("sort", template.get(i).getSort());
-			jsonobj.put("menu_level", template.get(i).getMenulevel());
+			jsonobj.put("menu_level", template.get(i).getMenu_level());
 			jsonobj.put("score", template.get(i).getScore());
-			if (template.get(i).getMenulevel() == 0) {
+			if (template.get(i).getMenu_level() == 0) {
 				jsonobj.put("open", true);
 				jsonobj.put("iconSkin", "pIcon01");
-			}else if (template.get(i).getMenulevel() == 1) {
+			}else if (template.get(i).getMenu_level() == 1) {
 				jsonobj.put("iconSkin", "icon03");
 			}else {
 				jsonobj.put("iconSkin", "icon03");

@@ -10,7 +10,6 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.jnhouse.app.bean.SupTemplate;
-import com.jnhouse.app.bean.Template;
 import com.jnhouse.app.dao.SupTemplateDao;
 import com.jnhouse.app.service.SupTemplateService;
 
@@ -73,7 +72,7 @@ public class SupTemplateServiceImpl extends BaseServiceImpl<SupTemplate> impleme
 
 
 	@Override
-	public List<Template> fke_template(){
+	public List<SupTemplate> fke_template(){
 		return supTemplateDao.fke_template();
 	}
 
@@ -101,6 +100,7 @@ public class SupTemplateServiceImpl extends BaseServiceImpl<SupTemplate> impleme
 		// TODO Auto-generated method stub
 		supTemplateDao.delete_template(id);
 	}
+
 	
 
 	
