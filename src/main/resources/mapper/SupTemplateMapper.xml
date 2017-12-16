@@ -8,6 +8,9 @@
     <result column="is_delete" jdbcType="INTEGER" property="is_delete" />
     <result column="updated_time" jdbcType="TIMESTAMP" property="updated_time" />
     <result column="created_time" jdbcType="TIMESTAMP" property="created_time" />
+    <result column="score" jdbcType="VARCHAR" property="score" />
+    <result column="parent_id" jdbcType="INTEGER" property="parent_id" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
   </resultMap>
   <sql id="Base_Column_List">
     id, menu_title, menu_level, is_delete, updated_time, created_time
@@ -127,4 +130,40 @@
       created_time = #{created_time,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="fke_template" resultMap="BaseResultMap">
+  	 select 
+  	 	id id,
+  	 	parent_id parent_id,
+  	 	menu_title menu_title,
+  	 	menu_level menu_level,
+  	 	sort sort,
+  	 	score score,
+  	 	is_delete is_delete,
+  	 	updated_time updated_time,
+  	 	created_time created_time
+  	  from fke_supervision_template order by sort
+  </select>
+  <select id="getParentidByfm" parameterType="java.lang.String" resultType="int">
+  	select id from fke_supervision_template where menu_title = #{fm}
+  </select>
+  
+  <update id="updateTemplate" parameterType="Map">
+		update fke_supervision_template set
+		<trim suffixOverrides=",">
+			<if test="menu_level!=null">menu_level=#{menu_level},</if>
+			<if test="menu_title!=null">menu_title=#{menu_title},</if>
+			<if test="score!=null">score=#{score},</if>			
+		</trim>
+		<where>id=#{id}</where>
+  </update>
+  
+  <insert id="insertNexteTemplate" parameterType="Map">  	
+		insert into
+			fke_supervision_template(parent_id,menu_title,menu_level,sort,score,is_delete,updated_time,created_time)
+		 values
+			(#{parent_id}, #{menu_title},#{menu_level}, 0, #{score}, 1,#{updated_time},#{created_time})	
+  </insert>
+  <delete id="delete_template" parameterType="int">
+  	delete from fke_supervision_template where id = #{id} or parent_id=#{id}
+  </delete>
 </mapper>

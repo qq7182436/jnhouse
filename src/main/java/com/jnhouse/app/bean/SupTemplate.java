@@ -29,7 +29,22 @@ public class SupTemplate implements Serializable{
 
     private Date created_time;
 
-    public Integer getId() {
+    private String score;
+    
+    
+    public String getScore() {
+		return score;
+	}
+
+	public void setScore(String score) {
+		this.score = score;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public Integer getId() {
         return id;
     }
 
