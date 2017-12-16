@@ -75,14 +75,8 @@ public class SupTemplateServiceImpl extends BaseServiceImpl<SupTemplate> impleme
 
 
 	@Override
-	public List<SupTemplate> fke_template(){
-		return supTemplateDao.fke_template();
-	}
-
-	@Override
-	public int getParentidByfm(String fm) {
-		// TODO Auto-generated method stub
-		return supTemplateDao.getParentidByfm(fm);
+	public List<SupTemplate> fke_template(Map<String,Object> map){
+		return supTemplateDao.fke_template(map);
 	}
 
 	@Override

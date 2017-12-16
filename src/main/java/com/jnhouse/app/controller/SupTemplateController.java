@@ -245,7 +245,10 @@ public class SupTemplateController extends BaseController{
 	@RequestMapping(value = "/jc_house/fke_template",method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject fke_template(HttpServletRequest request) {
-		List<SupTemplate> template = supTemplateService.fke_template();
+		String id = request.getParameter("template_id");
+		Map<String,Object> par = new HashMap<>();
+		par.put("id", id);
+		List<SupTemplate> template = supTemplateService.fke_template(par);
 		JSONArray jsonArray = new JSONArray();
 		JSONObject jsonobj = new JSONObject(); 
 		Map<String,Object> map = new HashMap<String,Object>(); 
@@ -306,6 +309,7 @@ public class SupTemplateController extends BaseController{
 		String score = request.getParameter("score");
 		String name = request.getParameter("name");//menu_title
 		String fathername = request.getParameter("father_name");
+		String father_id = request.getParameter("father_id");
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
 		Map<String,Object> param = new HashMap<>();
 		param.put("menu_level",menu_level );
@@ -315,9 +319,8 @@ public class SupTemplateController extends BaseController{
 		param.put("created_time", df.format(new Date()));
 		if(Integer.parseInt(menu_level) == 0) {
 			param.put("parent_id", 0);
-		}else {
-			int id = supTemplateService.getParentidByfm(fathername);			
-			param.put("parent_id", id);
+		}else {			
+			param.put("parent_id", father_id);
 		}
 		try {
 			supTemplateService.insertNexteTemplate(param);
