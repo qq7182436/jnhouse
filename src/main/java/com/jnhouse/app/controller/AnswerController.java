@@ -1,9 +1,7 @@
 package com.jnhouse.app.controller;
 
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +21,8 @@ import com.jnhouse.app.bean.TemAnswer;
 import com.jnhouse.app.service.AnswerService;
 import com.jnhouse.app.service.SupTemplateService;
 
+import net.sf.json.JSONObject;
+
 
 @Controller
 @RequestMapping("/answer")
@@ -38,38 +38,61 @@ public class AnswerController {
 		return new ModelAndView("sys/answer");
 	}
 	
-	
+	//获取答案主表数据
     @RequestMapping(value="/selectAnswer")
     @ResponseBody
-    public List selectAnswer(HttpServletRequest request,HttpServletResponse response) {
+    public List<SupAnswerHeader> selectAnswer(HttpServletRequest request,HttpServletResponse response) {
     	Map<String,Object> map = new HashMap<>();
         List<SupAnswerHeader> answer = answerService.selectAnswer(map);
         return answer;
     }
-    
+    //获取模板下的子节点
     @RequestMapping(value="/temAnswer")
     @ResponseBody
-    public List temAnswer(HttpServletRequest request,HttpServletResponse response) {
+    public List<SupTemplate> temAnswer(HttpServletRequest request,HttpServletResponse response) {
     	String id = request.getParameter("template_id");
     	Map<String,Object> map = new HashMap<>();
     	map.put("parent_id", id);
         List<SupTemplate> temp = templateService.fke_template(map);
         return temp;
     }
-    
+    //获取答案明细
     @RequestMapping(value="/title_answer")
-    @ResponseBody
-    public List title_answer(HttpServletRequest request,HttpServletResponse response) {
+    @ResponseBody   
+    public List<TemAnswer> title_answer(HttpServletRequest request,HttpServletResponse response) {
     	String id = request.getParameter("template_id");
-    	String store_id = request.getParameter("store_id");
-    	String check_date = request.getParameter("check_date");
-    	String docking_man = request.getParameter("docking_man");
+    	String header_id = request.getParameter("header_id");
     	Map<String,Object> map = new HashMap<>();
     	map.put("parent_id", id);
-    	map.put("store_id",store_id);
-    	map.put("check_date", check_date);
-    	map.put("docking_man", docking_man);
+    	map.put("header_id", header_id);
         List<TemAnswer> tem = answerService.temAnswer(map);
         return tem;
+    }
+    //共享
+    @RequestMapping(value="/share")
+    @ResponseBody
+    public void share(HttpServletRequest request,HttpServletResponse response) {
+    	String header_id = request.getParameter("header_id");
+    	String dept_id = request.getParameter("dept_id");
+    	Map<String,Object> par = new HashMap<>();
+    	JSONObject json = new JSONObject();
+    	par.put("header_id", header_id);
+    	par.put("dept_id", dept_id);
+    	try {
+    		PrintWriter out = response.getWriter();
+    		//判断有没有共享过，0为没有共享
+    		int isHave = answerService.getHeader_dept(par);
+    	   	if(isHave == 0) {
+    	   		answerService.shareByheaderId(par); 
+        		json.put("success","共享成功");
+    	   	}else {
+    	   		json.put("success","您已共享");
+    	   	}
+    	   	out.println(json);
+    		out.flush();
+    		out.close();		
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
     }
 }

@@ -32,4 +32,19 @@ public class AnswerServiceImpl implements AnswerService {
 	}
 
 
+	@Override
+	public void shareByheaderId(Map<String,Object> map) {
+		// TODO Auto-generated method stub
+		answerdao.insertheader_dept(map);
+		answerdao.insertline_dept(map);
+	}
+
+
+	@Override
+	public int getHeader_dept(Map<String,Object> map) {
+		// TODO Auto-generated method stub
+		return answerdao.getHeader_dept(map);
+	}
+
+
 }

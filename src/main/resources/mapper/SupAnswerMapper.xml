@@ -271,14 +271,42 @@
   	<if test="parent_id!=null and ''!=parent_id">
   		and template.parent_id=#{parent_id}
   	</if>
-  	<if test="store_id!=null and ''!=store_id">
-  		and header.store_id = #{store_id}
+  	<if test="header_id!=null and ''!=header_id">
+  		and header.id = #{header_id}
   	</if>
-  	<if test="check_date!=null and ''!=check_date">
-  		and header.check_date = #{check_date}
+  	
+  </select>
+  
+  <select id="getHeader_dept" parameterType="Map" resultType="int">
+  	select count(0) from fke_sup_answer_header_dept where 1 = 1
+  	<if test="header_id!=null and ''!=header_id">
+  		and header_id = #{header_id}
   	</if>
-  	<if test="docking_man!=null and ''!=docking_man">
-  		and header.docking_man = #{docking_man}
+  	<if test="dept_id!=null and ''!=dept_id">
+  		and dept_id = #{dept_id}
   	</if>
   </select>
+  <insert id="insertheader_dept" parameterType="Map">
+ 	INSERT INTO fke_sup_answer_header_dept (
+		header_id,template_id,store_id,check_date,store_around,start_time,end_time,broker_num,customer_num,
+		docking_man,recording,is_delete,updated_time,created_time,dept_id ) 
+		SELECT id,template_id,store_id,check_date,store_around,start_time,end_time,broker_num,customer_num,docking_man,recording,
+		is_delete,updated_time,created_time,#{dept_id} 
+	FROM
+		fke_sup_answer_header 
+	WHERE
+		id = #{header_id}
+  </insert>
+  
+  <insert id="insertline_dept" parameterType="Map">
+  	INSERT INTO fke_sup_answer_line_dept ( 
+  		header_id, problem_id, answer_num, answer, score, is_delete, updated_time, created_time, dept_id ) 
+  		SELECT header_id,problem_id,answer_num,answer,score,is_delete,updated_time,created_time,#{dept_id}
+	FROM
+		fke_sup_answer_line 
+	WHERE
+		header_id =#{header_id}
+  	
+  </insert>
+    
 </mapper>

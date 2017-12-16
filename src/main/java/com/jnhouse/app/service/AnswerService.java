@@ -7,7 +7,11 @@ import com.jnhouse.app.bean.SupAnswerHeader;
 import com.jnhouse.app.bean.TemAnswer;
 
 public interface AnswerService{
-	
+	//查询答案主表数据
 	List<SupAnswerHeader> selectAnswer(Map<String,Object> map);
+	//查询模板下节点
 	List<TemAnswer> temAnswer(Map<String,Object> map);
+	void shareByheaderId(Map<String,Object> map);
+	//判断是否共享过
+	int getHeader_dept(Map<String,Object> map);
 }

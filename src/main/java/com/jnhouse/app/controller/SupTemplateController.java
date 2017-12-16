@@ -1,7 +1,6 @@
 package com.jnhouse.app.controller;
 
-import java.io.File;
-import java.io.IOException;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,18 +15,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.jnhouse.app.bean.Menu;
 import com.jnhouse.app.bean.SupTemplate;
 import com.jnhouse.app.service.SupTemplateService;
-import com.jnhouse.app.utils.ResultData;
-import com.jnhouse.app.utils.SftpUtils;
 import com.jnhouse.app.utils.StringUtils;
 import java.util.Date;
 import java.text.SimpleDateFormat;
@@ -44,7 +38,7 @@ public class SupTemplateController extends BaseController{
 	@Resource
 	SupTemplateService supTemplateService;
 	
-	@Resource
+	
 	
 	
 	//private static final Logger LOG = LoggerFactory.getLogger(FtpsFileList.class);
@@ -229,12 +223,7 @@ public class SupTemplateController extends BaseController{
 		}
 		return re;
 	}
-	
-
-	
-
-	}
-	
+		
 	@RequestMapping(value = "/jc_house/template")
 	public ModelAndView template_views(HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
@@ -242,6 +231,7 @@ public class SupTemplateController extends BaseController{
 		return modelAndView;
 	}
 	
+	//获取模板列表
 	@RequestMapping(value = "/jc_house/fke_template",method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject fke_template(HttpServletRequest request) {
@@ -276,6 +266,7 @@ public class SupTemplateController extends BaseController{
 		return jsonObject;
 	}
 	
+	//更改模板
 	@RequestMapping(value = "/jc_house/save_template",method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject save_template(HttpServletRequest request) {
@@ -291,6 +282,7 @@ public class SupTemplateController extends BaseController{
 		param.put("menu_title", name);
 		param.put("id", id);
 		try {
+			//更改模板
 			supTemplateService.updateTemplate(param);
 			json.put("success", true);
 		}catch(Exception e) {
@@ -301,6 +293,7 @@ public class SupTemplateController extends BaseController{
 		return json;
 	}
 	
+	//保存模板
 	@RequestMapping(value = "/jc_house/save_next_template",method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject save_next_template(HttpServletRequest request) {
@@ -332,6 +325,7 @@ public class SupTemplateController extends BaseController{
 		
 		return json;
 	}
+	//删除模板
 	@RequestMapping(value="/jc_house/delete_template",method = RequestMethod.POST)
 	@ResponseBody
 	public  JSONObject delete_dept(HttpServletRequest request) {
