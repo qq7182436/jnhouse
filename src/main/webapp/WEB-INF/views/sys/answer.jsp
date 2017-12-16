@@ -130,17 +130,67 @@ display: none;
 </style>
 <script type="text/javascript">
 	$(function () {
-	$('#myModal').on('hidden.bs.modal', function (e) {
-		 $("#box").html(""); 
-	});
-    $('#dataTable').on('click-row.bs.table', function (e, row, element) {
-    	queryAnswerLine(row);       
-    }); 
+		$('#myModal').on('hidden.bs.modal', function (e) {
+			 $("#box").html(""); 
+		});
+		
+		$('#dataTable').on('click-row.bs.table', function (e, row, element) {
+	   	queryAnswerLine(row);     
+	   });  
+		
+		 $("#dataTable").bootstrapTable({   		 
+	    		url:'answer/selectAnswer.action',
+	    		pagination:true,//分页
+	    		striped:true,//隔行变色
+	    		search:true,
+	    		toggle:"table",
+	    		showColumns:true,//显示 内容列下拉框
+	    		singleSelect:true,//禁止多选
+	    		columns: [{
+	    			checkbox:true,
+	    			clickToSelect:true	    			
+	 		    }, 
+	 		    {
+	 		    	field: 'template_id',
+	 		        title: '模板',
+	 		        formatter:function(v){
+	 		        	if(v=='10'){return '模板一'}
+	 		       		else if(v=='11'){return '模板二';}
+	 		       		else if(v=='12'){return '模板三';}
+	 		       		else if(v=='55'){return '模板四';}
+	 		       		else{return '未知模板';} 
+	 		        },	 		       
+	 		    },{	 		    	
+	 		        field: 'store_id',
+	 		        title: '门店'
+	 		    }, {
+	 		        field: 'check_date',
+	 		        title: '进店日期'		       
+	 		    },{
+	 		        field: 'docking_man',
+	 		        title: '对接人'	 		       
+	 		    },
+	 		   {
+	 		        field: 'start_time',
+	 		        title: '访问开始时间'	 		       
+	 		    },
+	 		  {
+	 		        field: 'end_time',
+	 		        title: '访问结束时间'	 		       
+	 		    },
+	 		   {
+	 		        field: 'cz',
+	 		        title: '操作',
+	 		        formatter:function (v,r,i){
+	 		        	console.log(r);
+	 		    	   return '<button type="button" class="btn btn-danger" id="buttona" onclick="deleteHeader()">删除 </button><button type="button" class="btn btn-primary" id="buttonb" >查看</button> ';
+	 		       }
+	 		    }	
+	 		    ],	 		    
+	 		});    
 }) ;
+	
 function queryAnswerLine(row){
-	  $("#share").on('click',function(){
-		 shareEnter(row); 
-	  });
       $.post('answer/temAnswer.action',{template_id:row.template_id},function(data){
     	  $("#basic-addon1").val(row.store_id);
     	  $("#basic-addon2").val(row.docking_man);
@@ -199,12 +249,15 @@ function queryAnswerLine(row){
  		    
  		});
     	 });
-    	   $('.table_').on('click-row.bs.table', function (e, row, element) {
-    	    	showDetails(row);       
+    	   $('.table_').on('click-row.bs.table', function (e, ro, element) {
+    	    	showDetails(ro);       
     	    }); 
     },'json');     
       
 	$('#myModal').modal("show");
+	 $("#share").on('click',function(){
+		 shareEnter(row); 
+	  });
 }
 
 
@@ -288,6 +341,10 @@ function share(){
 } 
 function onClick(event, treeId, treeNode, clickFlag){
 	$("#hidden").val(treeNode.id);
+}
+function deleteHeader(){
+	alert("d");
+	$('#myModal').modal("hidden");
 }
 
 </script>
@@ -438,19 +495,7 @@ function onClick(event, treeId, treeNode, clickFlag){
 		</div>
 		<section class="content">
 			<div class="box">
-				<table id="dataTable" class="table-bordered"  data-pagination="true" data-search="true" data-toggle="table" 
-				 data-striped=true data-show-columns="true" data-url="answer/selectAnswer.action">
-				    <thead>
-				        <tr>
-				        	<th data-field="template_id" data-formatter="template">模板</th>
-				            <th data-field="store_id">门店</th>
-				            <th data-field="check_date">进店日期</th>
-				            <th data-field="docking_man">对接人</th>
-				            <th data-field="start_time">访问开始时间</th>
-				            <th data-field="end_time">访问结束时间</th>
-				        </tr>
-				    </thead>
-				</table>
+				<table id="dataTable"></table>
 			</div>
 		</section>
 		<!-- /.content-wrapper -->
