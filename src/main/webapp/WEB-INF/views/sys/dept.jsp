@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
@@ -20,9 +21,10 @@
 <link rel="stylesheet"
 	href="<%=basePath%>bower_components/bootstrap/dist/css/bootstrap.min.css">
 <!-- Theme style -->
-<link rel="stylesheet" href="<%=basePath%>dist/css/AdminLTE.min.css">
 <link rel="stylesheet" href="<%=basePath%>zTree_v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
 <link rel="stylesheet" href="<%=basePath%>layui/css/layui.css" type="text/css">
+<link rel="stylesheet" href="<%=basePath%>bower_components/select2/dist/css/select2.min.css" type="text/css">
+<link rel="stylesheet" href="<%=basePath%>dist/css/AdminLTE.min.css">
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 		<script src="<%=basePath%>self/js/jquery-3.2.1.min.js"></script>
@@ -30,6 +32,8 @@
 		src="<%=basePath%>bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 	<script
 		src="<%=basePath%>bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+		<script
+		src="<%=basePath%>bower_components/select2/dist/js/select2.full.min.js"></script>
 	<script type="text/javascript"
 		src="<%=basePath%>zTree_v3/js/jquery.ztree.core.js"></script>
 			<script type="text/javascript" src="<%=basePath%>zTree_v3/js/jquery.ztree.excheck.js"></script>
@@ -38,11 +42,15 @@
 	<script src="<%=basePath%>layui/layui.js"></script>
 	<script type="text/javascript">
 		$(function() {
-
+			 $('#select2').select2();
+			
 			var setting = {
 				data : {
 					simpleData : {
-						enable : true
+						enable : true,
+						idKey: "id",
+						pIdKey: "pId",
+						rootPId: 0
 					}
 				},
 				callback: {
@@ -52,7 +60,7 @@
 			var zNodes;
 			var treeNode_1;
 			$.ajax({
-				url : 'aJsonObject.action',
+				url : 'dept/aJsonObject.action',
 				type : 'POST', //GET
 				async : true, //或false,是否异步
 				data : {
@@ -86,6 +94,8 @@
 			$("#sort").val(treeNode.sort);
 			$("#dept_level").val(treeNode.dept_level);
 			$("#father_id").val(treeNode.pId);
+			var roles = $('#select2').select2();
+			roles.val(treeNode.role_ids).trigger("change");
 			$(".btn").prop({
 				  disabled: false
 				});
@@ -134,7 +144,7 @@
 			}
 			
 		};
-		
+		var flag = 0;
 		function add_same_levels(){
 			var dept_level = treeNode_1.dept_level;
 			$("#dept_level").val(treeNode_1.dept_level);
@@ -145,6 +155,7 @@
 				father_id = treeNode_1.pId
 			}
 			$("#father_id").val(father_id);
+			flag = 1;
 			layer.load(1,{offset: '250px'});
 			$.ajax({
 				url : 'dept/add_same_level.action',
@@ -161,6 +172,8 @@
 					$("#sort").val(data.maxSort + 1);
 					$("#dept_id").val('');
 					$("#name").val('');
+					var roles = $('#select2').select2();
+					roles.val("").trigger("change");
 					setTimeout(function(){
 						  layer.closeAll('loading');
 						}, 1000);
@@ -178,26 +191,39 @@
 			var father_id = $("#father_id").val();
 			var name = $("#name").val();
 			var sort = $("#sort").val();
+			var roles = $('#select2').select2();
+			var id = $("#dept_id").val();
+			var role_id = roles.val().toString();
 			layer.load(1,{offset: '250px'});
 			$.ajax({
 				url : 'dept/save_dept.action',
 				type : 'POST', //GET
 				async : true, //或false,是否异步
 				data : {
+					"id" : id,
+					"role_ids" : role_id,
 					"dept_level" : dept_level,
 					"father_id" : father_id,
 					"name" : name,
-					"sort" : sort,
+					"sort" : sort
 				},
 				timeout : 5000, //超时时间
 				dataType : 'json', //返回的数据格式：json/xml/html/script/jsonp/text
 				success : function(data) {
 					var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-					if(treeNode_1.getParentNode() == null){
-						zTree.addNodes(treeNode_1, data.treeNode);
+					if( null != id && "" != id){
+						var index = treeNode_1.getIndex()
+						zTree.removeNode(treeNode_1, false);
+						zTree.addNodes(treeNode_1.getParentNode(),index, data.treeNode);
 					}else{
-						zTree.addNodes(treeNode_1.getParentNode(), data.treeNode);
+						if(flag == 2){
+							zTree.addNodes(treeNode_1, data.treeNode);
+						}else{
+							zTree.addNodes(treeNode_1.getParentNode(), data.treeNode);
+						}
+						
 					}
+					
 					setTimeout(function(){
 						  layer.closeAll('loading');
 						}, 1000);
@@ -217,6 +243,7 @@
 			$("#father_id").val(father_id);
 			$("#father_name").val(treeNode_1.name);
 			layer.load(1,{offset: '250px'});
+			flag = 2;
 			$.ajax({
 				url : 'dept/add_same_level.action',
 				type : 'POST', //GET
@@ -235,6 +262,8 @@
 					$("#sort").val(data.maxSort + 1);
 					$("#dept_id").val('');
 					$("#name").val('');
+					var roles = $('#select2').select2();
+					roles.val("").trigger("change");
 				},
 				error : function(data) {
 					alert("错误");
@@ -244,21 +273,10 @@
 		}
 	</script>
 <style type="text/css">
-.content-wrapper, .main-footer {
-	margin-left: 0px;
-	position: fixed;
-	bottom: 0;
-	right: 0;
-	width: 100%;
-}
-
-body {
-	background-color: #ecf0f5;
-}
 
 .ztree li span.button.pIcon01_ico_open {
 	margin-right: 2px;
-	background: url(<%=basePath%>zTree_v3/css/zTreeStyle/img/diy/1_open.png)
+	background: url(zTree_v3/css/zTreeStyle/img/diy/1_open.png)
 		no-repeat scroll 0 0 transparent;
 	vertical-align: top;
 	*vertical-align: middle
@@ -267,7 +285,7 @@ body {
 .ztree li span.button.pIcon01_ico_close {
 	margin-right: 2px;
 	background:
-		url(<%=basePath%>zTree_v3/css/zTreeStyle/img/diy/1_close.png)
+		url(zTree_v3/css/zTreeStyle/img/diy/1_close.png)
 		no-repeat scroll 0 0 transparent;
 	vertical-align: top;
 	*vertical-align: middle
@@ -276,7 +294,7 @@ body {
 .ztree li span.button.pIcon02_ico_open, .ztree li span.button.pIcon02_ico_close
 	{
 	margin-right: 2px;
-	background: url(<%=basePath%>zTree_v3/css/zTreeStyle/img/diy/2.png)
+	background: url(zTree_v3/css/zTreeStyle/img/diy/2.png)
 		no-repeat scroll 0 0 transparent;
 	vertical-align: top;
 	*vertical-align: middle
@@ -284,7 +302,7 @@ body {
 
 .ztree li span.button.icon01_ico_docu {
 	margin-right: 2px;
-	background: url(<%=basePath%>zTree_v3/css/zTreeStyle/img/diy/3.png)
+	background: url(zTree_v3/css/zTreeStyle/img/diy/3.png)
 		no-repeat scroll 0 0 transparent;
 	vertical-align: top;
 	*vertical-align: middle
@@ -292,7 +310,15 @@ body {
 
 .ztree li span.button.icon02_ico_docu {
 	margin-right: 2px;
-	background: url(<%=basePath%>zTree_v3/css/zTreeStyle/img/diy/4.png)
+	background: url(zTree_v3/css/zTreeStyle/img/diy/4.png)
+		no-repeat scroll 0 0 transparent;
+	vertical-align: top;
+	*vertical-align: middle
+}
+
+.ztree li span.button.icon02_ico_close, .ztree li span.button.icon02_ico_open {
+	margin-right: 2px;
+	background: url(zTree_v3/css/zTreeStyle/img/diy/4.png)
 		no-repeat scroll 0 0 transparent;
 	vertical-align: top;
 	*vertical-align: middle
@@ -300,7 +326,7 @@ body {
 
 .ztree li span.button.icon03_ico_docu {
 	margin-right: 2px;
-	background: url(<%=basePath%>zTree_v3/css/zTreeStyle/img/diy/5.png)
+	background: url(zTree_v3/css/zTreeStyle/img/diy/10.gif)
 		no-repeat scroll 0 0 transparent;
 	vertical-align: top;
 	*vertical-align: middle
@@ -308,7 +334,7 @@ body {
 
 .ztree li span.button.icon04_ico_docu {
 	margin-right: 2px;
-	background: url(<%=basePath%>zTree_v3/css/zTreeStyle/img/diy/6.png)
+	background: url(zTree_v3/css/zTreeStyle/img/diy/6.png)
 		no-repeat scroll 0 0 transparent;
 	vertical-align: top;
 	*vertical-align: middle
@@ -316,7 +342,7 @@ body {
 
 .ztree li span.button.icon05_ico_docu {
 	margin-right: 2px;
-	background: url(<%=basePath%>zTree_v3/css/zTreeStyle/img/diy/7.png)
+	background: url(zTree_v3/css/zTreeStyle/img/diy/7.png)
 		no-repeat scroll 0 0 transparent;
 	vertical-align: top;
 	*vertical-align: middle
@@ -324,14 +350,34 @@ body {
 
 .ztree li span.button.icon06_ico_docu {
 	margin-right: 2px;
-	background: url(<%=basePath%>zTree_v3/css/zTreeStyle/img/diy/8.png)
+	background: url(zTree_v3/css/zTreeStyle/img/diy/8.png)
+		no-repeat scroll 0 0 transparent;
+	vertical-align: top;
+	*vertical-align: middle
+} 
+
+.ztree li span.button pIcon01_ico_docu {
+	margin-right: 2px;
+	background: url(zTree_v3/css/zTreeStyle/img/diy/1_open.png)
 		no-repeat scroll 0 0 transparent;
 	vertical-align: top;
 	*vertical-align: middle
 }
+
+.ztree li span.button.pIcon01_ico_docu {
+	margin-right: 2px;
+	background: url(zTree_v3/css/zTreeStyle/img/diy/1_open.png)
+		no-repeat scroll 0 0 transparent;
+	vertical-align: top;
+	*vertical-align: middle
+}
+.col-md-3, .col-md-9{
+	padding-right: 0px;
+	padding-left: 0px;
+}
 </style>
 </head>
-<body>
+<body style="overflow: hidden;background-color: white;">
 	<div>
 
 
@@ -345,90 +391,107 @@ body {
 				<ol class="breadcrumb">
 					<li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
 					<li><a href="#">系统管理</a></li>
-					<li class="active">部门列表</li>
+					<li class="active">部门管理</li>
 				</ol>
 			</section>
 
 			<!-- Main content -->
 			<section class="content">
 				<div class="row">
-					<div class="col-xs-12">
+					<div class="col-md-3">
 						<div class="box" style="height:893px;">
-							<div class="panel panel-primary"
-								style="width: 300px; min-height: 300px;float:left;">
-								<div class="panel-heading">部门</div>
+							<div class="panel panel-info">
+								<div class="panel-heading">部门列表</div>
 								<div class="content_wrap">
 									<div class="zTreeDemoBackground left">
 										<ul id="treeDemo" class="ztree"></ul>
 									</div>
 								</div>
 							</div>
-							<form action="">
-							<div class="panel panel-default" style="float:right;width: 1326px;height:893px;">
-							  <div class="panel-body" style="padding-left: 150px;">
-							  	<div class="btn-group btn-group-justified" role="group" aria-label="..." style="margin-bottom: 20px;width:300px;">
-								  <div class="btn-group" role="group">
-								    <button id="add_same_level" type="button" onclick="add_same_levels();" class="btn btn-primary active" disabled="disabled">
-								    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-								    	添加同级
-								    </button>
-								  </div>
-								  <div class="btn-group" role="group">
-								    <button type="button" onclick="add_next_levels();" class="btn btn-primary active" disabled="disabled">
-								    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-								  	  添加下级
-								    </button>
-								  </div>
-								  <div class="btn-group" role="group">
-								    <button type="button" class="btn btn-primary active" onclick="removeHoverDom('treeDemo', '1')">
-								    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-								    	删除
-								    </button>
-								  </div>
-								</div>
-							    <div class="input-group input-group-lg" style="margin-bottom: 20px;">
-									  <div class="input-group-btn">
-									  <button type="button" class="btn btn-default" aria-label="Bold">
-									  <span class="glyphicon glyphicon-king"></span>
-									  </button>
-									  </div>
-									  <input id="name" type="text" style="width:70%" class="form-control" placeholder="部门名称" aria-describedby="sizing-addon1">
-								</div>
-								<div class="input-group input-group-lg" style="margin-bottom: 20px;">
-									  <div class="input-group-btn">
-									  <button  type="button" class="btn btn-default" aria-label="Bold">
-									  <span class="glyphicon glyphicon-pawn"></span>
-									  </button>
-									  </div>
-									  <input id="father_name" readonly="readonly" type="text" style="width:70%" class="form-control" placeholder="上级部门" aria-describedby="sizing-addon1">
-								</div>
-								<div class="input-group input-group-lg" style="margin-bottom: 20px;">
-									  <div class="input-group-btn">
-									  <button type="button" class="btn btn-default" aria-label="Bold">
-									  <span class="glyphicon glyphicon-th-list"></span>
-									  </button>
-									  </div>
-									  <input id="sort" type="text" style="width:70%" class="form-control" placeholder="编号" aria-describedby="sizing-addon1">
-								</div>
-								</div>
-								<input type="hidden" name="hidden" id="dept_id">
-								<input type="hidden" name="hidden" id="dept_sort">
-								<input type="hidden" name="hidden" id="dept_level">
-								<input type="hidden" name="hidden" id="father_id">
-								<p style="margin-left:300px;">
-									<button type="button" onclick="save_dept()" class="btn btn-primary  btn-lg">
-										<span class="glyphicon glyphicon-floppy-save" ></span>
-									保存
-									</button>
-									<button type="reset" class="btn btn-primary  btn-lg" style="margin-left:160px;">
-										<span class="glyphicon glyphicon-refresh"></span>
-									清除
-									</button>
-								</p>
+						</div>
+					</div>	
+					<div class="col-md-9">
+						<div class="panel panel-default" style="height:893px;">
+						  <div class="panel-body">
+						  	<div class="btn-group btn-group-justified" role="group" aria-label="..." style="margin-bottom: 20px;width:300px;">
+							  <div class="btn-group" role="group">
+							    <button id="add_same_level" type="button" onclick="add_same_levels();" class="btn btn-info" disabled="disabled">
+							    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+							    	添加同级
+							    </button>
 							  </div>
-							  </form>
+							  <div class="btn-group" role="group">
+							    <button type="button" onclick="add_next_levels();" class="btn btn-info" disabled="disabled">
+							    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+							  	  添加下级
+							    </button>
+							  </div>
+							  <div class="btn-group" role="group">
+							    <button type="button" class="btn btn-info" onclick="removeHoverDom('treeDemo', '1')">
+							    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+							    	删除
+							    </button>
+							  </div>
+							</div>
+						    <div class="input-group input-group-lg" style="margin-bottom: 20px;">
+								  <div class="input-group-btn">
+								  <button type="button" class="btn btn-default" aria-label="Bold">
+								  <!-- <span class="glyphicon glyphicon-king"></span> -->
+								  部门名称
+								  </button>
+								  </div>
+								  <input id="name" type="text" style="width:70%" class="form-control" placeholder="部门名称" aria-describedby="sizing-addon1">
+							</div>
+							<div class="input-group input-group-lg" style="margin-bottom: 20px;">
+								  <div class="input-group-btn">
+								  <button  type="button" class="btn btn-default" aria-label="Bold">
+								  <!-- <span class="glyphicon glyphicon-pawn"></span> -->
+								  上级部门
+								  </button>
+								  </div>
+								  <input id="father_name" readonly="readonly" type="text" style="width:70%" class="form-control" placeholder="上级部门" aria-describedby="sizing-addon1">
+							</div>
+							<div class="input-group input-group-lg" style="margin-bottom: 20px;">
+								  <div class="input-group-btn">
+								  <button type="button" class="btn btn-default" aria-label="Bold">
+								  <!-- <span class="glyphicon glyphicon-th-list"></span> -->
+								  排序号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								  </button>
+								  </div>
+								  <input id="sort" type="text" style="width:70%" class="form-control" placeholder="编号" aria-describedby="sizing-addon1">
+							</div>
+				            <div class="input-group" style="margin-bottom: 20px;">
+								  <div class="input-group-btn">
+								  <button type="button" class="btn btn-default" aria-label="Bold">
+								 部门角色&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								  </button>
+								  </div>
+								  <select class="form-control select2" id="select2" multiple="multiple" data-placeholder="请选择角色"
+				                        style="width: 70%;line-height: 100px;" id="role_id">
+				                 <c:forEach items="${roleList }" var="list">
+				                 <option value="${list.id }">${list.role_name }</option>
+				                 </c:forEach>
+				                </select>
 							</div>
 						</div>
+							 
+						<input type="hidden" name="hidden" id="dept_id">
+						<input type="hidden" name="hidden" id="dept_sort">
+						<input type="hidden" name="hidden" id="dept_level">
+						<input type="hidden" name="hidden" id="father_id">
+						<p style="margin-left:300px;">
+							<button type="button" onclick="save_dept()" class="btn btn-info">
+								<span class="glyphicon glyphicon-floppy-save" ></span>
+							保存
+							</button>
+							<button type="reset" class="btn btn-info" style="margin-left:160px;">
+								<span class="glyphicon glyphicon-refresh"></span>
+							清除
+							</button>
+						</p>
+					  </div>
+					</div>
+						
 					</div>
 			</section>
 			<!-- /.content -->

@@ -6,6 +6,8 @@ public class Role {
     private Integer id;
 
     private String role_name;
+    
+    private String role_describe;
 
     private Integer is_delete;
 
@@ -72,4 +74,14 @@ public class Role {
     public void setCreated_time(Date created_time) {
         this.created_time = created_time;
     }
+
+	public String getRole_describe() {
+		return role_describe;
+	}
+
+	public void setRole_describe(String role_describe) {
+		this.role_describe = role_describe == null ? null : role_describe.trim();
+	}
+    
+    
 }

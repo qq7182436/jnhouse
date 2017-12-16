@@ -237,6 +237,9 @@
 				}
 			})
 		}
+		function add_next_levels(){
+			$("#menuForm").reset();
+		}
 	</script>
 <style type="text/css">
 .content-wrapper, .main-footer {
@@ -380,6 +383,7 @@ body {
 								    </button>
 								  </div>
 								</div>
+								<form action="" id="menuForm">
 							    <div class="input-group input-group-lg" style="margin-bottom: 20px;">
 									  <div class="input-group-btn">
 									  <button type="button" class="btn btn-default" aria-label="Bold">
@@ -427,6 +431,7 @@ body {
 									清除
 									</button>
 								</p>
+								</form>
 							  </div>
 							</div>
 						</div>
