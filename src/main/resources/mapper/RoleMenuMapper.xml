@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jnhouse.app.dao.RoleMenuMapper">
+<mapper namespace="com.jnhouse.app.dao.RoleMenuDao">
   <resultMap id="BaseResultMap" type="com.jnhouse.app.bean.RoleMenu">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="role_id" jdbcType="INTEGER" property="role_id" />
@@ -20,9 +20,20 @@
     from fke_role_menu
     where id = #{id,jdbcType=INTEGER}
   </select>
+   <select id="findByRoleId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select 
+    menu_id
+    from fke_role_menu
+    where role_id = #{role_id,jdbcType=INTEGER}
+    and is_delete = '1'
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from fke_role_menu
     where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByRoleId" parameterType="java.lang.Integer">
+    delete from fke_role_menu
+    where role_id = #{role_id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.jnhouse.app.bean.RoleMenu">
     insert into fke_role_menu (role_id, menu_id, is_delete, 
@@ -31,6 +42,17 @@
     values (#{role_id,jdbcType=INTEGER}, #{menu_id,jdbcType=INTEGER}, #{is_delete,jdbcType=INTEGER}, 
       #{updated_by,jdbcType=INTEGER}, #{created_by,jdbcType=INTEGER}, #{updated_time,jdbcType=TIMESTAMP}, 
       #{created_time,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertBatchMenus" >
+    insert into fke_role_menu (role_id, menu_id, is_delete, 
+      updated_by, created_by, updated_time, 
+      created_time)
+    values 
+    <foreach collection="menuList" item="item" index="index" separator=",">  
+                (#{role_id,jdbcType=INTEGER}, #{item,jdbcType=INTEGER}, '1', 
+      1, 1, NOW(), NOW())  
+        </foreach> 
+
   </insert>
   <insert id="insertSelective" parameterType="com.jnhouse.app.bean.RoleMenu">
     insert into fke_role_menu

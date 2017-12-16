@@ -52,4 +52,10 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu> implements MenuServic
 		return menuDao.findMaxValue(menu);
 	}
 
+	@Override
+	public List<Menu> getMenuByUserId(Integer id) {
+		// TODO Auto-generated method stub
+		return menuDao.getMenuByUserId(id);
+	}
+
 }

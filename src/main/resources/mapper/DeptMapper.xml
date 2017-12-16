@@ -32,8 +32,8 @@
       created_by, updated_time, created_time
       )
     values (#{dept_name,jdbcType=VARCHAR}, #{dept_level,jdbcType=INTEGER}, #{father_id,jdbcType=INTEGER}, 
-      #{sort,jdbcType=INTEGER}, #{is_delete,jdbcType=INTEGER}, #{updated_by,jdbcType=INTEGER}, 
-      #{created_by,jdbcType=INTEGER}, #{updated_time,jdbcType=TIMESTAMP}, #{created_time,jdbcType=TIMESTAMP}
+      #{sort,jdbcType=INTEGER}, '1', #{updated_by,jdbcType=INTEGER}, 
+      #{created_by,jdbcType=INTEGER}, NOW(), NOW()
       )
   </insert>
   <select id="findAll" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -53,7 +53,7 @@
       created_by, updated_time, created_time
       )
     values (#{dept_name,jdbcType=VARCHAR}, #{dept_level,jdbcType=INTEGER}, #{father_id,jdbcType=INTEGER}, 
-      #{sort,jdbcType=INTEGER}, #{is_delete,jdbcType=INTEGER}, #{updated_by,jdbcType=INTEGER}, 
+      #{sort,jdbcType=INTEGER}, 1, #{updated_by,jdbcType=INTEGER}, 
       #{created_by,jdbcType=INTEGER}, NOW(), NOW()
       )
   </insert>
@@ -118,55 +118,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByExampleSelective" parameterType="map">
-    update fke_dept
-    <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
-      </if>
-      <if test="record.dept_name != null">
-        dept_name = #{record.dept_name,jdbcType=VARCHAR},
-      </if>
-      <if test="record.dept_level != null">
-        dept_level = #{record.dept_level,jdbcType=INTEGER},
-      </if>
-      <if test="record.father_id != null">
-        father_id = #{record.father_id,jdbcType=INTEGER},
-      </if>
-      <if test="record.sort != null">
-        sort = #{record.sort,jdbcType=INTEGER},
-      </if>
-      <if test="record.is_delete != null">
-        is_delete = #{record.is_delete,jdbcType=INTEGER},
-      </if>
-      <if test="record.updated_by != null">
-        updated_by = #{record.updated_by,jdbcType=INTEGER},
-      </if>
-      <if test="record.created_by != null">
-        created_by = #{record.created_by,jdbcType=INTEGER},
-      </if>
-      <if test="record.updated_time != null">
-        updated_time = #{record.updated_time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.created_time != null">
-        created_time = #{record.created_time,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-  </update>
-  <update id="updateByExample" parameterType="map">
-    update fke_dept
-    set id = #{record.id,jdbcType=INTEGER},
-      dept_name = #{record.dept_name,jdbcType=VARCHAR},
-      dept_level = #{record.dept_level,jdbcType=INTEGER},
-      father_id = #{record.father_id,jdbcType=INTEGER},
-      sort = #{record.sort,jdbcType=INTEGER},
-      is_delete = #{record.is_delete,jdbcType=INTEGER},
-      updated_by = #{record.updated_by,jdbcType=INTEGER},
-      created_by = #{record.created_by,jdbcType=INTEGER},
-      updated_time = #{record.updated_time,jdbcType=TIMESTAMP},
-      created_time = #{record.created_time,jdbcType=TIMESTAMP}
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jnhouse.app.bean.Dept">
+  <update id="update" parameterType="com.jnhouse.app.bean.Dept">
     update fke_dept
     <set>
       <if test="dept_name != null">
@@ -187,16 +139,8 @@
       <if test="updated_by != null">
         updated_by = #{updated_by,jdbcType=INTEGER},
       </if>
-      <if test="created_by != null">
-        created_by = #{created_by,jdbcType=INTEGER},
-      </if>
-      <if test="updated_time != null">
-        updated_time = #{updated_time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="created_time != null">
-        created_time = #{created_time,jdbcType=TIMESTAMP},
-      </if>
     </set>
+    updated_time = NOW()
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.jnhouse.app.bean.Dept">

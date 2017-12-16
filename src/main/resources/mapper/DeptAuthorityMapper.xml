@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.jnhouse.app.bean.DeptAuthority">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="dept_id" jdbcType="INTEGER" property="dept_id" />
-    <result column="menu_id" jdbcType="INTEGER" property="menu_id" />
+    <result column="role_id" jdbcType="INTEGER" property="role_id" />
     <result column="is_delete" jdbcType="INTEGER" property="is_delete" />
     <result column="updated_by" jdbcType="INTEGER" property="updated_by" />
     <result column="created_by" jdbcType="INTEGER" property="created_by" />
@@ -12,7 +12,7 @@
     <result column="created_time" jdbcType="TIMESTAMP" property="created_time" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, dept_id, menu_id, is_delete, updated_by, created_by, updated_time, created_time
+    id, dept_id, role_id, is_delete, updated_by, created_by, updated_time, created_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -20,23 +20,45 @@
     from fke_dept_authority
     where id = #{id,jdbcType=INTEGER}
   </select>
+   <select id="findByDeptId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select 
+    role_id
+    from fke_dept_authority
+    where dept_id = #{dept_id,jdbcType=INTEGER}
+    and is_delete = 1
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from fke_dept_authority
     where id = #{id,jdbcType=INTEGER}
   </delete>
+   <delete id="deleteAll" parameterType="java.lang.Integer">
+    delete from fke_dept_authority
+    where dept_id = #{dept_id,jdbcType=INTEGER}
+  </delete>
   <insert id="insert" parameterType="com.jnhouse.app.bean.DeptAuthority">
-    insert into fke_dept_authority (dept_id, menu_id, is_delete, 
+    insert into fke_dept_authority (dept_id, role_id, is_delete, 
       updated_by, created_by, updated_time, 
       created_time)
-    values (#{dept_id,jdbcType=INTEGER}, #{menu_id,jdbcType=INTEGER}, #{is_delete,jdbcType=INTEGER}, 
+    values (#{dept_id,jdbcType=INTEGER}, #{role_id,jdbcType=INTEGER}, #{is_delete,jdbcType=INTEGER}, 
       #{updated_by,jdbcType=INTEGER}, #{created_by,jdbcType=INTEGER}, #{updated_time,jdbcType=TIMESTAMP}, 
       #{created_time,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertBatchRole" >
+    insert into fke_dept_authority (dept_id, role_id, is_delete, 
+      updated_by, created_by, updated_time, 
+      created_time)
+    values 
+    <foreach collection="roleList" item="item" index="index" separator=",">  
+       (#{dept_id,jdbcType=INTEGER}, #{item.id,jdbcType=INTEGER}, 1, 
+      #{item.updated_by,jdbcType=INTEGER}, #{item.created_by,jdbcType=INTEGER}, NOW(), 
+      NOW())
+    </foreach> 
   </insert>
   <update id="updateByExample" parameterType="map">
     update fke_dept_authority
     set id = #{record.id,jdbcType=INTEGER},
       dept_id = #{record.dept_id,jdbcType=INTEGER},
-      menu_id = #{record.menu_id,jdbcType=INTEGER},
+      role_id = #{record.role_id,jdbcType=INTEGER},
       is_delete = #{record.is_delete,jdbcType=INTEGER},
       updated_by = #{record.updated_by,jdbcType=INTEGER},
       created_by = #{record.created_by,jdbcType=INTEGER},
@@ -49,8 +71,8 @@
       <if test="dept_id != null">
         dept_id = #{dept_id,jdbcType=INTEGER},
       </if>
-      <if test="menu_id != null">
-        menu_id = #{menu_id,jdbcType=INTEGER},
+      <if test="role_id != null">
+        role_id = #{role_id,jdbcType=INTEGER},
       </if>
       <if test="is_delete != null">
         is_delete = #{is_delete,jdbcType=INTEGER},
@@ -73,7 +95,7 @@
   <update id="updateByPrimaryKey" parameterType="com.jnhouse.app.bean.DeptAuthority">
     update fke_dept_authority
     set dept_id = #{dept_id,jdbcType=INTEGER},
-      menu_id = #{menu_id,jdbcType=INTEGER},
+      role_id = #{role_id,jdbcType=INTEGER},
       is_delete = #{is_delete,jdbcType=INTEGER},
       updated_by = #{updated_by,jdbcType=INTEGER},
       created_by = #{created_by,jdbcType=INTEGER},
@@ -87,8 +109,8 @@
       <if test="dept_id != null">
         dept_id,
       </if>
-      <if test="menu_id != null">
-        menu_id,
+      <if test="role_id != null">
+        role_id,
       </if>
       <if test="is_delete != null">
         is_delete,
@@ -110,8 +132,8 @@
       <if test="dept_id != null">
         #{dept_id,jdbcType=INTEGER},
       </if>
-      <if test="menu_id != null">
-        #{menu_id,jdbcType=INTEGER},
+      <if test="role_id != null">
+        #{role_id,jdbcType=INTEGER},
       </if>
       <if test="is_delete != null">
         #{is_delete,jdbcType=INTEGER},

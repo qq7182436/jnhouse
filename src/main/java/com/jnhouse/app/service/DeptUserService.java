@@ -1,4 +1,4 @@
-package com.jnhouse.app.dao;
+package com.jnhouse.app.service;
 
 import java.util.List;
 
@@ -7,14 +7,15 @@ import org.apache.ibatis.annotations.Param;
 import com.jnhouse.app.bean.DeptUser;
 import com.jnhouse.app.dto.DeptUserDto;
 
-public interface DeptUserDao extends BaseDao<DeptUser>{
-	
+public interface DeptUserService extends BaseService<DeptUser>{
+
 	/**
 	 * 通过部门id获取该部门下所有的用户
 	 * @param dept_id
 	 * @return
 	 */
 	List<DeptUserDto> selectUserByDeptId(DeptUserDto deptUserDto);
+	
 	
 	/**
 	 * 通过部门id获取该部门下所有的用户的id集合

@@ -218,9 +218,9 @@
 					//此处做为ajax内部判断
 					var url = "";
 					if(JsonData.login == truelogin && JsonData.pwd == truepwd && JsonData.code.toUpperCase() == CodeVal.toUpperCase()){
-						url = "login/login_in.action";
+						url = "login/login_in.do";
 					}else{
-						url = "login/login_in.action";
+						url = "login/login_in.do";
 					}
 					
 					
