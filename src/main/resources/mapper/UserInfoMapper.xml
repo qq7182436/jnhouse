@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jnhouse.app.dao.UserInfoMapper">
+<mapper namespace="com.jnhouse.app.dao.UserInfoDao">
   <resultMap id="BaseResultMap" type="com.jnhouse.app.bean.UserInfo">
     <result column="id" jdbcType="INTEGER" property="id" />
     <result column="realname" jdbcType="VARCHAR" property="realname" />
@@ -70,6 +70,21 @@
     recommend_9, r1_time, r2_time, r3_time, r4_time, r5_time, r6_time, r7_time, r8_time, 
     r9_time, summary
   </sql>
+  <sql id="Base_Column_List_1">
+    id, realname, broker_mobile, avatar
+  </sql> 
+  <select id="findUserByName" parameterType="java.lang.String" resultType="com.jnhouse.app.dto.UserInfoDto">
+  	select 
+  	id, realname, broker_mobile, avatar
+  	from 2015_09_fangchanjn.fke_broker_info
+  	where 1 = 1
+  	<if test="username != null">
+        and (realname like concat(concat('%',#{username}),'%')
+        or broker_mobile like concat(concat('%',#{username}),'%'))
+    </if>
+  	and is_broker = '1'
+  	order by id
+  </select>
   <insert id="insert" parameterType="com.jnhouse.app.bean.UserInfo">
     insert into fke_broker_info (realname, city_id, cityarea_id, 
       cityarea2_id, broker_mobile, avatar, 

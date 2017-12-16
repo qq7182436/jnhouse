@@ -13,7 +13,7 @@ public class DeptAuthority implements Serializable{
 
     private Integer dept_id;
 
-    private Integer menu_id;
+    private Integer role_id;
 
     private Integer is_delete;
 
@@ -41,15 +41,15 @@ public class DeptAuthority implements Serializable{
         this.dept_id = dept_id;
     }
 
-    public Integer getMenu_id() {
-        return menu_id;
-    }
+    public Integer getRole_id() {
+		return role_id;
+	}
 
-    public void setMenu_id(Integer menu_id) {
-        this.menu_id = menu_id;
-    }
+	public void setRole_id(Integer role_id) {
+		this.role_id = role_id;
+	}
 
-    public Integer getIs_delete() {
+	public Integer getIs_delete() {
         return is_delete;
     }
 

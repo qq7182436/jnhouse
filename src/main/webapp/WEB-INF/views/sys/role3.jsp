@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
@@ -21,8 +22,7 @@
 <link href="<%=basePath%>self/css/screen.css" rel="stylesheet" type="text/css" />
 <link href="<%=basePath%>self/css/jquery.treetable.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="<%=basePath%>self/css/jquery-ui.css">
-<%-- <link rel="stylesheet" href="<%=basePath%>layui/css/layui.css"
-	type="text/css"> --%>
+<link rel="stylesheet" href="<%=basePath%>layui/css/layui.css"type="text/css"> 
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
@@ -73,93 +73,106 @@ body {
 								style="width: 100%; min-height: 300px;float:left;">
 								<div class="panel-heading">角色列表</div>
 							<div class="panel-body">
+								<div class="col-md-6">
 								<div class="btn-group btn-group-justified" role="group" aria-label="..." style="margin-bottom: 10px;width:300px;">
 									  <div class="btn-group" role="group">
-									    <button id="add_same_level" type="button" onclick="add_same_levels();" class="btn btn-info">
-									    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+									    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">
+									    <span class="glyphicon glyphicon-plus" aria-hidden="true" ></span>
 									    	添加
 									    </button>
 									  </div>
 									  <div class="btn-group" role="group">
-									    <button type="button" onclick="add_next_levels();" class="btn btn-info">
+									    <button type="button" id="update_button" class="btn btn-info">
 									    <span class="glyphicon glyphicon-retweet" aria-hidden="true"></span>
 									  	  修改
 									    </button>
 									  </div>
 									  <div class="btn-group" role="group">
-									    <button type="button" class="btn btn-info" onclick="removeHoverDom('treeDemo', '1')">
+									    <button type="button" class="btn btn-info" id="del_button">
 									    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 									    	删除
 									    </button>
 									  </div>
 									</div>
-								 <div style="width:200px;float:right;margin-top: -40px;margin-bottom: 10px;" class="input-group input-group-sm">
-					                <input type="text" class="form-control"  placeholder="Search for...">
+									</div>
+									<div class="col-md-6">
+								 <div style="width:200px;float:right;margin-bottom: 10px;" class="input-group input-group-sm">
+					                <input type="text" id="search_text" value="${role_name }" class="form-control"  placeholder="Search for...">
 					                    <span class="input-group-btn">
-					                      <button type="button" class="btn btn-info btn-flat">Go!</button>
+					                      <button type="button" id="go_search" class="btn btn-info btn-flat">Go!</button>
 					                    </span>
 					              </div>
-								<table class="table table-bordered">
+					              </div>
+								<table class="table table-bordered table-hover">
 									<tr>
-										<th style="width: 10px"><input type="checkbox" class="minimal"></th>
+										<th style="width: 10px"><input type="checkbox" name="roleCheck" id="checkTop" class="minimal"></th>
 										<th>角色名称</th>
-										<th>Progress</th>
-										<th style="width: 40px">Label</th>
+										<th>角色描述</th>
+										<th style="width: 340px">
+											操作
+									  	</th>
 									</tr>
-									<tr>
-										<td><input type="checkbox" class="minimal"></td>
-										<td>Update software</td>
-										<td>
-											<div class="progress progress-xs">
-												<div class="progress-bar progress-bar-danger"
-													style="width: 55%"></div>
-											</div>
-										</td>
-										<td><span class="badge bg-red">55%</span></td>
-									</tr>
-									<tr>
-										<td><input type="checkbox" class="minimal"></td>
-										<td>Clean database</td>
-										<td>
-											<div class="progress progress-xs">
-												<div class="progress-bar progress-bar-yellow"
-													style="width: 70%"></div>
-											</div>
-										</td>
-										<td><span class="badge bg-yellow">70%</span></td>
-									</tr>
-									<tr>
-										<td><input type="checkbox" class="minimal"></td>
-										<td>Cron job running</td>
-										<td>
-											<div class="progress progress-xs progress-striped active">
-												<div class="progress-bar progress-bar-primary"
-													style="width: 30%"></div>
-											</div>
-										</td>
-										<td><span class="badge bg-light-blue">30%</span></td>
-									</tr>
-									<tr>
-										<td><input type="checkbox" class="minimal"></td>
-										<td>Fix and squish bugs</td>
-										<td>
-											<div class="progress progress-xs progress-striped active">
-												<div class="progress-bar progress-bar-success"
-													style="width: 90%"></div>
-											</div>
-										</td>
-										<td>
-											<span class="badge bg-light-blue">90%</span>
-						                </td>
-									</tr>
+									<c:forEach items="${pageInfo.list }" var="roles">
+										<tr>
+											<td><input type="checkbox" name="roleCheck" class="minimal" value="${roles.id }"></td>
+											<td id="td-name-${roles.id }">${roles.role_name }</td>
+											<td id="td-describe-${roles.id }">${roles.role_describe }</td>
+											<td>
+											    <button type="button" onclick="changeRole(${roles.id })" class="btn btn-info btn-sm">
+												    <span class="glyphicon glyphicon-retweet" aria-hidden="true"></span>
+												  	  修改
+										    	</button>
+											    <button type="button" name="del_btn" onclick="deleteRole(${roles.id })" class="btn btn-danger btn-sm">
+												    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+												  	  删除
+											    </button>
+											    <button type="button" name="del_btn" onclick="changeMenu(${roles.id })" class="btn btn-success btn-sm">
+												    <span class="glyphicon glyphicon-modal-window" aria-hidden="true"></span>
+												  	  配置菜单
+											    </button>
+										    </td>
+										</tr>
+									</c:forEach>
 								</table>
-								<ul class="pagination pagination-sm no-margin pull-right">
-									<li><a href="#">&laquo;</a></li>
-									<li><a href="#">1</a></li>
-									<li><a href="#">2</a></li>
-									<li><a href="#">3</a></li>
-									<li><a href="#">&raquo;</a></li>
-								</ul>
+								<div class="col-md-6">
+									当前<span class="label label-primary">${pageInfo.pageNum }</span>
+									页，总共当前<span class="label label-primary">${pageInfo.pages }</span>
+									页，总共<span class="label label-primary">${pageInfo.total }</span>
+									记录
+								</div>
+								<div class="col-md-6">
+								<nav aria-label="Page navigation">
+									<input type="hidden" name="pageNum" id="pageNum" value="${pageInfo.pageNum}">
+								  <ul class="pagination pagination-lg  no-margin pull-right">
+								  	<li><a href="<%=basePath%>role/role_views.action?pageNum=1">首页</a></li>
+								  	 <c:if test="${pageInfo.hasPreviousPage }">
+									  	 <li>
+									      <a href="<%=basePath%>role/role_views.action?pageNum=${pageInfo.pageNum-1}&role_name=${role_name}" aria-label="Previous">
+									        <span aria-hidden="true">&laquo;</span>
+									      </a>
+									     </li>
+								  	 </c:if>
+								    
+								    <c:forEach items="${pageInfo.navigatepageNums }" var="page_num">
+								    	<c:if test="${page_num == pageInfo.pageNum}">
+								    	<li class="active"><a href="<%=basePath%>role/role_views.action?pageNum=${page_num}&role_name=${role_name}">${page_num}</a></li>
+								    	</c:if>
+								    	<c:if test="${page_num != pageInfo.pageNum}">
+								    	<li><a href="<%=basePath%>role/role_views.action?pageNum=${page_num}&role_name=${role_name}">${page_num}</a></li>
+								    	</c:if>
+								    </c:forEach>
+								     <c:if test="${pageInfo.hasNextPage }">
+									     <li>
+									      <a href="<%=basePath%>role/role_views.action?pageNum=${pageInfo.pageNum+1}&role_name=${role_name}" aria-label="Next">
+									        <span aria-hidden="true">&raquo;</span>
+									      </a>
+									    </li>
+								  	 </c:if>
+								    
+								    <li><a href="<%=basePath%>role/role_views.action?pageNum=${pageInfo.pages}&role_name=${role_name}"">末页</a></li>
+								  </ul>
+								</nav>
+								</div>
 							</div>
 							</div>
 						</div>
@@ -167,6 +180,96 @@ body {
 				</div>
 			</section>
 			<!-- /.content -->
+		</div>
+		<!-- Modal -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">添加角色</h4>
+		      </div>
+		      <div class="modal-body">
+			        <form id="addRoleForm" class="form-horizontal" action="role/add_role.action" method="post">
+	              <div class="box-body">
+	                <div class="form-group">
+	                  <label for="role_name" class="col-sm-2 control-label">角色名称</label>
+	
+	                  <div class="col-sm-10">
+	                  	<input type="hidden" name="id" id="role_id" >
+	                    <input type="text" id="role_name" maxlength="20" name="role_name" class="form-control"  placeholder="角色名称">
+	                  </div>
+	                </div>
+	                <div class="form-group">
+	                  <label for="role_describe" class="col-sm-2 control-label">角色描述</label>
+	
+	                  <div class="col-sm-10">
+	                    <textarea class="form-control"  maxlength="255"  id="role_describe" name="role_describe"  rows="3" placeholder="角色描述 ..."></textarea>
+	                  </div>
+	                </div>
+	              </div>
+	            </form>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+		        <button type="button" class="btn btn-primary" id="save_btn">保存</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+				<!-- Modal -->
+		<div class="modal fade bs-example-modal-lg" id="myMenu" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog modal-lg" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">菜单权限</h4>
+		      </div>
+		      <div class="modal-body">
+			        <form id="addRoleForm" class="form-horizontal" action="role/add_role.action" method="post">
+	              <div class="box-body">
+	                <div class="row">
+					  <div class="col-md-12">
+			  			<table  id="dataTable" class="table table-bordered table-hover">
+							<tr>
+								<th align="center" width="20%"><input type="checkbox" id="checkMenuTop" class="minimal"></th>
+								<th width="30%">菜单名称</th>
+								<th width="30%">路径</th>
+								<th width="20%">
+									操作
+							  	</th>
+							</tr>
+							<c:forEach items="${menusList }" var="menu">
+								<c:if test="${menu.father_id == null }">
+									<tr data-tt-id="${menu.id }">
+								</c:if>
+								<c:if test="${menu.father_id != null }">
+									<tr data-tt-id="${menu.id }" data-tt-parent-id="${menu.father_id }">
+								</c:if>
+									<td><input type="checkbox" name="menuCheck-${menu.id }" class="minimal" value="${menu.id }"></td>
+									<td id="td-name-${menu.id }">${menu.menu_name }</td>
+									<td id="td-describe-${menu.id }">${menu.url }</td>
+									<td>
+									    <button type="button" name="menu_btn" class="btn btn-success btn-sm">
+										    <span class="glyphicon glyphicon-modal-window" aria-hidden="true"></span>
+										  	  配置
+									    </button>
+								    </td>
+								</tr>
+							</c:forEach>
+						</table>
+					  </div>
+					</div>
+	              </div>
+	            </form>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+		        <button type="button" class="btn btn-primary" id="saveMenu">保存</button>
+		      </div>
+		    </div>
+		  </div>
 		</div>
 		<!-- /.content-wrapper -->
 		<footer class="main-footer">
@@ -185,18 +288,162 @@ body {
 <script src="<%=basePath%>bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <script src="<%=basePath%>bower_components/fastclick/lib/fastclick.js"></script>		
 <script src="<%=basePath%>dist/js/adminlte.min.js"></script>
-<%-- <script src="<%=basePath%>layui/layui.js"></script> --%>
+ <script src="<%=basePath%>layui/layui.js"></script>
 <script type="text/javascript" src="<%=basePath%>plugins/iCheck/icheck.min.js"></script>
 <script type="text/javascript" src="<%=basePath%>self/js/jquery.treetable.js"></script>
 	<script type="text/javascript">
+		layui.use(['layer', 'form'], function(){
+			  var layer = layui.layer
+			  ,form = layui.form;
+			});
 		$(function () {
+			$("#dataTable").treetable({expandable:true});
 			//iCheck for checkbox and radio inputs
-		    $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-		      checkboxClass: 'icheckbox_minimal-blue',
-		      radioClass   : 'iradio_minimal-blue'
+		    $('input[type="checkbox"].minimal').iCheck({
+		      checkboxClass: 'icheckbox_minimal-blue'
 		    })
-		
+		    $("#save_btn").click( function () { 
+		    	$("#addRoleForm").submit(); 
+		    });
+		    $("#update_button").click( function () { 
+		    	var checkboxs = $('input[type=checkbox]:checked');
+		    	if(checkboxs.length == 1){
+		    		var id = $('input[type=checkbox]:checked').val();
+		    		var role_name = $("#td-name-" + id).text();
+		    		var role_describe = $("#td-describe-" + id).text();
+		    		$("#role_name").val(role_name)
+		    		$("#role_describe").val(role_describe)
+		    		$("#role_id").val(id)
+		    		$('#myModal').modal('show');
+		    	}else if(checkboxs.length < 1){
+		    		layer.tips('请选择要修改的角色', '#update_button');
+		    	}else{
+		    		layer.tips('一次只能修改一个角色', '#update_button');
+		    	}
+		    	 
+		    });
+		    $("#del_button").click( function () { 
+		    	var checkboxs = $('input[type=checkbox]:checked');
+		    	var ids = '';
+		    	if(checkboxs.length <1){
+		    		layer.tips('请选择要删除的角色', '#del_button');
+		    	}else{
+		    		$.each( checkboxs, function(i, n){
+			    		  if(i == (checkboxs.length - 1)){
+			    			  ids += n.value 
+			    		  }else{
+			    			  ids += n.value +","  
+			    		  }
+			    		  
+			    		});
+		    		var pageNum = $("#pageNum").val();
+		    		window.location.href="role/role_delete.action?ids="+ids + "&pageNum=" + pageNum; 
+		    	}
+		    	
+		    });
+		    $('#checkTop').on('ifChecked', function(event){
+		    	$("input[name='roleCheck']").iCheck('check');
+		    	});
+		    $('#checkTop').on('ifUnchecked', function(event){
+		    	$("input[name='roleCheck']").iCheck('uncheck');
+		    	});
+		    $('#checkMenuTop').on('ifChecked', function(event){
+		    	$("input[name^='menuCheck']").iCheck('check');
+		    	});
+		    $('#checkMenuTop').on('ifUnchecked', function(event){
+		    	$("input[name^='menuCheck']").iCheck('uncheck');
+		    	});
+		    
+		    $("#go_search").click( function () { 
+		    	var role_name = $("#search_text").val();
+		    	var pageNum = $("#pageNum").val();
+		    	window.location.href="role/role_views.action?pageNum=" + pageNum + "&role_name=" + role_name;
+		    });
+		    $("#saveMenu").click( function () { 
+		    	var checkboxs = $("input[name^='menuCheck']:checked");
+		    	var menus = '';
+		    	var role = $("#role_id").val();
+		    	$.each( checkboxs, function(i, n){
+		    		  if(i == (checkboxs.length - 1)){
+		    			  menus += n.value 
+		    		  }else{
+		    			  menus += n.value +","  
+		    		  }
+		    		  
+		    		});
+		    	//当有菜单被选中时，添加角色菜单关系
+		    	if(menus.length >0){
+		    		$.ajax({
+						url : 'menu/save_role_menus.action',
+						type : 'POST', //GET
+						async : true, //或false,是否异步
+						data : {
+							"menus" : menus,
+							"role" : role
+						},
+						timeout : 5000, //超时时间
+						dataType : 'json', //返回的数据格式：json/xml/html/script/jsonp/text
+						success : function(data) {
+							$('#myMenu').modal('hide');
+						},
+						error : function(data) {
+							alert("错误");
+							console.log('错误')
+						}
+					}) 
+		    	}else{
+		    		layer.tips('请选择要添加的菜单', '#saveMenu', {
+		    			  tips: [1, '#0FA6D8'] //还可配置颜色
+		    			});
+		    	}
+		    	
+		    });
 		  })
+		  
+		  function changeRole(id){
+	    		var role_name = $("#td-name-" + id).text();
+	    		var role_describe = $("#td-describe-" + id).text();
+	    		$("#role_name").val(role_name)
+	    		$("#role_describe").val(role_describe)
+	    		$("#role_id").val(id)
+	    		$('#myModal').modal('show');
+			}
+		 function deleteRole(id){
+				layer.confirm('确定删除该角色吗？', {
+		    		  btn: ['是','否'] //按钮
+		    		 ,offset: '250px'
+		    		}, function(){
+		    			var pageNum = $("#pageNum").val();
+		        		window.location.href="role/role_delete.action?ids="+id + "&pageNum=" + pageNum; 
+		    		}, function(){
+		    		});
+				
+				}
+		  function changeMenu(id){
+			  $("input[name^='menuCheck']").iCheck('uncheck');
+			  $.ajax({
+					url : 'menu/query_role_menus.action',
+					type : 'POST', //GET
+					async : true, //或false,是否异步
+					data : {
+						"role" : id
+					},
+					timeout : 5000, //超时时间
+					dataType : 'json', //返回的数据格式：json/xml/html/script/jsonp/text
+					success : function(data) {
+						var list = data.msg;
+						$.each( list, function(i, n){
+							$("input[name='menuCheck-"+n+"']").iCheck('check');
+				    		});
+					},
+					error : function(data) {
+						alert("错误");
+						console.log('错误')
+					}
+				})
+	    		$("#role_id").val(id);
+	    		$('#myMenu').modal('show');
+			}
 	</script>
 </body>
 </html>

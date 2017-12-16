@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jnhouse.app.dao.RoleMapper">
+<mapper namespace="com.jnhouse.app.dao.RoleDao">
   <resultMap id="BaseResultMap" type="com.jnhouse.app.bean.Role">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="role_name" jdbcType="VARCHAR" property="role_name" />
+    <result column="role_describe" jdbcType="VARCHAR" property="role_describe" />
     <result column="is_delete" jdbcType="INTEGER" property="is_delete" />
     <result column="updated_by" jdbcType="INTEGER" property="updated_by" />
     <result column="created_by" jdbcType="INTEGER" property="created_by" />
@@ -11,7 +12,7 @@
     <result column="created_time" jdbcType="TIMESTAMP" property="created_time" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, role_name, is_delete, updated_by, created_by, updated_time, created_time
+    id, role_name, role_describe, is_delete, updated_by, created_by, updated_time, created_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -19,16 +20,39 @@
     from fke_role
     where id = #{id,jdbcType=INTEGER}
   </select>
+   <select id="findAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from fke_role
+    where is_delete = '1'
+     order by updated_time desc
+  </select>
+     <select id="findByRoleName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from fke_role where role_name like concat(concat('%',#{role_name}),'%') 
+    or role_describe like concat(concat('%',#{role_name}),'%') 
+    and is_delete = '1'
+    order by updated_time desc
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from fke_role
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.jnhouse.app.bean.Role">
-    insert into fke_role (role_name, is_delete, updated_by, 
+   <delete id="deleteByids" parameterType="java.util.List">
+    delete from fke_role
+    where id in (
+    	<foreach collection="ids" item="id" separator=",">
+            #{id}
+        </foreach>
+    )
+  </delete>
+  <insert id="save" parameterType="com.jnhouse.app.bean.Role">
+    insert into fke_role (role_name,role_describe, is_delete, updated_by, 
       created_by, updated_time, created_time
       )
-    values (#{role_name,jdbcType=VARCHAR}, #{is_delete,jdbcType=INTEGER}, #{updated_by,jdbcType=INTEGER}, 
-      #{created_by,jdbcType=INTEGER}, #{updated_time,jdbcType=TIMESTAMP}, #{created_time,jdbcType=TIMESTAMP}
+    values (#{role_name,jdbcType=VARCHAR},#{role_describe,jdbcType=VARCHAR}, '1', #{updated_by,jdbcType=INTEGER}, 
+      #{created_by,jdbcType=INTEGER}, NOW(), NOW()
       )
   </insert>
   <insert id="insertSelective" parameterType="com.jnhouse.app.bean.Role">
@@ -84,11 +108,14 @@
       updated_time = #{record.updated_time,jdbcType=TIMESTAMP},
       created_time = #{record.created_time,jdbcType=TIMESTAMP}
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jnhouse.app.bean.Role">
+  <update id="update" parameterType="com.jnhouse.app.bean.Role">
     update fke_role
     <set>
       <if test="role_name != null">
         role_name = #{role_name,jdbcType=VARCHAR},
+      </if>
+      <if test="role_describe != null">
+        role_describe = #{role_describe,jdbcType=VARCHAR},
       </if>
       <if test="is_delete != null">
         is_delete = #{is_delete,jdbcType=INTEGER},
@@ -96,14 +123,8 @@
       <if test="updated_by != null">
         updated_by = #{updated_by,jdbcType=INTEGER},
       </if>
-      <if test="created_by != null">
-        created_by = #{created_by,jdbcType=INTEGER},
-      </if>
       <if test="updated_time != null">
-        updated_time = #{updated_time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="created_time != null">
-        created_time = #{created_time,jdbcType=TIMESTAMP},
+        updated_time = NOW()
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}

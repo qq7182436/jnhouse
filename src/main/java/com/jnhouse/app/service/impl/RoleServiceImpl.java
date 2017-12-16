@@ -46,4 +46,16 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
 		return roleDao.findAll();
 	}
 
+	@Override
+	public int deleteByids(String[] ids) {
+		// TODO Auto-generated method stub
+		return roleDao.deleteByids(ids);
+	}
+
+	@Override
+	public List<Role> findByRoleName(String role_name) {
+		// TODO Auto-generated method stub
+		return roleDao.findByRoleName(role_name);
+	}
+
 }

@@ -1,5 +1,6 @@
 package com.jnhouse.app.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +9,9 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+
+
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,9 +26,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.jnhouse.app.bean.Menu;
 import com.jnhouse.app.bean.SupTemplate;
 import com.jnhouse.app.service.SupTemplateService;
-//import com.jnhouse.app.utils.DateTimeUtils;
-//import com.jnhouse.app.utils.FileUploadFtpUtils;
-//import com.jnhouse.app.utils.FileUploadUtils;
+import com.jnhouse.app.utils.ResultData;
+import com.jnhouse.app.utils.SftpUtils;
 import com.jnhouse.app.utils.StringUtils;
 import java.util.Date;
 import java.text.SimpleDateFormat;
@@ -41,12 +44,37 @@ public class SupTemplateController extends BaseController{
 	@Resource
 	SupTemplateService supTemplateService;
 	
+	@Resource
+	
 	
 	//private static final Logger LOG = LoggerFactory.getLogger(FtpsFileList.class);
 	
 
-	//private Logger log = Logger.getAnonymousLogger(this.getClass());
+	private Logger log = Logger.getLogger(SupTemplateController.class);
 
+	/**
+	 * 考核开始  -->点击考核开始按钮
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/jc_house/check_start",method = RequestMethod.POST)
+	public @ResponseBody ObjectNode checkStart (HttpServletRequest request){
+		ObjectNode re = objectMapper.createObjectNode();
+		
+		String store_id = (String) request.getParameter("store_id");// 门店的id
+		String template_id = (String) request.getParameter("template_id");//模版的id
+		String docking_man =(String) request.getParameter("docking_man");//对接人
+		String start_time = (String)request.getParameter("start_time");//访问开始时间
+		String store_around =(String) request.getParameter("store_around");//考核环境
+		String broker_num = (String)request.getParameter("broker_num");//顾客的数量
+		String customer_num = (String)request.getParameter("customer_num");//职业顾问的数量
+		
+		
+		
+		
+		
+		return null;
+	}
 	@RequestMapping(value = "/jc_house/findAllfirstTemplate", method = RequestMethod.GET)
 	public @ResponseBody ObjectNode findAllfirstTemplate(HttpServletRequest reuqest) {
 		
@@ -202,65 +230,9 @@ public class SupTemplateController extends BaseController{
 		return re;
 	}
 	
-	/**
-	 * App 上传稽查门店图片接口
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping(value = "/jc_house/upload_picture", method = RequestMethod.POST)
-	public @ResponseBody ObjectNode uploadPicture(HttpServletRequest request,MultipartHttpServletRequest multiRequest) {
 
-		//System.out.println("===============");
-		ObjectNode re = objectMapper.createObjectNode();
-		String store_id = (String) request.getParameter("store_id");// 门店的id
-		String template_id = (String) request.getParameter("template_id");//模版的id
-
-		String lead_person = (String) request.getParameter("lead_person");//上传人
-
-		String jc_store_picture = (String)request.getParameter("jc_store_picture");
-		String jc_picture="";
-		
-
-
-		/*try {
-
-			//运算符是用来在运行时指出对象是否是特定类的一个实例
-			if (request instanceof MultipartHttpServletRequest) {
-			
-				
-				MultipartFile jc_pictureFile = ((MultipartHttpServletRequest) request).getFile("jc_store_picture");//稽查门店图片
-				System.out.println(jc_pictureFile+"==============");
-				if (jc_pictureFile.getSize() > 0) {
-					String documentWay = "/store_img"
-							+ DateTimeUtils.getNowTimeStr("yyyy-MM-dd") + "/";
-					String fileName = jc_pictureFile.getOriginalFilename();
-					// 把文件名字换成系统时间
-					
-					System.out.println("获得文件路径"+documentWay);
-					fileName = System.currentTimeMillis()
-							+ fileName.substring(fileName.lastIndexOf("."));
-					FileUploadFtpUtils ftp = new FileUploadFtpUtils();
-					
-					System.out.println(fileName+"_-------------------");
-					ftp.connect(documentWay);
-					ftp.upload(fileName, jc_pictureFile.getInputStream());
-					jc_picture =  documentWay + fileName;
-					
-					System.out.println(jc_picture+"==============");
-					
-				}
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-			
-		re.put("code", "0");
-		return re;
 	
+
 	}
 	
 	@RequestMapping(value = "/jc_house/template")
@@ -374,5 +346,6 @@ public class SupTemplateController extends BaseController{
 
 		return jsonObject;
 	}
+
 }
 
