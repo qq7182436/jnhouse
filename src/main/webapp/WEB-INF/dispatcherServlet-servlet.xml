@@ -39,6 +39,14 @@
 	    </property>  
 	</bean>
 	
+	<!-- 自定义拦截器，拦截所有请求，验证是否登录 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			 <mvc:mapping path="/**"/> 
+			<bean class="com.jnhouse.app.interceptor.CommonInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
 	<!-- springmvc处理不了的操作提交给tomcat -->
 	<mvc:default-servlet-handler/>
 	

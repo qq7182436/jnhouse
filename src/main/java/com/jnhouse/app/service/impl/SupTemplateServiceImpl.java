@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.jnhouse.app.bean.SupTemplate;
+import com.jnhouse.app.dao.FileDao;
 import com.jnhouse.app.dao.SupTemplateDao;
 import com.jnhouse.app.service.SupTemplateService;
 
@@ -19,6 +20,8 @@ public class SupTemplateServiceImpl extends BaseServiceImpl<SupTemplate> impleme
 
 	@Resource
 	SupTemplateDao supTemplateDao;
+	
+
 	
 	
 	

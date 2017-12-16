@@ -20,20 +20,58 @@
     from fke_dept_user
     where id = #{id,jdbcType=INTEGER}
   </select>
+   <select id="selectByDeptId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select 
+    broker_id
+    from fke_dept_user
+    where dept_id = #{dept_id,jdbcType=INTEGER}
+    and is_delete = 1
+    order by id
+  </select>
+  <select id="selectUserByDeptId" parameterType="com.jnhouse.app.dto.DeptUserDto" resultType="com.jnhouse.app.dto.DeptUserDto">
+    select 
+    fdu.id,fdu.dept_id,fdu.broker_id,fbi.realname,fm.username as mobile,fbi.avatar as photo
+    from fke_dept_user fdu,2015_09_fangchanjn.fke_member fm ,2015_09_fangchanjn.fke_broker_info fbi
+    where dept_id = #{dept_id,jdbcType=INTEGER}
+    and fdu.is_delete = '1'
+	and fdu.broker_id = fm.id
+	and fm.is_broker = '1'
+	and status = '1'
+	and fm.id = fbi.id
+ 	<if test="realname != null">
+      and  fbi.realname like concat(concat('%',#{realname,jdbcType=VARCHAR}),'%') 
+    </if>
+    order by fdu.updated_time desc
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from fke_dept_user
     where id = #{id,jdbcType=INTEGER}
   </delete>
+  <delete id="deleteByPrimaryKeys" parameterType="java.util.List">
+    delete from fke_dept_user
+    where id in (
+    <foreach collection="ids" item="id" separator=",">
+            #{id,jdbcType=INTEGER}
+        </foreach>
+    ) 
+  </delete>
   <insert id="insert" parameterType="com.jnhouse.app.bean.DeptUser">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      VALUES IDENTITY_VAL_LOCAL()
-    </selectKey>
     insert into fke_dept_user (dept_id, broker_id, is_delete, 
       updated_by, created_by, updated_time, 
       created_time)
     values (#{dept_id,jdbcType=INTEGER}, #{broker_id,jdbcType=INTEGER}, #{is_delete,jdbcType=INTEGER}, 
       #{updated_by,jdbcType=INTEGER}, #{created_by,jdbcType=INTEGER}, #{updated_time,jdbcType=TIMESTAMP}, 
       #{created_time,jdbcType=TIMESTAMP})
+  </insert>
+   <insert id="insertBatchUsers" >
+    insert into fke_dept_user (dept_id, broker_id, is_delete, 
+      updated_by, created_by, updated_time, 
+      created_time)
+    values 
+    <foreach collection="deptUserList" item="item" index="index" separator=",">  
+        (#{item.dept_id,jdbcType=INTEGER}, #{item.broker_id,jdbcType=INTEGER}, 1, 
+      #{item.updated_by,jdbcType=INTEGER}, #{item.created_by,jdbcType=INTEGER}, NOW(), NOW()) 
+    </foreach> 
   </insert>
   <insert id="insertSelective" parameterType="com.jnhouse.app.bean.DeptUser">
     insert into fke_dept_user

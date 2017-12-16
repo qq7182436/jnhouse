@@ -46,5 +46,23 @@ public class RoleMenuServiceImpl extends BaseServiceImpl<RoleMenu> implements Ro
 		return roleMenuDao.findAll();
 	}
 
+	@Override
+	public List<Integer> findByRoleId(Integer role_id) {
+		// TODO Auto-generated method stub
+		return roleMenuDao.findByRoleId(role_id);
+	}
+
+	@Override
+	public int insertBatchMenus(Integer role_id, List<String> menuList) {
+		// TODO Auto-generated method stub
+		return roleMenuDao.insertBatchMenus(role_id, menuList);
+	}
+
+	@Override
+	public void deleteByRoleId(Integer role_id) {
+		// TODO Auto-generated method stub
+		roleMenuDao.deleteByRoleId(role_id);
+	}
+
 	
 }
