@@ -130,7 +130,7 @@
       created_time = #{created_time,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="fke_template" resultMap="BaseResultMap">
+  <select id="fke_template" resultMap="BaseResultMap" parameterType="Map">
   	 select 
   	 	id id,
   	 	parent_id parent_id,
@@ -141,12 +141,14 @@
   	 	is_delete is_delete,
   	 	updated_time updated_time,
   	 	created_time created_time
-  	  from fke_supervision_template order by sort
-  </select>
-  <select id="getParentidByfm" parameterType="java.lang.String" resultType="int">
-  	select id from fke_supervision_template where menu_title = #{fm}
-  </select>
-  
+  	  from fke_supervision_template where 1 = 1
+  	  <if test="id != null and ''!=id">
+  	  	and id=#{id}
+  	  </if>
+  	  <if test="parent_id != null and ''!= parent_id">
+  	  	and parent_id=#{parent_id}
+  	  </if>
+  </select> 
   <update id="updateTemplate" parameterType="Map">
 		update fke_supervision_template set
 		<trim suffixOverrides=",">

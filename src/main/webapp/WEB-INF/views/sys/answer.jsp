@@ -44,6 +44,9 @@
 body {
 	background-color: #ecf0f5;
 }
+#myModal{
+	overflow-y: auto;
+}
 
 .ztree li span.button.pIcon01_ico_open {
 	margin-right: 2px;
@@ -123,67 +126,209 @@ display: none;
 }
 </style>
 <script type="text/javascript">
-	$(function () {  
+	$(function () {
+	$('#myModal').on('hidden.bs.modal', function (e) {
+		 $("#box").html(""); 
+	});
     $('#dataTable').on('click-row.bs.table', function (e, row, element) {
     	queryAnswerLine(row);       
     }); 
-    function queryAnswerLine(row){    	 
-    	$.post("answer/queryAnswerLine.action",{templateid:row.templateid},function(result){
-  			$.each(result,function(i,item){
-  				
-  			});
-    	},'json');
-    	$('#myModal').modal("show");
-    }
-}) 
+}) ;
+function queryAnswerLine(row){    	  	       
+      $.post('answer/temAnswer.action',{template_id:row.template_id},function(data){
+    	  $("#basic-addon1").val(row.store_id);
+    	  $("#basic-addon2").val(row.docking_man);
+    	  $("#basic-addon3").val(row.check_date);
+    	  $("#basic-addon5").val(row.start_time);
+    	  $("#basic-addon6").val(row.end_time);
+    	  $("#basic-addon7").val(row.broker_num);
+    	  $("#basic-addon8").val(row.customer_num);
+    	  $("#basic-addon9").val(row.store_around);
+    	  if(row.template_id=='10'){
+    		  $("#basic-addon4").val('模板一');
+    		}else if(row.template_id=='11'){
+    			$("#basic-addon4").val('模板二');
+    		}else if(row.template_id=='12'){
+    			$("#basic-addon4").val('模板三');
+    		}else if(row.template_id=='10'){
+    			$("#basic-addon4").val('模板一');
+    		}else{
+    			$("#basic-addon4").val('未知模板');
+    		}
+    	  $.each(data,function(i,item){
+    		var str = "<div class='panel panel-primary'>"+
+						    "<div class='panel-heading' role='tab' id='"+i+"'>"+
+						      "<h4 class='panel-title'>"+
+						        "<a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapse"+i+"' aria-expanded='false' aria-controls='collapse"+i+"'>"+
+						          	item.menu_title +
+						        "</a>"+
+						      "</h4>"+
+						    "</div>"+
+						    "<div id='collapse"+i+"' class='panel-collapse collapse' role='tabpanel' aria-labelledby='"+i+"'>"+
+						      "<div class='panel-body'>"+
+						      "<table style='text-align:right;' class=table_  id="+item.id+"></table>"+
+						      "</div>"+
+						    "</div>"+
+						"</div>";		
+					
+		$("#box").append(str);  
+    	 $(".table_").bootstrapTable({   		 
+    		url:'answer/title_answer.action?template_id='+item.id+"&store_id="+row.store_id+"&docking_man="+row.docking_man+"&check_date="+row.check_date,
+    		showHeader:false,
+ 			columns: [{
+ 		        field: 'title',
+ 		        title: 'title'
+ 		    }, {
+ 		        field: 'answerNum',
+ 		        title: 'answerNum'
+ 		    }, {
+ 		        field: 'xq',
+ 		        title: '详情',
+ 		       formatter:function (v,r,i){
+ 		    	   return '<button type="button" class="btn btn-primary">查看详情</button> ';
+ 		       }
+ 		    }]
+ 		    
+ 		});
+    	 });
+    	   $('.table_').on('click-row.bs.table', function (e, row, element) {
+    	    	showDetails(row);       
+    	    }); 
+    },'json');     
+      
+	$('#myModal').modal("show");
+}
+
 
 function template(v){
-	if(v=='11'){return '模板二';}
+	if(v=='10'){return '模板一'}
+	else if(v=='11'){return '模板二';}
 	else if(v=='12'){return '模板三';}
 	else {return '未知模板';}
 }
+
+function showDetails(r){
+	$("#answerDetail").val(r.answer);
+	$('#myModaltwo').modal("show");
+}
+
+ function answer_num(v){
+	if(v=='0'){
+		return '否';
+	}else if(v=='1'){
+		return '是';
+	}else{
+		return '其他';
+	}
+} 
+
 </script>
 </head>
 <body>
 <!-- 模态框start -->
-	<div class="container">
-    <form method="post" action="#" class="form-horizontal" role="form" id="myForm" onsubmit="return ">
-        <div class="modal fade" id="myModal"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-             <!-- 定义模态框，过渡效果为淡入，id为myModal,tabindex=-1可以禁用使用tab切换，aria-labelledby用于引用模态框的标题，aria-hidden=true保持模态框在触发前窗口不可见  -->
-            <div class="modal-dialog">
-               <!--   显示模态框对话框模型（若不写下一个div则没有颜色）  -->
-                <div class="modal-content">
-                     <!-- 显示模态框白色背景，所有内容都写在这个div里面  -->
-                    <div class="btn-info modal-header">                       
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>                        
-                        <h4>答案详情</h4>                        
-                    </div>
-                    <div class="modal-body">
-                         <!-- 模态框内容，我在此处添加一个表单 -->
-                        <form class="form-horizontal" role="form">
-                            <ul class="list-group">
-							  <li class="list-group-item">未使用的合同、带看单是否乱丢乱放
-         						<input type="radio" class="toggle" value="1"> 
-       						  </li>
-							  <li class="list-group-item">已签合同、带看单、单据等是否统一分类收入文件柜管理</li>
-							  <li class="list-group-item">初勘、带看工具是否统一收纳指定区域</li>
-							  <li class="list-group-item">VI形象着装、形象、状态精神面貌</li>
-							  <li class="list-group-item">中住礼是否行礼及是否标准</li>
-							</ul>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                         <!-- 模态框底部样式，一般是提交或者确定按钮 -->                       
-                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    </div>
-                </div>
-            </div>
-        </div> 
-    </form>
-	</div> 
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	  <div class="modal-dialog" role="document" style="width: 80%;">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="myModalLabel">详情</h4>
+	      </div>
+	      <div class="modal-body">
+	      <div class="box">
+	        <div class="row">
+			  <div class="col-md-6">
+			  	<div class="panel panel-info">
+				  <div class="panel-heading">(￣_,￣ )</div>
+				    <div class="input-group">
+					  <span class="input-group-addon">门店</span>
+					  <input type="text" class="form-control" id="basic-addon1" placeholder="门店" aria-describedby="basic-addon1" readonly>
+					</div>
+					<div class="input-group">
+					  <span class="input-group-addon">对接</span>
+					  <input type="text" class="form-control" id="basic-addon2" placeholder="对接人" aria-describedby="basic-addon1" readonly>
+					</div>
+				  
+				</div>
+			  </div>
+			  <div class="col-md-6">
+			  	<div class="panel panel-info">
+			  	<div class="panel-heading">(￣_,￣ )</div>				  
+				    <div class="input-group">
+					  <span class="input-group-addon" >进店时间</span>
+					  <input type="text" class="form-control" id="basic-addon3" placeholder="进店时间" aria-describedby="basic-addon1" readonly>
+					</div>
+					<div class="input-group">
+					  <span class="input-group-addon">模板选择</span>
+					  <input type="text" class="form-control" id="basic-addon4" placeholder="模板选择" aria-describedby="basic-addon1" readonly>
+					</div>				  
+				</div>
+			  </div>
+			</div>
+			
+			<div class="row">
+			  <div class="col-md-6">
+			  	<div class="panel panel-info">
+				  <div class="panel-heading">(￣_,￣ )</div>
+				    <div class="input-group">
+					  <span class="input-group-addon" >开始时间</span>
+					  <input type="text" class="form-control" id="basic-addon5" placeholder="开始时间" aria-describedby="basic-addon1" readonly>
+					</div>
+					<div class="input-group">
+					  <span class="input-group-addon" >结束时间</span>
+					  <input type="text" class="form-control" id="basic-addon6" placeholder="结束时间" aria-describedby="basic-addon1" readonly>
+					</div>				  
+				</div>
+			  </div>
+			  <div class="col-md-6">
+			  	<div class="panel panel-info">
+				  <div class="panel-heading">(￣_,￣ )</div>
+				    <div class="input-group">
+					  <span class="input-group-addon" >顾问数量</span>
+					  <input type="text" class="form-control" id="basic-addon7" placeholder="顾问数量" aria-describedby="basic-addon1" readonly>
+					</div>
+					<div class="input-group">
+					  <span class="input-group-addon">顾客数量</span>
+					  <input type="text" class="form-control" id="basic-addon8" placeholder="顾客数量" aria-describedby="basic-addon1" readonly>
+					</div>				  
+				</div>
+			  </div>
+			</div>
+			<div class="panel panel-info">
+				<div class="panel-heading">店铺环境(￣_,￣ )</div>		
+					<textarea class="form-control" rows="3" name=textarea id="basic-addon9" readonly></textarea>				
+			</div>
+			</div>
+			
+			<div class="box" id="box">				     				   					     								 
+			 <!-- <div class="panel panel-primary"><div class="panel-heading" role="tab" id="headingOne"><h4 class="panel-title"><a class="collapsed" role="button" data-toggle="collapse"  href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">店外环境</a></h4></div><div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne"><div class="panel-body"><table id="dataTableTwo" class="table-bordered"  data-pagination="true"  data-toggle="table" data-striped=true data-show-header="false" data-url="answer/temAnswer.action"><thead><tr><th data-field="title"></th><th data-field="answerNum" data-formatter="answer_num"></th><th data-field="" data-formatter="show"></th></tr></thead></table></div></div></div> --> 
+			</div>
+			
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+	      </div>
+	    </div>
+	    
+	  </div>
+	</div>
 <!-- 模态框end -->
-
-	
+<!-- 详情模态框start -->
+	<div class="modal fade" id="myModaltwo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-body">
+	      	<div class="panel panel-primary">
+		      <div class="panel-heading">说明</div>	        			
+				<textarea class="form-control" rows="3" name=textarea id="answerDetail"></textarea>
+		    </div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+<!-- 详情模态框end -->	
 		<div style="background-color: #ecf0f5;">
 			<section class="content-header">
 				<h1>
@@ -223,7 +368,6 @@ function template(v){
 				href="http://www.jnhouse.com/" target="_blank">中住地产有限公司</a>.
 			</strong> 版权所有.
 		</footer>
-
 		<div class="control-sidebar-bg"></div>
 	
 </body>

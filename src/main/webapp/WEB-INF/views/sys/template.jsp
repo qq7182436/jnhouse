@@ -176,9 +176,9 @@
 			var father_name = $("#father_name").val();
 			var name = $("#name").val();
 			var score = $("#score").val();
-			var id = $("#menu_id").val();			
-			var url = null;
-			
+			var id = $("#menu_id").val();
+			var father_id=$("#father_id").val();
+			var url = null;	
 			if(id == null || id ==''){
 				url = "jc_house/save_next_template.action";
 			}else{
@@ -193,7 +193,8 @@
 					"father_name" : father_name,
 					"name" : name,
 					"score" : score,
-					"id":id
+					"id":id,
+					"father_id":father_id
 				},
 				timeout : 5000, //超时时间
 				dataType : 'json', //返回的数据格式：json/xml/html/script/jsonp/text

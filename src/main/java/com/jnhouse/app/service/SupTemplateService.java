@@ -13,10 +13,7 @@ public interface SupTemplateService extends BaseService<SupTemplate> {
 
 	List<SupTemplate> findTemplateTitle(SupTemplate supTemplate);
 	List<SupTemplate> findAllFirstTemplateTitle(SupTemplate supTemplate);
-	List<SupTemplate> fke_template();
-	//根据fathername获取id
-	int getParentidByfm(String fm);
-	
+	List<SupTemplate> fke_template(Map<String,Object> map);	
 	void updateTemplate(Map<String,Object> param);
 	void insertNexteTemplate(Map<String,Object> param);
 	void delete_template(int id);

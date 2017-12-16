@@ -17,7 +17,7 @@ public class SupAnswerHeader implements Serializable{
 
     private Integer template_id;
 
-    private Date check_date;
+    private String check_date;
 
     private Integer store_id;
 
@@ -37,9 +37,9 @@ public class SupAnswerHeader implements Serializable{
 
     private Integer is_delete;
 
-    private Date updated_time;
+    private String updated_time;
 
-    private Date created_time;
+    private String created_time;
 
     public Integer getId() {
         return id;
@@ -57,11 +57,11 @@ public class SupAnswerHeader implements Serializable{
         this.template_id = template_id;
     }
 
-    public Date getCheck_date() {
+    public String getCheck_date() {
         return check_date;
     }
 
-    public void setCheck_date(Date check_date) {
+    public void setCheck_date(String check_date) {
         this.check_date = check_date;
     }
 
@@ -137,19 +137,19 @@ public class SupAnswerHeader implements Serializable{
         this.is_delete = is_delete;
     }
 
-    public Date getUpdated_time() {
+    public String getUpdated_time() {
         return updated_time;
     }
 
-    public void setUpdated_time(Date updated_time) {
+    public void setUpdated_time(String updated_time) {
         this.updated_time = updated_time;
     }
 
-    public Date getCreated_time() {
+    public String getCreated_time() {
         return created_time;
     }
 
-    public void setCreated_time(Date created_time) {
+    public void setCreated_time(String created_time) {
         this.created_time = created_time;
     }
 }

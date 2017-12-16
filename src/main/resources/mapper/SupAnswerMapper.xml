@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jnhouse.app.dao.SupAnswerHeaderDao">
+<mapper namespace="com.jnhouse.app.dao.SupAnswerDao">
   <resultMap id="BaseResultMap" type="com.jnhouse.app.bean.SupAnswerHeader">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="template_id" jdbcType="INTEGER" property="template_id" />
@@ -18,7 +18,7 @@
     <result column="created_time" jdbcType="TIMESTAMP" property="created_time" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, template_id, check_date, store_id, store_around, start_time, end_time, broker_num, 
+    id, template_id, date_format(check_date,'%Y-%m-%d') as check_date, store_id, store_around, start_time, end_time, broker_num, 
     customer_num, docking_man, recording, is_delete, updated_time, created_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -255,9 +255,30 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   
-  <select id="selectAnswer" resultMap="BaseResultMap">
+  <select id="selectAnswer" resultMap="BaseResultMap" parameterType="Map">
 	select 
 		<include refid="Base_Column_List" />
 	from fke_sup_answer_header
-</select>
+  </select>
+  <select id="temAnswer" resultType="com.jnhouse.app.bean.TemAnswer" parameterType="Map">
+  	SELECT 
+  	template.menu_title as title,
+  	line.answer_num as answerNum,
+  	line.answer as answer 
+  	from fke_supervision_template template,fke_sup_answer_header header,fke_sup_answer_line line 
+  	where template.id = header.template_id 
+  	and header.id= line.header_id
+  	<if test="parent_id!=null and ''!=parent_id">
+  		and template.parent_id=#{parent_id}
+  	</if>
+  	<if test="store_id!=null and ''!=store_id">
+  		and header.store_id = #{store_id}
+  	</if>
+  	<if test="check_date!=null and ''!=check_date">
+  		and header.check_date = #{check_date}
+  	</if>
+  	<if test="docking_man!=null and ''!=docking_man">
+  		and header.docking_man = #{docking_man}
+  	</if>
+  </select>
 </mapper>
