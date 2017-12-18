@@ -2,7 +2,10 @@ package com.jnhouse.app.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.jnhouse.app.bean.SupTemplate;
+import com.jnhouse.app.dto.SupTemplateDTO;
 
 public interface SupTemplateDao extends BaseDao<SupTemplate>{
 	
@@ -13,4 +16,8 @@ public interface SupTemplateDao extends BaseDao<SupTemplate>{
 	List<SupTemplate> findTemplateTitle(SupTemplate supTemplate);
 	
 	List<SupTemplate> findAllFirstTemplateTitle(SupTemplate supTemplate);
+	
+	 List<SupTemplate> orderVerdict(@Param("aList") List<Integer> aList);
+	 
+	 List<SupTemplateDTO> findTemplateTitleDto(SupTemplate supTemplate);
 }

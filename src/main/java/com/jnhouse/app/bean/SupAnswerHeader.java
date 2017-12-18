@@ -1,7 +1,13 @@
 package com.jnhouse.app.bean;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
+
+
+
+
 /**
  * 模版答案表
  * @author lou
@@ -13,9 +19,11 @@ public class SupAnswerHeader implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 
+	
 	private Integer id;
 
     private Integer template_id;
+   
 
     private Date check_date;
 
@@ -37,9 +45,12 @@ public class SupAnswerHeader implements Serializable{
 
     private Integer is_delete;
 
-    private Date updated_time;
+    private Timestamp updated_time;
 
-    private Date created_time;
+    private Timestamp created_time;
+    
+    
+ 
 
     public Integer getId() {
         return id;
@@ -137,19 +148,45 @@ public class SupAnswerHeader implements Serializable{
         this.is_delete = is_delete;
     }
 
-    public Date getUpdated_time() {
-        return updated_time;
-    }
+	public Timestamp getUpdated_time() {
+		return updated_time;
+	}
 
-    public void setUpdated_time(Date updated_time) {
-        this.updated_time = updated_time;
-    }
+	public void setUpdated_time(Timestamp updated_time) {
+		this.updated_time = updated_time;
+	}
 
-    public Date getCreated_time() {
-        return created_time;
-    }
+	public Timestamp getCreated_time() {
+		return created_time;
+	}
 
-    public void setCreated_time(Date created_time) {
-        this.created_time = created_time;
-    }
+	public void setCreated_time(Timestamp created_time) {
+		this.created_time = created_time;
+	}
+/*
+	public SupAnswerHeaderDTO getSupAnswerHeaderDTO() {
+		return supAnswerHeaderDTO;
+	}
+
+	public void setSupAnswerHeaderDTO(SupAnswerHeaderDTO supAnswerHeaderDTO) {
+		this.supAnswerHeaderDTO = supAnswerHeaderDTO;
+	}*/
+
+
+
+
+
+	
+
+
+	
+
+	
+
+	
+
+	
+
+
+  
 }

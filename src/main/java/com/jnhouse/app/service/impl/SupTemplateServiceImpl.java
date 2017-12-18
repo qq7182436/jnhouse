@@ -8,8 +8,10 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.jnhouse.app.bean.SupAnswerHeader;
 import com.jnhouse.app.bean.SupTemplate;
-import com.jnhouse.app.dao.FileDao;
+
+import com.jnhouse.app.dao.SupAnswerHeaderDao;
 import com.jnhouse.app.dao.SupTemplateDao;
 import com.jnhouse.app.service.SupTemplateService;
 
@@ -20,15 +22,19 @@ public class SupTemplateServiceImpl extends BaseServiceImpl<SupTemplate> impleme
 	@Resource
 	SupTemplateDao supTemplateDao;
 	
-
+	@Resource
+	SupAnswerHeaderDao supAnswerHeaderDao;
 	
-	
-	
-
 	@Override
 	public int save(SupTemplate entity) {
 		// TODO Auto-generated method stub
 		return supTemplateDao.save(entity);
+	}
+	
+
+	public int insert(SupAnswerHeader entity) {
+		// TODO Auto-generated method stub
+		return supAnswerHeaderDao.save(entity);
 	}
 
 	@Override
@@ -59,7 +65,6 @@ public class SupTemplateServiceImpl extends BaseServiceImpl<SupTemplate> impleme
 	@Override
 	public List<SupTemplate> findTemplateTitle(SupTemplate supTemplate) {
 		// TODO Auto-generated method stub
-		System.out.println("获得模版标题是id==========="+supTemplate.getParent_id());
 		return supTemplateDao.findTemplateTitle(supTemplate);
 	}
 
