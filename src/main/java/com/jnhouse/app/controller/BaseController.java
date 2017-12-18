@@ -12,8 +12,8 @@ import com.jnhouse.app.service.DeptUserService;
 import com.jnhouse.app.service.MenuService;
 import com.jnhouse.app.service.RoleMenuService;
 import com.jnhouse.app.service.RoleService;
-import com.jnhouse.app.service.SupTemplateService;
 import com.jnhouse.app.service.UserService;
+import com.jnhouse.app.utils.ConfigInfo;
 
 
 @Controller
@@ -41,6 +41,9 @@ public class BaseController {
 	
 	@Resource
 	public DeptUserService deptUserService;
+	
+	@Resource
+	public ConfigInfo configInfo;
 
 	
 	

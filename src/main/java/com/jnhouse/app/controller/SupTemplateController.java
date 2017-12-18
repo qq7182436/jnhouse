@@ -1,7 +1,5 @@
 package com.jnhouse.app.controller;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,18 +14,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.jnhouse.app.bean.Menu;
 import com.jnhouse.app.bean.SupTemplate;
 import com.jnhouse.app.service.SupTemplateService;
-import com.jnhouse.app.utils.ResultData;
-import com.jnhouse.app.utils.SftpUtils;
 import com.jnhouse.app.utils.StringUtils;
 import java.util.Date;
 import java.text.SimpleDateFormat;
@@ -44,12 +37,6 @@ public class SupTemplateController extends BaseController{
 	@Resource
 	SupTemplateService supTemplateService;
 	
-	@Resource
-	
-	
-	//private static final Logger LOG = LoggerFactory.getLogger(FtpsFileList.class);
-	
-
 	private Logger log = Logger.getLogger(SupTemplateController.class);
 
 	/**
@@ -75,6 +62,7 @@ public class SupTemplateController extends BaseController{
 		
 		return null;
 	}
+	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/jc_house/findAllfirstTemplate", method = RequestMethod.GET)
 	public @ResponseBody ObjectNode findAllfirstTemplate(HttpServletRequest reuqest) {
 		
@@ -118,12 +106,13 @@ public class SupTemplateController extends BaseController{
 		return re;
 	}
 	 
-/*	//**
+	/**
 	 * 二级,三级问题模版菜单列表
 	 * @param id
 	 * @return
-	 //*
-*/	@RequestMapping(value = "/jc_house/menu_problem_list", method = RequestMethod.GET)
+	 */
+	@SuppressWarnings("all")
+	@RequestMapping(value = "/jc_house/menu_problem_list", method = RequestMethod.GET)
 	public @ResponseBody ObjectNode templateList(HttpServletRequest reuqest) {
 	
 		ObjectNode re = objectMapper.createObjectNode();
@@ -231,10 +220,6 @@ public class SupTemplateController extends BaseController{
 	}
 	
 
-	
-
-	}
-	
 	@RequestMapping(value = "/jc_house/template")
 	public ModelAndView template_views(HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView();

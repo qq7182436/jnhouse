@@ -1,9 +1,6 @@
 package com.jnhouse.app.controller;
 
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +38,7 @@ public class AnswerController {
 	
     @RequestMapping(value="/selectAnswer")
     @ResponseBody
+    @SuppressWarnings("all")
     public List selectAnswer(HttpServletRequest request,HttpServletResponse response) {
     	Map<String,Object> map = new HashMap<>();
         List<SupAnswerHeader> answer = answerService.selectAnswer(map);

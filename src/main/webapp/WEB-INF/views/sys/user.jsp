@@ -294,8 +294,8 @@
 			var dept_id = $("#dept_id").val();
 			var username = $("#search_text").val();
 			$("#userTable tbody").empty();
-			$(".col-md-4").not(".panel-body .col-md-4").remove();
-			$(".col-md-8").not(".panel-body .col-md-8").remove();
+			$(".col-md-4").not(".box-body .col-md-4").remove();
+			$(".col-md-8").not(".box-body .col-md-8").remove();
 			layer.load(1,{offset: '250px'});
 			$.ajax({
 				url : 'user/find_deptUser.do',
@@ -349,7 +349,7 @@
 							pms += "<span aria-hidden='true'>&raquo;</span></a></li>";
 						}
 						pms += "<li><a href='javascript:void(0);' onclick='clickPage("+pageInfo.pages+")'>末页</a></li></ul></nav></div>";
-						$(".panel-body").after(pms);	
+						$(".box-footer").append(pms);	
 						  
 					} 
 					checkbox("userCheck-","checkuserTop"); 
@@ -365,7 +365,13 @@
 		}
 	</script>
 <style type="text/css">
-
+.content-wrapper, .main-footer {
+	margin-left: 0px;
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	width: 100%;
+}
 .ztree li span.button.pIcon01_ico_open {
 	margin-right: 2px;
 	background: url(zTree_v3/css/zTreeStyle/img/diy/1_open.png)
@@ -463,13 +469,9 @@
 	vertical-align: top;
 	*vertical-align: middle
 }
-.col-md-3, .col-md-9{
-	padding-right: 0px;
-	padding-left: 0px;
-}
 </style>
 </head>
-<body style="overflow: hidden;background-color: white;">
+<body style="overflow: hidden;background-color: #ecf0f5;">
 	<div>
 
 
@@ -481,8 +483,8 @@
 					用户信息 <small>USER INFORMATION</small>
 				</h1>
 				<ol class="breadcrumb">
-					<li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
-					<li><a href="#">系统管理</a></li>
+					<li><a href="javascript:void(0);"><i class="fa fa-dashboard"></i> 主页</a></li>
+					<li><a href="javascript:void(0);">系统管理</a></li>
 					<li class="active">用户管理</li>
 				</ol>
 			</section>
@@ -491,9 +493,12 @@
 			<section class="content">
 				<div class="row">
 					<div class="col-md-3">
-						<div class="box" style="height:893px;">
-							<div class="panel panel-info">
-								<div class="panel-heading">部门列表</div>
+						<div class="box box-primary">
+							<div class="box-header with-border">
+								<i class="ion ion-clipboard"></i>
+								<h3 class="box-title">菜单列表</h3>
+							</div>
+							<div class="box-body">
 								<div class="content_wrap">
 									<div class="zTreeDemoBackground left">
 										<ul id="treeDemo" class="ztree"></ul>
@@ -503,10 +508,14 @@
 						</div>
 					</div>	
 					<div class="col-md-9">
-						<div class="panel panel-default" style="height:893px;">
-						  <div class="panel-body">
+						<div class="box box-primary" >
+							<div class="box-header with-border">
+								<i class="ion ion-clipboard"></i>
+								<h3 class="box-title">员工列表</h3>
+							</div>
+						  <div class="box-body box-profile">
 						  	<div class="col-md-4">
-								<div class="btn-group btn-group-justified" role="group" aria-label="..." style="margin-bottom: 10px;">
+								<div class="btn-group btn-group-justified" role="group" aria-label="..." style="margin-bottom: 10px;width: 200px;">
 									  <div class="btn-group" role="group">
 									    <button type="button" class="btn btn-info" id="add">
 									    <span class="glyphicon glyphicon-plus" aria-hidden="true" ></span>
@@ -543,7 +552,8 @@
 									<tbody></tbody>
 								</table>
 						</div>
-							
+						<div class="box-footer">
+						</div>	
 					  </div>
 					</div>
 						
