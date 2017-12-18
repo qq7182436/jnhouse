@@ -198,7 +198,7 @@
       updated_time = #{record.updated_time,jdbcType=TIMESTAMP},
       created_time = #{record.created_time,jdbcType=TIMESTAMP}
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jnhouse.app.bean.Menu">
+  <update id="update" parameterType="com.jnhouse.app.bean.Menu">
     update fke_menu
     <set>
       <if test="menu_name != null">
@@ -222,14 +222,8 @@
       <if test="updated_by != null">
         updated_by = #{updated_by,jdbcType=INTEGER},
       </if>
-      <if test="created_by != null">
-        created_by = #{created_by,jdbcType=INTEGER},
-      </if>
       <if test="updated_time != null">
         updated_time = #{updated_time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="created_time != null">
-        created_time = #{created_time,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}

@@ -1,8 +1,10 @@
 package com.jnhouse.app.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.jnhouse.app.bean.SupTemplate;
+
 
 public interface SupTemplateDao extends BaseDao<SupTemplate>{
 	
@@ -13,4 +15,10 @@ public interface SupTemplateDao extends BaseDao<SupTemplate>{
 	List<SupTemplate> findTemplateTitle(SupTemplate supTemplate);
 	
 	List<SupTemplate> findAllFirstTemplateTitle(SupTemplate supTemplate);
+	
+	List<SupTemplate> fke_template(Map<String,Object> map);
+	void updateTemplate(Map<String,Object> param);
+	void insertNexteTemplate(Map<String,Object> param);
+	void delete_template(int id);
+
 }

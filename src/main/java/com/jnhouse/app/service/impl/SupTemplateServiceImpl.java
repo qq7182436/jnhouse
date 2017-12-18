@@ -3,6 +3,7 @@ package com.jnhouse.app.service.impl;
 /*import static org.junit.Assert.*;*/
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -72,6 +73,30 @@ public class SupTemplateServiceImpl extends BaseServiceImpl<SupTemplate> impleme
 		
 	}
 
+
+	@Override
+	public List<SupTemplate> fke_template(Map<String,Object> map){
+		return supTemplateDao.fke_template(map);
+	}
+
+	@Override
+	public void updateTemplate(Map<String, Object> param) {
+		// TODO Auto-generated method stub
+		 supTemplateDao.updateTemplate(param);
+		
+	}
+
+	@Override
+	public void insertNexteTemplate(Map<String, Object> param) {
+		// TODO Auto-generated method stub
+		supTemplateDao.insertNexteTemplate(param);
+	}
+
+	@Override
+	public void delete_template(int id) {
+		// TODO Auto-generated method stub
+		supTemplateDao.delete_template(id);
+	}
 
 	
 
