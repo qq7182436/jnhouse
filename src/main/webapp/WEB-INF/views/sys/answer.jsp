@@ -546,6 +546,8 @@ function onClick(event, treeId, treeNode, clickFlag){
 				<input type="checkbox" name="checkbox" value="1"/>是
 				<input type="checkbox" name="checkbox" value="2"/>否
 				<input type="checkbox" name="checkbox" value="3"/>其他
+				<div id="picture">
+				</div>
 			  </form>
 		    </div>
 	      </div>

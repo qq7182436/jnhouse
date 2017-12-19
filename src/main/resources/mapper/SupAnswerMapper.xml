@@ -312,4 +312,7 @@
  <delete id="deleteHeader" parameterType="String">
     delete from fke_sup_answer_header where id=#{id}
  </delete>
+ <delete id="deleteLine" parameterType="String">
+    delete from fke_sup_answer_line where header_id=#{id}
+ </delete>
 </mapper>

@@ -51,6 +51,7 @@ public class AnswerServiceImpl implements AnswerService {
 	public void deleteHeader(String id) {
 		// TODO Auto-generated method stub
 		answerdao.deleteHeader(id);
+		answerdao.deleteLine(id);
 	}
 
 
