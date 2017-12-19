@@ -25,6 +25,7 @@
 <link rel="stylesheet" href="<%=basePath%>dist/css/AdminLTE.min.css">
 <link rel="stylesheet" href="<%=basePath%>layui/css/layui.css" type="text/css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+<link href="<%=basePath%>self/css/jquery.treetable.css" rel="stylesheet" type="text/css" />
 <script src="<%=basePath%>layui/layui.js"></script>
 <script src="<%=basePath%>self/js/jquery-3.2.1.min.js"></script>
 <script src="<%=basePath%>bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -35,6 +36,7 @@
 <script type="text/javascript" src="<%=basePath%>zTree_v3/js/jquery.ztree.core.js"></script>
 <script type="text/javascript" src="<%=basePath%>zTree_v3/js/jquery.ztree.excheck.js"></script>
 <script type="text/javascript" src="<%=basePath%>zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="<%=basePath%>self/js/jquery.treetable.js"></script>
 <style type="text/css">
 .content-wrapper, .main-footer {
 	margin-left: 0px;
@@ -42,6 +44,15 @@
 	bottom: 0;
 	right: 0;
 	width: 100%;
+}
+table.treetable tr.collapsed span.indenter a {
+	background-image:
+		url(data:image/png;base64,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);
+}
+
+table.treetable tr.expanded span.indenter a {
+	background-image:
+		url(data:image/png;base64,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);
 }
 
 body {
@@ -132,12 +143,12 @@ display: none;
 	$(function () {
 		$('#myModal').on('hidden.bs.modal', function (e) {
 			 $("#box").html(""); 
-		});
-		
+		});				
+		/*模态框点击 事件
 		$('#dataTable').on('click-row.bs.table', function (e, row, element) {
-	   	queryAnswerLine(row);     
-	   });  
-		
+	   		queryAnswerLine(row);     
+	   	}); */  
+	   	//$("#example-advancedd").treetable({expandable:true});
 		 $("#dataTable").bootstrapTable({   		 
 	    		url:'answer/selectAnswer.action',
 	    		pagination:true,//分页
@@ -148,7 +159,8 @@ display: none;
 	    		singleSelect:true,//禁止多选
 	    		columns: [{
 	    			checkbox:true,
-	    			clickToSelect:true	    			
+	    			clickToSelect:true
+	    			
 	 		    }, 
 	 		    {
 	 		    	field: 'template_id',
@@ -182,16 +194,25 @@ display: none;
 	 		        field: 'cz',
 	 		        title: '操作',
 	 		        formatter:function (v,r,i){
-	 		        	console.log(r);
-	 		    	   return '<button type="button" class="btn btn-danger" id="buttona" onclick="deleteHeader()">删除 </button><button type="button" class="btn btn-primary" id="buttonb" >查看</button> ';
+	 		    	   var a = '<button type="button" class="btn btn-danger" id="buttona" >删除 </button>';
+	 		    	   var b ='<button type="button" class="btn btn-primary" id="buttonb" >查看</button> ';
+	 		    	   return a+ b;
+	 		       },events: {
+                       'click #buttona': function (e, value, row, index) {
+                           //删除操作
+                           alert("功能暂未添加，请联系技术人员");
+                    },
+                    	'click #buttonb': function (e, value, row, index) {
+                    		queryAnswerLine(row);
+                    }
+                    
 	 		       }
-	 		    }	
-	 		    ],	 		    
+	 		    }]	 		    
 	 		});    
 }) ;
 	
 function queryAnswerLine(row){
-      $.post('answer/temAnswer.action',{template_id:row.template_id},function(data){
+      $.post('answer/answerList.action',{template_id:row.template_id},function(data){
     	  $("#basic-addon1").val(row.store_id);
     	  $("#basic-addon2").val(row.docking_man);
     	  $("#basic-addon3").val(row.check_date);
@@ -213,45 +234,73 @@ function queryAnswerLine(row){
     		}else{
     			$("#basic-addon4").val('未知模板');
     		}
-    	  $.each(data,function(i,item){
-    		var str = "<div class='panel panel-primary'>"+
-						    "<div class='panel-heading' role='tab' id='"+i+"'>"+
-						      "<h4 class='panel-title'>"+
-						        "<a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapse"+i+"' aria-expanded='false' aria-controls='collapse"+i+"'>"+
-						          	item.menu_title +
-						        "</a>"+
-						      "</h4>"+
-						    "</div>"+
-						    "<div id='collapse"+i+"' class='panel-collapse collapse' role='tabpanel' aria-labelledby='"+i+"'>"+
-						      "<div class='panel-body'>"+
-						      "<table style='text-align:right;' class=table_  id="+item.id+"></table>"+
-						      "</div>"+
-						    "</div>"+
-						"</div>";		
-					
-		$("#box").append(str);  
-    	 $(".table_").bootstrapTable({   		 
-    		url:'answer/title_answer.action?template_id='+item.id+"&header_id="+row.id,
-    		showHeader:false,
+    	  $.each(data,function(i,item){  		  
+    			  var str = "<div class='panel panel-primary'>"+
+				    "<div class='panel-heading' role='tab' id='"+i+"'>"+
+				      "<h4 class='panel-title'>"+
+				        "<a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapse"+i+"' aria-expanded='false' aria-controls='collapse"+i+"'>"+
+				          	item.menu_title +
+				        "</a>"+
+				      "</h4>"+
+				    "</div>"+
+				    "<div id='collapse"+i+"' class='panel-collapse collapse' role='tabpanel' aria-labelledby='"+i+"'>"+
+				      "<div class='panel-body' >"+
+				       "<table  class='table_' ></table>"+ 
+				     /*  '<table id="example-advanced">'+  
+				        '<tr data-tt-id="1">' + 
+				            '<td>Parent</td>'  +
+				        '</tr>'+  
+				        '<tr data-tt-id="1-1" data-tt-parent-id="1">'+  
+				            '<td>Child</td>' +
+				        '</tr>' + 
+				        '<tr data-tt-id="2">' + 
+				            '<td>Parent</td>'+  
+				        '</tr>' +
+				        '<tr data-tt-id="2-1" data-tt-parent-id="2">' + 
+				            '<td>Child</td>' +
+				        '</tr>'+
+				    '</table>' +  */
+				      "</div>"+
+				    "</div>"+
+				"</div>";	
+    		      								
+		$("#box").append(str); 
+		
+    	   $(".table_").bootstrapTable({   		 
+    		url:'answer/temAnswer.action?template_id='+item.id+"&header_id="+row.id,
+    		//showHeader:false,
  			columns: [{
  		        field: 'title',
- 		        title: 'title'
+ 		        title: '内容'
  		    }, {
  		        field: 'answerNum',
- 		        title: 'answerNum'
+ 		        title: '答案类型 ',
+ 		        formatter:function(v){
+ 		        	if(v=="1"){
+ 		        		return '是';
+ 		        	}else if(v=='2'){
+ 		        		return '否';
+ 		        	}else{
+ 		        		return '其他';
+ 		        	}
+ 		        }
  		    }, {
- 		        field: 'xq',
+ 		        field: 'answer',
  		        title: '详情',
- 		       formatter:function (v,r,i){
- 		    	   return '<button type="button" class="btn btn-primary">查看详情</button> ';
- 		       }
+ 		       	align:'right',
+ 		        formatter:function (v,r,i){
+ 		    	   return '<button type="button" class="btn btn-primary" id="buttonc">查看详情</button> ';
+ 		       },
+ 		       events:{
+ 		    	   'click #buttonc' : function (e, value, row, index) {
+ 		    		  showDetails(row);
+ 		    	   }
+ 		       } 
  		    }]
  		    
- 		});
+ 		});  
+ 		 		
     	 });
-    	   $('.table_').on('click-row.bs.table', function (e, ro, element) {
-    	    	showDetails(ro);       
-    	    }); 
     },'json');     
       
 	$('#myModal').modal("show");
@@ -269,8 +318,34 @@ function template(v){
 	else{return '未知模板';}
 }
 
-function showDetails(r){
+function showDetails(r){	 
+	/* $.post('answer/isHave.action',{id:r.id},function(data){		
+		if(data == null || ''==data){
+			$("#answerDetail").val(r.answer);
+			$('#myModaltwo').modal("show");
+		}else{			
+				$("#tb").bootstrapTable({
+					url:'answer/temAnswer.action?template_id='+r.id,
+		 			columns: [{
+		 		        field: 'title',
+		 		        title: 'title'		 		    
+		 		    },{
+		 		    	field:"answerNum",
+		 		    	title:'查看详情',		 		    	
+		 		    }]		 		    
+		 		});			
+			$('#myModalfour').modal("show");
+			
+		}
+	},'json')  */
+	
 	$("#answerDetail").val(r.answer);
+	$("input[name='checkbox']").each(function(){
+		$(this).removeAttr("checked");
+		if($(this).val() ==r.answerNum){       	
+            $(this).attr("checked", true);
+        }
+    });
 	$('#myModaltwo').modal("show");
 }
 
@@ -342,11 +417,6 @@ function share(){
 function onClick(event, treeId, treeNode, clickFlag){
 	$("#hidden").val(treeNode.id);
 }
-function deleteHeader(){
-	alert("d");
-	$('#myModal').modal("hidden");
-}
-
 </script>
 </head>
 <body>
@@ -439,13 +509,33 @@ function deleteHeader(){
 	</div>
 <!-- 模态框end -->
 <!-- 详情模态框start -->
+<div class="modal fade" id="myModalfour" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-body">
+	      	<div id="boxt">
+	      	<table id="tb"></table>	
+	      	</div>      	
+	     </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
 	<div class="modal fade" id="myModaltwo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
 	      <div class="modal-body">
 	      	<div class="panel panel-primary">
-		      <div class="panel-heading">说明</div>	        			
+		      <div class="panel-heading">说明</div>
+		      <form id="form">	        			
 				<textarea class="form-control" rows="3" name=textarea id="answerDetail"></textarea>
+				<input type="checkbox" name="checkbox" value="1"/>是
+				<input type="checkbox" name="checkbox" value="2"/>否
+				<input type="checkbox" name="checkbox" value="3"/>其他
+			  </form>
 		    </div>
 	      </div>
 	      <div class="modal-footer">
@@ -454,6 +544,8 @@ function deleteHeader(){
 	    </div>
 	  </div>
 	</div>
+	
+	
 <!-- 详情模态框end -->
 <!-- share模态框start -->
 <div class="modal fade" id="myModalThree" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

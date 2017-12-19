@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.jnhouse.app.bean.SupAnswerHeader;
-import com.jnhouse.app.bean.TemAnswer;
+import com.jnhouse.app.dto.TemAnswer;
 
 public interface SupAnswerDao extends BaseDao<SupAnswerHeader>{
 	//查询答案主表数据

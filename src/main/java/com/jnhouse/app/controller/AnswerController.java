@@ -17,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.jnhouse.app.bean.SupAnswerHeader;
 import com.jnhouse.app.bean.SupTemplate;
-import com.jnhouse.app.bean.TemAnswer;
+import com.jnhouse.app.dto.TemAnswer;
 import com.jnhouse.app.service.AnswerService;
 import com.jnhouse.app.service.SupTemplateService;
 
@@ -47,9 +47,9 @@ public class AnswerController {
         return answer;
     }
     //获取模板下的子节点
-    @RequestMapping(value="/temAnswer")
+    @RequestMapping(value="/answerList")
     @ResponseBody
-    public List<SupTemplate> temAnswer(HttpServletRequest request,HttpServletResponse response) {
+    public List<SupTemplate> answerList(HttpServletRequest request,HttpServletResponse response) {
     	String id = request.getParameter("template_id");
     	Map<String,Object> map = new HashMap<>();
     	map.put("parent_id", id);
@@ -57,9 +57,9 @@ public class AnswerController {
         return temp;
     }
     //获取答案明细
-    @RequestMapping(value="/title_answer")
+    @RequestMapping(value="/temAnswer")
     @ResponseBody   
-    public List<TemAnswer> title_answer(HttpServletRequest request,HttpServletResponse response) {
+    public List<TemAnswer> temAnswer(HttpServletRequest request,HttpServletResponse response) {
     	String id = request.getParameter("template_id");
     	String header_id = request.getParameter("header_id");
     	Map<String,Object> map = new HashMap<>();
@@ -94,5 +94,15 @@ public class AnswerController {
     	}catch(Exception e) {
     		e.printStackTrace();
     	}
+    }
+    @RequestMapping(value="/isHave")
+    @ResponseBody
+    public List isHave(HttpServletRequest request,HttpServletResponse response) {
+    	String id = request.getParameter("id");
+    	
+    	//判断模板下是否还有子项，0位没有
+    	List<SupTemplate> levelCount = templateService.isHaveLevelCount(id);
+    	
+    	return levelCount;
     }
 }

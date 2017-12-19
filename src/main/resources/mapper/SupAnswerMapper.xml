@@ -260,13 +260,14 @@
 		<include refid="Base_Column_List" />
 	from fke_sup_answer_header
   </select>
-  <select id="temAnswer" resultType="com.jnhouse.app.bean.TemAnswer" parameterType="Map">
+  <select id="temAnswer" resultType="com.jnhouse.app.dto.TemAnswer" parameterType="Map">
   	SELECT 
   	template.menu_title as title,
+  	template.id as id,
   	line.answer_num as answerNum,
   	line.answer as answer 
   	from fke_supervision_template template,fke_sup_answer_header header,fke_sup_answer_line line 
-  	where template.id = header.template_id 
+  	where template.id = line.problem_id 
   	and header.id= line.header_id
   	<if test="parent_id!=null and ''!=parent_id">
   		and template.parent_id=#{parent_id}

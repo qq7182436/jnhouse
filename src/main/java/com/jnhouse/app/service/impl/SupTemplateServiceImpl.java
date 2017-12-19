@@ -98,6 +98,12 @@ public class SupTemplateServiceImpl extends BaseServiceImpl<SupTemplate> impleme
 		supTemplateDao.delete_template(id);
 	}
 
+	@Override
+	public List<SupTemplate> isHaveLevelCount(String param) {
+		// TODO Auto-generated method stub
+		return supTemplateDao.isHaveLevelCount(param);
+	}
+
 	
 
 	

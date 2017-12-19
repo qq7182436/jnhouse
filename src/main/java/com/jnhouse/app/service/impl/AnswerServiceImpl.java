@@ -8,7 +8,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.jnhouse.app.bean.SupAnswerHeader;
-import com.jnhouse.app.bean.TemAnswer;
+import com.jnhouse.app.dto.TemAnswer;
 import com.jnhouse.app.dao.SupAnswerDao;
 import com.jnhouse.app.service.AnswerService;
 @Service
