@@ -200,7 +200,18 @@ display: none;
 	 		       },events: {
                        'click #buttona': function (e, value, row, index) {
                            //删除操作
-                           alert("功能暂未添加，请联系技术人员");
+                           alert(row.id);
+                           $.post('answer/deleteHeader.action',{
+                        	   id:row.id
+                           },function(data){
+                        	   if(data.success){
+                        		   alert("删除成功!");
+                        		   location.reload();
+                        	   }else{
+                        		   alert("删除失败 !请联系技术人员 ");
+                        	   }
+                           }
+                           ,'json')
                     },
                     	'click #buttonb': function (e, value, row, index) {
                     		queryAnswerLine(row);

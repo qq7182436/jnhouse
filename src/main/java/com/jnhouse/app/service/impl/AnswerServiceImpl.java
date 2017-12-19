@@ -47,4 +47,11 @@ public class AnswerServiceImpl implements AnswerService {
 	}
 
 
+	@Override
+	public void deleteHeader(String id) {
+		// TODO Auto-generated method stub
+		answerdao.deleteHeader(id);
+	}
+
+
 }

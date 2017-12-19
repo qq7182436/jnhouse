@@ -105,4 +105,22 @@ public class AnswerController {
     	
     	return levelCount;
     }
+    
+    @RequestMapping(value="/deleteHeader")
+    @ResponseBody
+    public void deleteHeader(HttpServletRequest request,HttpServletResponse response) {
+    	String header_id = request.getParameter("id");
+    	JSONObject json = new JSONObject();
+    	try {
+    		PrintWriter out = response.getWriter();
+    		answerService.deleteHeader(header_id);
+    		json.put("success", true);
+    		out.println(json);
+    		out.flush();
+    		out.close();
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    	
+    }
 }

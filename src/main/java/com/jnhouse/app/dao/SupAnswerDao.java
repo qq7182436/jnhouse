@@ -15,4 +15,5 @@ public interface SupAnswerDao extends BaseDao<SupAnswerHeader>{
 	void insertline_dept(Map<String,Object> map);
 	//判断是否共享
 	int getHeader_dept(Map<String,Object> map);
+	void deleteHeader(String id);
 }

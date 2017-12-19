@@ -14,4 +14,5 @@ public interface AnswerService{
 	void shareByheaderId(Map<String,Object> map);
 	//判断是否共享过
 	int getHeader_dept(Map<String,Object> map);
+	void deleteHeader(String id);
 }
