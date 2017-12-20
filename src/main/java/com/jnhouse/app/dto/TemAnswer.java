@@ -8,9 +8,29 @@ public class TemAnswer implements Serializable{
 	private String title;
 	private Integer answerNum;
 	private Integer id;
+	private String fileUrl;
+	private String fileName;
+	private String score;
 	
 	
-	
+	public String getScore() {
+		return score;
+	}
+	public void setScore(String score) {
+		this.score = score;
+	}
+	public String getFileUrl() {
+		return fileUrl;
+	}
+	public void setFileUrl(String fileUrl) {
+		this.fileUrl = fileUrl;
+	}
+	public String getFileName() {
+		return fileName;
+	}
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
 	public Integer getId() {
 		return id;
 	}

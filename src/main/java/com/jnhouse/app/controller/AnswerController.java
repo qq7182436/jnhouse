@@ -2,6 +2,7 @@ package com.jnhouse.app.controller;
 
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +36,7 @@ public class AnswerController {
 	
 	@RequestMapping(value="/answer")
 	public ModelAndView to_answer(HttpServletRequest request,HttpServletResponse response) {
-		return new ModelAndView("sys/answer");
+		return new ModelAndView("Inspection/answer");
 	}
 	
 	//获取答案主表数据
@@ -65,8 +66,18 @@ public class AnswerController {
     	Map<String,Object> map = new HashMap<>();
     	map.put("parent_id", id);
     	map.put("header_id", header_id);
-        List<TemAnswer> tem = answerService.temAnswer(map);
-        return tem;
+    	
+    	//判断是否有子模板
+    	List<SupTemplate> template = templateService.isHaveLevelCount(id);
+    	for(SupTemplate ty : template) {
+    		int templId = ty.getId();
+    		List<SupTemplate> late = templateService.isHaveLevelCount(String.valueOf(templId));
+    		if(late.size() > 0) {
+    			map.put("levelCount", "level");  
+    			break;
+    		}   		
+    	}  	
+    	return answerService.temAnswer(map);
     }
     //共享
     @RequestMapping(value="/share")

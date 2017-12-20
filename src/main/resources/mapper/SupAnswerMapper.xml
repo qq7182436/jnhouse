@@ -261,16 +261,28 @@
 	from fke_sup_answer_header
   </select>
   <select id="temAnswer" resultType="com.jnhouse.app.dto.TemAnswer" parameterType="Map">
-  	SELECT 
-  	template.menu_title as title,
-  	template.id as id,
-  	line.answer_num as answerNum,
-  	line.answer as answer 
-  	from fke_supervision_template template,fke_sup_answer_header header,fke_sup_answer_line line 
-  	where template.id = line.problem_id 
-  	and header.id= line.header_id
+  SELECT
+	template.menu_title AS title,
+	template.id AS id,
+	template.score as score,
+	line.answer_num AS answerNum,
+	line.answer AS answer,
+	file.file_url fileUrl,
+	file.file_name fileName
+
+FROM
+	fke_supervision_template template left join fke_sup_answer_line line on line.problem_id = template.id
+	left join fke_sup_answer_header header on line.header_id = header.id
+	left join fke_ansfile_rel rel on rel.answer_line_id = line.id 
+	left join fke_file file on file.id = rel.file_id where 1 = 1
   	<if test="parent_id!=null and ''!=parent_id">
-  		and template.parent_id=#{parent_id}
+  		
+  		<if test="levelCount == null">
+  			and template.parent_id=#{parent_id}
+  		</if>
+  		<if test="levelCount != null">
+  			and template.parent_id in(select id from fke_supervision_template where parent_id=#{parent_id})
+  		</if>
   	</if>
   	<if test="header_id!=null and ''!=header_id">
   		and header.id = #{header_id}
@@ -315,4 +327,6 @@
  <delete id="deleteLine" parameterType="String">
     delete from fke_sup_answer_line where header_id=#{id}
  </delete>
+ 
+ 
 </mapper>
