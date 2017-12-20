@@ -78,6 +78,13 @@ public class SupTemplateServiceImpl extends BaseServiceImpl<SupTemplate> impleme
 	}
 
 
+	@Override
+	public List<SupTemplate> findThreeProlem(SupTemplate supTemplate) {
+		// TODO Auto-generated method stub
+		return supTemplateDao.findThreeProlem(supTemplate);
+	}
+
+
 	
 
 	

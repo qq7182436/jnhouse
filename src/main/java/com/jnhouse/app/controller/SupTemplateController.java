@@ -120,8 +120,9 @@ public class SupTemplateController extends BaseController{
 					ArrayNode nodeList2 = objectMapper.createArrayNode();
 					subTemplate = supTemplates.get(i);
 					id = subTemplate.getId() == null ? "" : subTemplate.getId().toString();
-					template_title = subTemplate.getMenu_title() == null ? "" : subTemplate.getMenu_title().toString();
+					template_title = subTemplate.getMenu_title() == null ? "" : subTemplate.getMenu_title().toString();//一级问题的标题
 
+		
 					SupTemplate supTemplate2 = new SupTemplate();
 					if (!StringUtils.isSpace(id)) {
 						supTemplate2.setParent_id(Integer.parseInt(id));
@@ -129,8 +130,12 @@ public class SupTemplateController extends BaseController{
 						supTemplate2.setParent_id(0);
 					}
 					supTemplate2.setIs_delete(1);
-					List<SupTemplate> supTemplatesSec = supTemplateService.findTemplateTitle(supTemplate2);
+					List<SupTemplate> supTemplatesSec = null;
 
+					supTemplatesSec = supTemplateService.findThreeProlem(supTemplate2);
+					if(supTemplatesSec.size()<1){
+						supTemplatesSec = supTemplateService.findTemplateTitle(supTemplate2);
+					}
 					Map<String, Map<String, Object>> templateSecTitleMap = new HashMap<String, Map<String, Object>>();
 					Map<String, Object> templateIdMap = null;
 
@@ -175,6 +180,7 @@ public class SupTemplateController extends BaseController{
 			re.put("code", "-1");
 			re.put("message", "完成");
 
+			e.printStackTrace();
 			log.info("服务器异常");
 		}
 		return re;

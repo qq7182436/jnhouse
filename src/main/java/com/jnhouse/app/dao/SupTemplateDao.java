@@ -11,7 +11,7 @@ public interface SupTemplateDao extends BaseDao<SupTemplate>{
 	
 	/**
 	 * 查询模版标题
-	 * @Return
+	 * @Return 
 	 */
 	List<SupTemplate> findTemplateTitle(SupTemplate supTemplate);
 	
@@ -19,5 +19,11 @@ public interface SupTemplateDao extends BaseDao<SupTemplate>{
 	
 	 List<SupTemplate> orderVerdict(@Param("aList") List<Integer> aList);
 	 
-	 List<SupTemplateDTO> findTemplateTitleDto(SupTemplate supTemplate);
+	 /**
+	  * App 查询三级的问题的标题
+	  * @param supTemplate
+	  * @return
+	  */
+	 List<SupTemplate> findThreeProlem(SupTemplate supTemplate);
+
 }

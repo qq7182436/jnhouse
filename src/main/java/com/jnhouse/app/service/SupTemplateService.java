@@ -11,4 +11,6 @@ public interface SupTemplateService extends BaseService<SupTemplate> {
 
 	List<SupTemplate> findTemplateTitle(SupTemplate supTemplate);
 	List<SupTemplate> findAllFirstTemplateTitle(SupTemplate supTemplate);
+	
+	List<SupTemplate> findThreeProlem(SupTemplate supTemplate);
 }
