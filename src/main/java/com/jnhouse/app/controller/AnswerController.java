@@ -36,7 +36,7 @@ public class AnswerController {
 	
 	@RequestMapping(value="/answer")
 	public ModelAndView to_answer(HttpServletRequest request,HttpServletResponse response) {
-		return new ModelAndView("Inspection/answer");
+		return new ModelAndView("inspection/answer");
 	}
 	
 	//获取答案主表数据

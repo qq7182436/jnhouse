@@ -222,7 +222,7 @@ public class SupTemplateController extends BaseController{
 	@RequestMapping(value = "/jc_house/template")
 	public ModelAndView template_views(HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("Inspection/template");
+		modelAndView.setViewName("inspection/template");
 		return modelAndView;
 	}
 	
@@ -246,7 +246,7 @@ public class SupTemplateController extends BaseController{
 			jsonobj.put("menu_level", template.get(i).getMenu_level());
 			jsonobj.put("score", template.get(i).getScore());
 			if (template.get(i).getMenu_level() == 0) {
-				jsonobj.put("open", true);
+				jsonobj.put("open", false);
 				jsonobj.put("iconSkin", "pIcon01");
 			}else if (template.get(i).getMenu_level() == 1) {
 				jsonobj.put("iconSkin", "icon02");
