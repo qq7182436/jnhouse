@@ -48,7 +48,7 @@ public class Menu implements Serializable{
     }
 
     public void setMenu_name(String menu_name) {
-        this.menu_name = menu_name == null ? null : menu_name.trim();
+        this.menu_name = menu_name;
     }
 
     public Integer getMenu_level() {
@@ -72,7 +72,7 @@ public class Menu implements Serializable{
     }
 
     public void setUrl(String url) {
-        this.url = url == null ? null : url.trim();
+        this.url = url;
     }
 
     public Integer getSort() {

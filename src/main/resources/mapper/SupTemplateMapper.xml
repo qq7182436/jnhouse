@@ -8,6 +8,9 @@
     <result column="is_delete" jdbcType="INTEGER" property="is_delete" />
     <result column="updated_time" jdbcType="TIMESTAMP" property="updated_time" />
     <result column="created_time" jdbcType="TIMESTAMP" property="created_time" />
+    <result column="score" jdbcType="VARCHAR" property="score" />
+    <result column="parent_id" jdbcType="INTEGER" property="parent_id" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
   </resultMap>
   <sql id="Base_Column_List">
     id, menu_title, menu_level, is_delete, updated_time, created_time
@@ -18,6 +21,47 @@
     from fke_supervision_template
     where id = #{id,jdbcType=INTEGER}
   </select>
+  
+  <!-- APP查询所有的模版  -->
+  <select id="findAllFirstTemplateTitle" parameterType="com.jnhouse.app.bean.SupTemplate" resultMap='BaseResultMap'>
+  	select id,menu_title from fke_supervision_template where menu_level =#{menu_level,jdbcType=INTEGER}
+  </select>
+	<!-- APP接口查询二,三级标题菜单 -->
+	<select id="findTemplateTitle" parameterType="com.jnhouse.app.bean.SupTemplate"
+		resultMap="BaseResultMap">
+		select id,menu_title from fke_supervision_template where parent_id 
+			= #{parent_id,jdbcType=INTEGER} and is_delete=1
+	</select>
+	<select id="findThreeProlem" resultMap="BaseResultMap">
+		SELECT
+		fst3.id ,
+		fst3.menu_title,
+		fst3.parent_id,
+		fst3.menu_level,
+		fst3.score
+		FROM
+		fke_supervision_template fst1
+		INNER JOIN
+		fke_supervision_template fst2
+		ON fst1.id
+		= fst2.parent_id
+		AND fst2.is_delete = 1
+		INNER JOIN
+		fke_supervision_template fst3
+		ON fst2.id
+		= fst3.parent_id
+		AND fst3.is_delete = 1
+		WHERE
+		fst1.id
+		= #{parent_id}
+		AND fst1.is_delete = 1
+		GROUP BY
+		fst3.id ,
+		fst3.menu_title,
+		fst3.parent_id,
+		fst3.menu_level,
+		fst3.score
+	</select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from fke_supervision_template
     where id = #{id,jdbcType=INTEGER}
@@ -127,4 +171,42 @@
       created_time = #{created_time,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="fke_template" resultMap="BaseResultMap" parameterType="Map">
+  	 select 
+  	 	id id,
+  	 	parent_id parent_id,
+  	 	menu_title menu_title,
+  	 	menu_level menu_level,
+  	 	sort sort,
+  	 	score score,
+  	 	is_delete is_delete,
+  	 	updated_time updated_time,
+  	 	created_time created_time
+  	  from fke_supervision_template where 1 = 1
+  	  <if test="id != null and ''!=id">
+  	  	and id=#{id}
+  	  </if>
+  	  <if test="parent_id != null and ''!= parent_id">
+  	  	and parent_id=#{parent_id}
+  	  </if>
+  </select> 
+  <update id="updateTemplate" parameterType="Map">
+		update fke_supervision_template set
+		<trim suffixOverrides=",">
+			<if test="menu_level!=null">menu_level=#{menu_level},</if>
+			<if test="menu_title!=null">menu_title=#{menu_title},</if>
+			<if test="score!=null">score=#{score},</if>			
+		</trim>
+		<where>id=#{id}</where>
+  </update>
+  
+  <insert id="insertNexteTemplate" parameterType="Map">  	
+		insert into
+			fke_supervision_template(parent_id,menu_title,menu_level,sort,score,is_delete,updated_time,created_time)
+		 values
+			(#{parent_id}, #{menu_title},#{menu_level}, 0, #{score}, 1,#{updated_time},#{created_time})	
+  </insert>
+  <delete id="delete_template" parameterType="int">
+  	delete from fke_supervision_template where id = #{id} or parent_id=#{id}
+  </delete>
 </mapper>

@@ -1,6 +1,8 @@
 package com.jnhouse.app.controller;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,12 +15,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.jnhouse.app.bean.SupTemplate;
 import com.jnhouse.app.utils.StringUtils;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 
 @Controller
@@ -187,6 +193,120 @@ public class SupTemplateController extends BaseController{
 	}
 	
 
+@RequestMapping(value = "/jc_house/template")
+	public ModelAndView template_views(HttpServletRequest request) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("sys/template");
+		return modelAndView;
+	}
+	
+	@RequestMapping(value = "/jc_house/fke_template",method = RequestMethod.POST)
+	@ResponseBody
+	public JSONObject fke_template(HttpServletRequest request) {
+		String id = request.getParameter("template_id");
+		Map<String,Object> par = new HashMap<>();
+		par.put("id", id);
+		List<SupTemplate> template = supTemplateService.fke_template(par);
+		JSONArray jsonArray = new JSONArray();
+		JSONObject jsonobj = new JSONObject(); 
+		Map<String,Object> map = new HashMap<String,Object>(); 
+		 //循环建立菜单树
+		for (int i = 0; i < template.size(); i++) {
+			jsonobj.put("id",template.get(i).getId());
+			jsonobj.put("pId", template.get(i).getParent_id());
+			jsonobj.put("name", template.get(i).getMenu_title());
+			jsonobj.put("sort", template.get(i).getSort());
+			jsonobj.put("menu_level", template.get(i).getMenu_level());
+			jsonobj.put("score", template.get(i).getScore());
+			if (template.get(i).getMenu_level() == 0) {
+				jsonobj.put("open", true);
+				jsonobj.put("iconSkin", "pIcon01");
+			}else if (template.get(i).getMenu_level() == 1) {
+				jsonobj.put("iconSkin", "icon03");
+			}else {
+				jsonobj.put("iconSkin", "icon03");
+			}
+			
+			jsonArray.add(jsonobj);
+		}
+		map.put("zNodes", jsonArray);
+		JSONObject jsonObject = JSONObject.fromObject(map);
+		return jsonObject;
+	}
+	
+	@RequestMapping(value = "/jc_house/save_template",method = RequestMethod.POST)
+	@ResponseBody
+	public JSONObject save_template(HttpServletRequest request) {
+		JSONObject json = new JSONObject();
+		String menu_level = request.getParameter("menu_level");//
+		String score = request.getParameter("score");
+		String name = request.getParameter("name");//menu_title
+		String id = request.getParameter("id");
+		String fathername = request.getParameter("father_name");
+		Map<String,Object> param = new HashMap<>();
+		param.put("menu_level",menu_level );
+		param.put("score", score);
+		param.put("menu_title", name);
+		param.put("id", id);
+		try {
+			supTemplateService.updateTemplate(param);
+			json.put("success", true);
+		}catch(Exception e) {
+			e.printStackTrace();
+			json.put("fail", true);
+		}
+		
+		return json;
+	}
+	
+	@RequestMapping(value = "/jc_house/save_next_template",method = RequestMethod.POST)
+	@ResponseBody
+	public JSONObject save_next_template(HttpServletRequest request) {
+		JSONObject json = new JSONObject();
+		String menu_level = request.getParameter("menu_level");//
+		String score = request.getParameter("score");
+		String name = request.getParameter("name");//menu_title
+		String fathername = request.getParameter("father_name");
+		String father_id = request.getParameter("father_id");
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+		Map<String,Object> param = new HashMap<>();
+		param.put("menu_level",menu_level );
+		param.put("score", score);
+		param.put("menu_title", name);
+		param.put("updated_time", df.format(new Date()));
+		param.put("created_time", df.format(new Date()));
+		if(Integer.parseInt(menu_level) == 0) {
+			param.put("parent_id", 0);
+		}else {			
+			param.put("parent_id", father_id);
+		}
+		try {
+			supTemplateService.insertNexteTemplate(param);
+			json.put("success", true);
+		}catch(Exception e) {
+			e.printStackTrace();
+			json.put("fail", true);
+		}
+		
+		return json;
+	}
+	@RequestMapping(value="/jc_house/delete_template",method = RequestMethod.POST)
+	@ResponseBody
+	public  JSONObject delete_dept(HttpServletRequest request) {
+		JSONObject jsonObject = new JSONObject();
+		String template_id = request.getParameter("template_id");
+		try {			
+			int id = Integer.parseInt(template_id);
+			supTemplateService.delete_template(id);			  
+			jsonObject.put("msg", "删除成功");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			jsonObject.put("msg", "删除失败");
+		}
+
+		return jsonObject;
+	}
 	
 	
 	

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.jnhouse.app.bean.User;
 import com.jnhouse.app.dao.UserDao;
+import com.jnhouse.app.dao.UserInfoDao;
+import com.jnhouse.app.dto.UserInfoDto;
 import com.jnhouse.app.service.UserService;
 
 @Service
@@ -15,6 +17,9 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 
 	@Resource
 	private UserDao userDao;
+	
+	@Resource
+	private UserInfoDao userInfoDao;
 	
 	@Override
 	public int save(User entity) {
@@ -50,6 +55,12 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 	public User findUser(User user) {
 		// TODO Auto-generated method stub
 		return userDao.findUser(user);
+	}
+
+	@Override
+	public List<UserInfoDto> findUserByName(String username) {
+		// TODO Auto-generated method stub
+		return userInfoDao.findUserByName(username);
 	}
 
 }

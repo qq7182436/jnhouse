@@ -163,15 +163,6 @@ public class SupAnswerHeader implements Serializable{
 	public void setCreated_time(Timestamp created_time) {
 		this.created_time = created_time;
 	}
-/*
-	public SupAnswerHeaderDTO getSupAnswerHeaderDTO() {
-		return supAnswerHeaderDTO;
-	}
-
-	public void setSupAnswerHeaderDTO(SupAnswerHeaderDTO supAnswerHeaderDTO) {
-		this.supAnswerHeaderDTO = supAnswerHeaderDTO;
-	}*/
-
 
 
 

@@ -1,5 +1,6 @@
 package com.jnhouse.app.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,11 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.jnhouse.app.bean.Dept;
 import com.jnhouse.app.bean.Menu;
+import com.jnhouse.app.bean.User;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -115,7 +117,7 @@ public class MenuController extends BaseController{
 	public  JSONObject delete_dept(HttpServletRequest request) {
 		JSONObject jsonObject = null;
 		try {
-			Integer id = Integer.valueOf(request.getParameter("dept_id"));
+			Integer id = Integer.valueOf(request.getParameter("menu_id"));
 			menuService.delete(id);
 			Map<String,Object> map = new HashMap<String,Object>();  
 			map.put("msg", "删除成功");
@@ -133,21 +135,39 @@ public class MenuController extends BaseController{
 	public  JSONObject save_dept(HttpServletRequest request) {
 		JSONObject jsonObject = null;
 		try {
-			Integer menu_level = Integer.valueOf(request.getParameter("menu_level"));
-			Integer father_id = Integer.valueOf(request.getParameter("father_id"));
+			String menu_level = request.getParameter("menu_level");
+			String father_id = request.getParameter("father_id");
 			String name = request.getParameter("name");
-			Integer sort = Integer.valueOf(request.getParameter("sort"));
+			String sort = request.getParameter("sort");
+			String id = request.getParameter("id");
 			String menu_url = request.getParameter("menu_url");
+			User user = (User)request.getSession().getAttribute("user");
 			Menu menu = new Menu();
-			menu.setFather_id(father_id);
+			if (null != father_id && !"".equals(father_id)) {
+				menu.setFather_id(Integer.valueOf(father_id));
+			}
+			if (null != sort && !"".equals(sort)) {
+				menu.setSort(Integer.valueOf(sort));
+			}
+			if (null != menu_level && !"".equals(menu_level)) {
+				menu.setMenu_level(Integer.valueOf(menu_level));
+			}
 			menu.setMenu_name(name);
-			menu.setSort(sort);
-			menu.setMenu_level(menu_level);
 			menu.setUrl(menu_url);
-			menu.setIs_delete(1);
-			menu.setCreated_by(1);
-			menu.setUpdated_by(1);
-			int id = menuService.save(menu);
+			if (null != user) {
+				menu.setCreated_by(user.getId());
+				menu.setUpdated_by(user.getId());
+			}else {
+				menu.setCreated_by(1);
+				menu.setUpdated_by(1);
+			}
+			//如果id不为空，则为更新
+			if (null != id && !"".equals(id)) {
+				menu.setId(Integer.valueOf(id));
+				menuService.update(menu);
+			}else {
+				menuService.save(menu);
+			}
 			System.err.println(menu.getId() + "###########");
 			Menu menu2 = menuService.getById(menu.getId());
 			JSONObject jsonobj = new JSONObject(); 
@@ -177,4 +197,64 @@ public class MenuController extends BaseController{
 		return jsonObject;
 	}
 	
+	/**
+	 * 角色添加管理的菜单
+	 * @param request
+	 * @return lou
+	 */
+	@RequestMapping(value="/menu/save_role_menus",method = RequestMethod.POST)
+	@ResponseBody
+	public  JSONObject save_role_menus(HttpServletRequest request,@RequestParam(value="menus",required=false) String menus,
+			@RequestParam(value="role",required=false) String role) {
+		JSONObject jsonObject = null;
+		System.err.println(menus +"--------" + role);
+		try {
+			Integer role_id = Integer.valueOf(role);
+			String [] menu = menus.trim().split(",");
+			roleMenuService.deleteByRoleId(role_id);
+			List<String> menuList = new ArrayList<>();
+			for (int i = 0; i < menu.length; i++) {
+					menuList.add(menu[i]);
+			}
+			System.err.println(menuList.size() + "---@@@@");
+			if (menuList.size() > 0) {
+				roleMenuService.insertBatchMenus(role_id, menuList);
+			}
+			
+			Map<String,Object> map = new HashMap<String,Object>();  
+			map.put("msg", "成功");
+			jsonObject = JSONObject.fromObject(map);
+			System.err.println(jsonObject.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return jsonObject;
+	}
+	
+	/**
+	 * 查询该角色下的已有的菜单
+	 * @param request
+	 * @return lou
+	 */
+	@RequestMapping(value="/menu/query_role_menus",method = RequestMethod.POST)
+	@ResponseBody
+	public  JSONObject query_role_menus(HttpServletRequest request,@RequestParam(value="role",required=false) String role) {
+		JSONObject jsonObject = null;
+		System.err.println("role--------" + role);
+		try {
+			Integer role_id = Integer.valueOf(role);
+			List<Integer> roleMenuList = roleMenuService.findByRoleId(role_id);
+			System.err.println("roleMenuList==========" + roleMenuList.size());
+			
+			Map<String,Object> map = new HashMap<String,Object>();  
+			map.put("msg", roleMenuList);
+			jsonObject = JSONObject.fromObject(map);
+			System.err.println(jsonObject.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return jsonObject;
+	}
 }

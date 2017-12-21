@@ -12,7 +12,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.ObjectUtils.Null;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -71,6 +70,13 @@ public class SupAnswerHeaderController extends BaseController{
 		String broker_num =(String)request.getParameter("broker_num");
 		String customer_num = (String)request.getParameter("customer_num");
 		
+		try {
+			store_around=new String(store_around.getBytes("ISO-8859-1"),"UTF-8");
+			
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			//e1.printStackTrace();
+		}
 		try {
 			Date date= null;
 			SupAnswerHeader supAnswerHeader  = new SupAnswerHeader();
@@ -157,7 +163,7 @@ public class SupAnswerHeaderController extends BaseController{
 			// TODO Auto-generated catch block
 			re.put("code", "-1");
 			re.put("message", "异常");
-			//e.printStackTrace();
+			e.printStackTrace();
 			Log.info("考核开始出异常");
 		}
 		return re;
@@ -183,7 +189,7 @@ public class SupAnswerHeaderController extends BaseController{
 		String line_ids = (String)request.getParameter("line_ids");
 		
 		try {
-			docking_man=new String(docking_man.getBytes("UTF-8"),"UTF-8");
+			docking_man=new String(docking_man.getBytes("ISO-8859-1"),"UTF-8");
 			
 		} catch (UnsupportedEncodingException e1) {
 			// TODO Auto-generated catch block
@@ -219,7 +225,7 @@ public class SupAnswerHeaderController extends BaseController{
 
 				line_id = subObject.get("line_id").getAsString();
 				answer_num = subObject.get("answer_num").getAsString();
-				answer = subObject.get("answer_num").getAsString();
+				answer = subObject.get("answer").getAsString();
 				
 				if("1".equals(answer_num)){
 					f=1.0f;
@@ -230,11 +236,11 @@ public class SupAnswerHeaderController extends BaseController{
 				else if("3".equals(answer_num)){
 					f=0.5f;
 				}
- 
 				supAnswerLine.setScore(f);
 				supAnswerLine.setId(Integer.valueOf(line_id));
 				
 				supAnswerLine.setAnswer_num(Integer.valueOf(answer_num));
+
 				
 				supAnswerLine.setAnswer(answer);
 				
@@ -321,8 +327,11 @@ public class SupAnswerHeaderController extends BaseController{
 	}
 	
 
-
-	
+	/**
+	 * @param 
+	 * @param request
+	 * @return
+	 */
 	@SuppressWarnings("all")
 	@ResponseBody
 	@RequestMapping(value = "/jc_house/order_detail", method = RequestMethod.GET)
@@ -331,153 +340,159 @@ public class SupAnswerHeaderController extends BaseController{
 		ObjectNode re = objectMapper.createObjectNode();
 		ArrayNode node_list = objectMapper.createArrayNode();
 		String order_id = (String) request.getParameter("order_id");
+		try {
+			SupAnswerHeader supAnswerHeader = new SupAnswerHeader();
+			//设置订单的id
+			supAnswerHeader.setId(Integer.valueOf(order_id));
 
-		SupAnswerHeader supAnswerHeader = new SupAnswerHeader();
-
-		//设置订单的id
-		supAnswerHeader.setId(Integer.valueOf(order_id));
-
-		//查询详情
-		SupAnswerHeaderDTO supAnswerHeader1 = supAnswerHeaderService.supAnswerHeader(supAnswerHeader);
-		String parent_id = "";
-		String header_id = "";
-		String docking_man = "";
-		String store_name = "";
-		String menu_title = "";
-		String start_time = "";
-		String end_time = "";
-		String store_around = "";
-		String customer_num = "";
-		String broker_num = "";
-		String  check_date = null;
-		if (supAnswerHeader1 != null) {
-			parent_id = supAnswerHeader1.getTemplate_id().toString();
-			header_id = supAnswerHeader1.getId().toString();
-			docking_man = supAnswerHeader1.getDocking_man();
-			store_name = supAnswerHeader1.getFkeEast().getName();
-			Date date = supAnswerHeader1.getCheck_date();
-			
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			check_date = sdf.format(date);
-			menu_title = supAnswerHeader1.getSupTemplate().getMenu_title();
-			start_time = supAnswerHeader1.getStart_time();
-			end_time = supAnswerHeader1.getEnd_time();
-			store_around = supAnswerHeader1.getStore_around() == null ? ""
-					: supAnswerHeader1.getStore_around().toString();
-			customer_num = supAnswerHeader1.getCustomer_num()==null ? "" : supAnswerHeader1.getCustomer_num().toString();
-			broker_num = supAnswerHeader1.getBroker_num() == null ? "" :supAnswerHeader1.getBroker_num().toString();
-			
-			SupTemplate supTemplate = new SupTemplate();
-			supTemplate.setParent_id(Integer.valueOf(parent_id));
-			
-			//查询一级问题
-			List<SupTemplate> supTemplates = supTemplateService.findTemplateTitle(supTemplate);
-			System.out.println(supTemplates.size()+"----------------");
-			
-			
-			SupAnswerHeaderDTO supAnswerHeaderDTO1 = new SupAnswerHeaderDTO();
-			supAnswerHeaderDTO1.setParent_id(Integer.valueOf(parent_id));
-			supAnswerHeaderDTO1.setHeader_id(Integer.valueOf(header_id));
-			
-			
-			ObjectNode re_node3 = null;
-			ArrayNode nodeList2 = null;
-			
-			Integer  get_score = null;
-			Map<String, Object> secProblemMap = null;
-			Map<String, Map<String, Object>> secProblemTitleMap = null;
-			SupAnswerLine supTemplate2 = null;
-			for (int i = 0; i < supTemplates.size(); i++) {
-				re_node3 = objectMapper.createObjectNode();
-				nodeList2 = objectMapper.createArrayNode();
+			//查询详情
+			SupAnswerHeaderDTO supAnswerHeader1 = supAnswerHeaderService.supAnswerHeader(supAnswerHeader);
+			String parent_id = "";
+			String header_id = "";
+			String docking_man = "";
+			String store_name = "";
+			String menu_title = "";
+			String start_time = "";
+			String end_time = "";
+			String store_around = "";
+			String customer_num = "";
+			String broker_num = "";
+			String  check_date = null;
+			if (supAnswerHeader1 != null) {
+				parent_id = supAnswerHeader1.getTemplate_id().toString();
+				header_id = supAnswerHeader1.getId().toString();
+				docking_man = supAnswerHeader1.getDocking_man();
+				store_name = supAnswerHeader1.getFkeEast().getName();
+				Date date = supAnswerHeader1.getCheck_date();
 				
-				String id = supTemplates.get(i).getId() ==null ? "" :supTemplates.get(i).getId().toString();
-				String menu_title2 = supTemplates.get(i).getMenu_title() ==null ? "" :supTemplates.get(i).getMenu_title().toString();
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				check_date = sdf.format(date);
+				menu_title = supAnswerHeader1.getSupTemplate().getMenu_title();
 				
 				
-				List<SupTemplate> supTemplatesSec = null;
-				secProblemTitleMap = new HashMap<String, Map<String, Object>>();
-				supAnswerHeaderDTO1.setParent_id(supTemplates.get(i).getId());
-				List<SupAnswerHeaderDTO> supAnswerHeaderDTOs2 = supAnswerHeaderService
-						.findAnswerHeaderAndLine(supAnswerHeaderDTO1);
+				start_time = supAnswerHeader1.getStart_time();
+				end_time = supAnswerHeader1.getEnd_time();
 				
-				//如果取不到二级标题
-				if(supAnswerHeaderDTOs2.size()<1){
-					supAnswerHeaderDTO1.setParent_id(Integer.valueOf(id));
-					supAnswerHeaderDTOs2 = supAnswerHeaderService.findSecondHeader(supAnswerHeaderDTO1);
-				}
-	
-				for (SupAnswerHeaderDTO supAnswerHeaderDTO : supAnswerHeaderDTOs2) {
+//				System.out.println(start_time+"====="+end_time);
+				store_around = supAnswerHeader1.getStore_around() == null ? ""
+						: supAnswerHeader1.getStore_around().toString();
+				customer_num = supAnswerHeader1.getCustomer_num()==null ? "" : supAnswerHeader1.getCustomer_num().toString();
+				broker_num = supAnswerHeader1.getBroker_num() == null ? "" :supAnswerHeader1.getBroker_num().toString();
+				
+				SupTemplate supTemplate = new SupTemplate();
+				supTemplate.setParent_id(Integer.valueOf(parent_id));
+				
+				//查询一级问题
+				List<SupTemplate> supTemplates = supTemplateService.findTemplateTitle(supTemplate);
+				
+				SupAnswerHeaderDTO supAnswerHeaderDTO1 = new SupAnswerHeaderDTO();
+				supAnswerHeaderDTO1.setParent_id(Integer.valueOf(parent_id));
+				supAnswerHeaderDTO1.setHeader_id(Integer.valueOf(header_id));
 					
-					secProblemMap = new HashMap<String,Object>();
-					String secProblem_id = supAnswerHeaderDTO.getSupTemplateDTO().getId().toString();
-					
-					String three_menu_title3 = supAnswerHeaderDTO.getSupTemplateDTO().getMenu_title3();
-					
-					
-					String answer2 = supAnswerHeaderDTO.getSupAnswerLine().getAnswer();
-					get_score = supAnswerHeaderDTO.getGet_score();
+				ObjectNode re_node3 = null;
+				ArrayNode nodeList2 = null;
 
-					String file_name = supAnswerHeaderDTO.getFkeFile().getFile_name()==null ? "" :supAnswerHeaderDTO.getFkeFile().getFile_name().toString();
-					String file_url = supAnswerHeaderDTO.getFkeFile().getFile_url()==null ? "" : supAnswerHeaderDTO.getFkeFile().getFile_url().toString();
+				String  get_score = "";
+				Map<String, Object> secProblemMap = null;
+				Map<String, Map<String, Object>> secProblemTitleMap = null;
+				SupAnswerLine supTemplate2 = null;
+				int score=0;
+				for (int i = 0; i < supTemplates.size(); i++) {
+					re_node3 = objectMapper.createObjectNode();
+					nodeList2 = objectMapper.createArrayNode();
 					
-					file_url=file_url+file_name;
+					String id = supTemplates.get(i).getId() ==null ? "" :supTemplates.get(i).getId().toString();
+					String menu_title2 = supTemplates.get(i).getMenu_title() ==null ? "" :supTemplates.get(i).getMenu_title().toString();
 					
-
-					Integer answer_num2 = supAnswerHeaderDTO.getSupAnswerLine().getAnswer_num();
-
 					
-					if (secProblemTitleMap.containsKey(secProblem_id)) {
+					List<SupTemplate> supTemplatesSec = null;
+					secProblemTitleMap = new HashMap<String, Map<String, Object>>();
+					supAnswerHeaderDTO1.setParent_id(supTemplates.get(i).getId());
+					List<SupAnswerHeaderDTO> supAnswerHeaderDTOs2 = supAnswerHeaderService
+							.findAnswerHeaderAndLine(supAnswerHeaderDTO1);
 					
-					} else {
-						secProblemMap.put("sec_menu_title", three_menu_title3);
-						secProblemMap.put("answer", answer2);
-						secProblemMap.put("answer_num", answer_num2);
-						secProblemMap.put("file_url", file_url);
-						secProblemTitleMap.put(secProblem_id, secProblemMap);
+					//如果取不到二级标题
+					if(supAnswerHeaderDTOs2.size()<1){
+						supAnswerHeaderDTO1.setParent_id(Integer.valueOf(id));
+						supAnswerHeaderDTOs2 = supAnswerHeaderService.findSecondHeader(supAnswerHeaderDTO1);
 					}
-					
-					get_score++;
+					for (SupAnswerHeaderDTO supAnswerHeaderDTO : supAnswerHeaderDTOs2) {
+						secProblemMap = new HashMap<String,Object>();
+						String secProblem_id = supAnswerHeaderDTO.getSupTemplateDTO().getId().toString();
+						
+						String three_menu_title3 = supAnswerHeaderDTO.getSupTemplateDTO().getMenu_title3();
+						
+						
+						String answer2 = supAnswerHeaderDTO.getSupAnswerLine().getAnswer();
+						get_score = supAnswerHeaderDTO.getGet_score()==null ? "" :supAnswerHeaderDTO.getGet_score().toString();
+
+						if(!StringUtils.isSpace(get_score)){
+							score = Integer.valueOf(get_score);
+						}
+						String file_name = supAnswerHeaderDTO.getFkeFile().getFile_name()==null ? "" :supAnswerHeaderDTO.getFkeFile().getFile_name().toString();
+						String file_url = supAnswerHeaderDTO.getFkeFile().getFile_url()==null ? "" : supAnswerHeaderDTO.getFkeFile().getFile_url().toString();
+						
+						file_url=file_url+file_name;
+						
+
+						Integer answer_num2 = supAnswerHeaderDTO.getSupAnswerLine().getAnswer_num();
+
+						
+						if (secProblemTitleMap.containsKey(secProblem_id)) {
+						
+						} else {
+							secProblemMap.put("sec_menu_title", three_menu_title3);
+							secProblemMap.put("answer", answer2);
+							secProblemMap.put("answer_num", answer_num2);
+							secProblemMap.put("file_url", file_url);
+							secProblemTitleMap.put(secProblem_id, secProblemMap);
+						}
+						score++;
+					}
+					for (String secKey : secProblemTitleMap.keySet()) {
+						ObjectNode re_node2 = objectMapper.createObjectNode();
+						re_node2.put("secId", secKey);
+
+						re_node2.put("sec_menu_title", secProblemTitleMap.get(secKey).get("sec_menu_title") == null ? ""
+								: secProblemTitleMap.get(secKey).get("sec_menu_title").toString());
+
+						re_node2.put("answer", secProblemTitleMap.get(secKey).get("answer") == null ? ""
+								: secProblemTitleMap.get(secKey).get("answer").toString());
+						re_node2.put("answer_num", secProblemTitleMap.get(secKey).get("answer_num") == null ? ""
+								: secProblemTitleMap.get(secKey).get("answer_num").toString());
+						
+						re_node2.put("file_url", secProblemTitleMap.get(secKey).get("file_url") == null ? ""
+								: secProblemTitleMap.get(secKey).get("file_url").toString());
+
+						nodeList2.add(re_node2);
+					}
+
+					re_node3.put("menu_title", menu_title2);
+					System.err.println( nodeList2);
+					re_node3.put("sec_list", nodeList2);
+
+					node_list.add(re_node3);
 				}
-				for (String secKey : secProblemTitleMap.keySet()) {
-					ObjectNode re_node2 = objectMapper.createObjectNode();
-					re_node2.put("secId", secKey);
-
-					re_node2.put("sec_menu_title", secProblemTitleMap.get(secKey).get("sec_menu_title") == null ? ""
-							: secProblemTitleMap.get(secKey).get("sec_menu_title").toString());
-
-					re_node2.put("answer", secProblemTitleMap.get(secKey).get("answer") == null ? ""
-							: secProblemTitleMap.get(secKey).get("answer").toString());
-					re_node2.put("answer_num", secProblemTitleMap.get(secKey).get("answer_num") == null ? ""
-							: secProblemTitleMap.get(secKey).get("answer_num").toString());
-					
-					re_node2.put("file_url", secProblemTitleMap.get(secKey).get("file_url") == null ? ""
-							: secProblemTitleMap.get(secKey).get("file_url").toString());
-
-					nodeList2.add(re_node2);
-				}
-
-				re_node3.put("menu_title", menu_title2);
-				System.err.println( nodeList2);
-				re_node3.put("sec_list", nodeList2);
-
-				node_list.add(re_node3);
+				re.put("template_title", menu_title);
+				re.put("check_date", check_date);
+				re.put("store_name", store_name);
+				re.put("docking_man", docking_man);
+				re.put("start_time", start_time);
+				re.put("end_time", end_time);
+				re.put("get_score", String.valueOf(score));
+				re.put("store_around", store_around);
+				re.put("customer_num", customer_num);
+				re.put("broker_num", broker_num);
+				re.put("data_list", node_list);
+				re.put("code", "0");
+				re.put("message", "完成");		
 			}
-			re.put("template_title", menu_title);
-			re.put("check_date", check_date);
-			re.put("store_name", store_name);
-			re.put("docking_man", docking_man);
-			re.put("start_time", start_time);
-			re.put("end_time", end_time);
-			re.put("get_score", get_score.toString());
-			re.put("store_around", store_around);
-			re.put("customer_num", customer_num);
-			re.put("broker_num", broker_num);
-			re.put("data_list", node_list);
-			re.put("code", "0");
-			re.put("message", "完成");		
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			re.put("code", "-1");
+			re.put("message", "异常");
+			//e.printStackTrace();
 		}
-
 		return re;
 	}
 

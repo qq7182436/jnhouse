@@ -10,7 +10,7 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
 	<!-- 引入数据库配置文件 -->
-	<context:property-placeholder location="classpath:dbconfig.properties"/>
+	<context:property-placeholder location="classpath:dbconfig.properties,classpath:configInfo.properties" />
 	<!-- 配置dataSoure -->
 	<bean id="pooledDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
 		<property name="jdbcUrl" value="${jdbc.jdbcUrl}"></property>

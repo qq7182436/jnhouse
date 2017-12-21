@@ -2,21 +2,17 @@ package com.jnhouse.app.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Timestamp;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.disk.DiskFileItem;
-
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,9 +20,10 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.jnhouse.app.bean.FkeFile;
 import com.jnhouse.app.bean.SupAnswerLine;
 import com.jnhouse.app.utils.DateTimeUtils;
-
 import com.jnhouse.app.utils.SftpUtils;
 import com.jnhouse.app.utils.StringUtils;
+
+
 
 
 @Controller
@@ -56,7 +53,6 @@ public class FileController extends BaseController{
 		String  line_id = (String)request.getParameter("line_id");
 		String  created_by = (String)request.getParameter("created_by");//创建人
 
-		
 		try {
 			System.out.println(file+"!!!!!!!!!!!!!!!!!!!!!");
 			
@@ -75,7 +71,7 @@ public class FileController extends BaseController{
 					// 项目在容器中实际发布运行的根路径
 					// // 自定义的文件名称
 					//				path = "/usr/java/img/";
-					path = "E:/123/";
+					path = configInfo.getImgUrl();
 							//+ DateTimeUtils.getNowTimeStr("yyyy-MM-dd") + fileName;
 					String trueFileName = String.valueOf(System.currentTimeMillis()) + fileName;
 					// 设置存放图片文件的路径
@@ -85,15 +81,15 @@ public class FileController extends BaseController{
 					System.out.println("存放图片文件的路径:" + path);
 
 					
-					/*SftpUtils sftpUtils = new SftpUtils("192.168.7.136", 22, "root", "root");
+					SftpUtils sftpUtils = new SftpUtils(configInfo.getSftpIp(), configInfo.getSftPort(), configInfo.getSftpUser(), configInfo.getSftpPassword());
 					sftpUtils.connect();
 
 					CommonsMultipartFile cf = (CommonsMultipartFile) file;
 					DiskFileItem fi = (DiskFileItem) cf.getFileItem();
-					fi.getStoreLocation();*/
+					fi.getStoreLocation();
 					File newfile = DateTimeUtils.getYearAndMonthAndToday(path);
 					
-					System.out.println("新========"+newfile.getAbsolutePath()+System.getProperty("file.separator")+ trueFileName);
+					//System.out.println("新========"+newfile.getAbsolutePath()+System.getProperty("file.separator")+ trueFileName);
 					try {
 						//文件上传
 						file.transferTo(new File(newfile.getAbsolutePath()+System.getProperty("file.separator")+ trueFileName));
@@ -162,7 +158,7 @@ public class FileController extends BaseController{
 	 * @param response
 	 * @return
 	 */
-	@ResponseBody
+	/*@ResponseBody
 	@RequestMapping(value = "photoUpload", method = RequestMethod.POST)
 	public ObjectNode uploadPhotoUpload(MultipartFile file,HttpServletRequest request,HttpServletResponse response) {
 		
@@ -199,8 +195,8 @@ public class FileController extends BaseController{
 				// 判断文件类型
 				type = fileName.indexOf(".") != -1 ? fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length())
 						: null;
-				/*System.out.println("文件类型"+type);
-				System.out.println("文件类型"+type.toUpperCase());*/
+				System.out.println("文件类型"+type);
+				System.out.println("文件类型"+type.toUpperCase());
 				if ("GIF".equals(type.toUpperCase()) || "PNG".equals(type.toUpperCase())
 						|| "JPG".equals(type.toUpperCase())) {
 					// 项目在容器中实际发布运行的根路径
@@ -210,8 +206,8 @@ public class FileController extends BaseController{
 							//+ DateTimeUtils.getNowTimeStr("yyyy-MM-dd") + fileName;
 					String trueFileName = String.valueOf(System.currentTimeMillis()) + fileName;
 					// 设置存放图片文件的路径
-					/*path = realPath
-							+  System.getProperty("file.separator")+ trueFileName;*/
+					path = realPath
+							+  System.getProperty("file.separator")+ trueFileName;
 
 					System.out.println("存放图片文件的路径:" + path);
 
@@ -286,5 +282,5 @@ public class FileController extends BaseController{
 			e.printStackTrace();
 		}
 		return re;
-	}
+	}*/
 }

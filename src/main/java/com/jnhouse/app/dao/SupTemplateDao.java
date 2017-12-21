@@ -1,11 +1,14 @@
 package com.jnhouse.app.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
 import com.jnhouse.app.bean.SupTemplate;
-import com.jnhouse.app.dto.SupTemplateDTO;
+
+
+
 
 public interface SupTemplateDao extends BaseDao<SupTemplate>{
 	
@@ -17,6 +20,7 @@ public interface SupTemplateDao extends BaseDao<SupTemplate>{
 	
 	List<SupTemplate> findAllFirstTemplateTitle(SupTemplate supTemplate);
 	
+
 	 List<SupTemplate> orderVerdict(@Param("aList") List<Integer> aList);
 	 
 	 /**
@@ -25,5 +29,11 @@ public interface SupTemplateDao extends BaseDao<SupTemplate>{
 	  * @return
 	  */
 	 List<SupTemplate> findThreeProlem(SupTemplate supTemplate);
+
+	List<SupTemplate> fke_template(Map<String,Object> map);
+	void updateTemplate(Map<String,Object> param);
+	void insertNexteTemplate(Map<String,Object> param);
+	void delete_template(int id);
+
 
 }

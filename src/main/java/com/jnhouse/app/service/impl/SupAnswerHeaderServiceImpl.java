@@ -1,7 +1,6 @@
 package com.jnhouse.app.service.impl;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -149,10 +148,5 @@ public class SupAnswerHeaderServiceImpl extends BaseServiceImpl<SupAnswerHeader>
 		return supAnswerHeaderDao.findSecondHeader(supAnswerHeaderDTO);
 	}
 
-
-
-	
-
-	
 
 }

@@ -35,7 +35,37 @@
     <include refid="Base_Column_List" />
     from fke_menu order by sort
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <select id="getMenuByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+	    SELECT
+		fm.id as id,
+		fm.menu_name as menu_name,
+		fm.menu_level as menu_level,
+		fm.father_id as father_id,
+		fm.url as url,
+		fm.sort as sort
+	FROM
+		fke_dept_user fdu,
+		fke_dept_authority fda,
+		fke_role_menu frm,
+		fke_menu fm
+	WHERE
+		fdu.broker_id = #{id,jdbcType=INTEGER}
+	AND fdu.is_delete = 1
+	AND fdu.dept_id = fda.dept_id
+	AND fda.is_delete = 1
+	AND fda.role_id = frm.role_id
+	AND frm.is_delete = 1
+	AND frm.menu_id = fm.id
+	AND fm.is_delete = 1
+	GROUP BY fm.id,
+		fm.father_id,
+	  fm.menu_level,
+		fm.menu_name,
+		fm.sort,
+		fm.url
+	ORDER BY sort 
+  </select>
+  <delete id="delete" parameterType="java.lang.Integer">
     delete from fke_menu
     where id = #{id,jdbcType=INTEGER}
   </delete>
@@ -168,7 +198,7 @@
       updated_time = #{record.updated_time,jdbcType=TIMESTAMP},
       created_time = #{record.created_time,jdbcType=TIMESTAMP}
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jnhouse.app.bean.Menu">
+  <update id="update" parameterType="com.jnhouse.app.bean.Menu">
     update fke_menu
     <set>
       <if test="menu_name != null">
@@ -192,14 +222,8 @@
       <if test="updated_by != null">
         updated_by = #{updated_by,jdbcType=INTEGER},
       </if>
-      <if test="created_by != null">
-        created_by = #{created_by,jdbcType=INTEGER},
-      </if>
       <if test="updated_time != null">
         updated_time = #{updated_time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="created_time != null">
-        created_time = #{created_time,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}

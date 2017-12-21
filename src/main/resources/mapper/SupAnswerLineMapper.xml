@@ -14,29 +14,45 @@
     <result column="created_time" jdbcType="TIMESTAMP" property="created_time" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, header_id, problem_id, answer_num, answer, photo, score, is_delete, updated_time, 
+    id, header_id, problem_id, answer_num, answer,score, is_delete, updated_time, 
     created_time
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="getById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from fke_sup_answer_line
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="findAllLineId" parameterType="com.jnhouse.app.bean.SupAnswerLine" resultMap="BaseResultMap">
+  		select id,problem_id from fke_sup_answer_line where header_id = #{header_id,jdbcType=INTEGER} AND is_delete=#{is_delete} order by created_time desc 
+  </select>
+  
+  <!-- APP 接口 -->
+  <select id="findSupAnswerLineId" parameterType="java.lang.Integer" resultMap='BaseResultMap'>
+  	select id from fke_sup_answer_line where header_id=#{header_id,jdbcType=INTEGER}
+  </select>
+  
+   <select id="findByHeaderId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  			
+  		select header_id from fke_sup_answer_line where id = #{id,jdbcType=INTEGER} and is_delete=1 GROUP BY header_id
+  
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from fke_sup_answer_line
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.jnhouse.app.bean.SupAnswerLine">
+  <insert id="save"  useGeneratedKeys="true" keyProperty="id" parameterType="com.jnhouse.app.bean.SupAnswerLine" >
     insert into fke_sup_answer_line (header_id, problem_id, answer_num, 
-      answer, photo, score, 
+      answer, score, 
       is_delete, updated_time, created_time
       )
     values (#{header_id,jdbcType=INTEGER}, #{problem_id,jdbcType=INTEGER}, #{answer_num,jdbcType=INTEGER}, 
-      #{answer,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR}, #{score,jdbcType=REAL}, 
+      #{answer,jdbcType=VARCHAR}, #{score,jdbcType=REAL}, 
       #{is_delete,jdbcType=INTEGER}, #{updated_time,jdbcType=TIMESTAMP}, #{created_time,jdbcType=TIMESTAMP}
       )
   </insert>
+  
+
   <insert id="insertSelective" parameterType="com.jnhouse.app.bean.SupAnswerLine">
     insert into fke_sup_answer_line
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -98,54 +114,64 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByExampleSelective" parameterType="map">
-    update fke_sup_answer_line
-    <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
-      </if>
-      <if test="record.header_id != null">
-        header_id = #{record.header_id,jdbcType=INTEGER},
-      </if>
-      <if test="record.problem_id != null">
-        problem_id = #{record.problem_id,jdbcType=INTEGER},
-      </if>
-      <if test="record.answer_num != null">
-        answer_num = #{record.answer_num,jdbcType=INTEGER},
-      </if>
-      <if test="record.answer != null">
-        answer = #{record.answer,jdbcType=VARCHAR},
-      </if>
-      <if test="record.photo != null">
-        photo = #{record.photo,jdbcType=VARCHAR},
-      </if>
-      <if test="record.score != null">
-        score = #{record.score,jdbcType=REAL},
-      </if>
-      <if test="record.is_delete != null">
-        is_delete = #{record.is_delete,jdbcType=INTEGER},
-      </if>
-      <if test="record.updated_time != null">
-        updated_time = #{record.updated_time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.created_time != null">
-        created_time = #{record.created_time,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-  </update>
-  <update id="updateByExample" parameterType="map">
-    update fke_sup_answer_line
-    set id = #{record.id,jdbcType=INTEGER},
-      header_id = #{record.header_id,jdbcType=INTEGER},
-      problem_id = #{record.problem_id,jdbcType=INTEGER},
-      answer_num = #{record.answer_num,jdbcType=INTEGER},
-      answer = #{record.answer,jdbcType=VARCHAR},
-      photo = #{record.photo,jdbcType=VARCHAR},
-      score = #{record.score,jdbcType=REAL},
-      is_delete = #{record.is_delete,jdbcType=INTEGER},
-      updated_time = #{record.updated_time,jdbcType=TIMESTAMP},
-      created_time = #{record.created_time,jdbcType=TIMESTAMP}
-  </update>
+  
+  
+  <insert id="insertBatchSupAnswerLine">
+	insert into fke_sup_answer_line (header_id, problem_id,
+	answer_num,answer,
+	score, is_delete, updated_time,
+	created_time)
+	values
+
+    <foreach collection="supAnsLineList" item="item" index="index" separator=",">  
+       (#{header_id,jdbcType=INTEGER}, #{item.problem_id,jdbcType=INTEGER}, 0,#{item.answer,jdbcType=VARCHAR},#{item.score},1,
+        NOW(),  NOW())
+    </foreach> 
+  </insert>
+	
+	<!-- App 批量更新订单明细 -->
+	<update id="updateBatch" parameterType="java.util.List">
+	update fke_sup_answer_line
+	<trim prefix="set" suffixOverrides=",">
+		<trim prefix="answer_num =case" suffix="end,">
+			<foreach collection="supAnswerLineList" item="i" index="index">
+				when id=#{i.id} then #{i.answer_num}
+			</foreach>
+		</trim>
+		<trim prefix=" answer =case" suffix="end,">
+			<foreach collection="supAnswerLineList" item="i" index="index">
+				when id=#{i.id} then #{i.answer}
+			</foreach>
+		</trim>
+		
+		<trim prefix=" score =case" suffix="end,">
+			<foreach collection="supAnswerLineList" item="i" index="index">
+				when id=#{i.id} then #{i.score}
+			</foreach>
+		</trim>
+		
+		<trim prefix=" updated_time =case" suffix="end,">
+			<foreach collection="supAnswerLineList" item="i" index="index">
+				when id=#{i.id} then #{i.updated_time}
+			</foreach>
+		</trim>
+		
+		
+		<trim prefix=" created_time =case" suffix="end,">
+			<foreach collection="supAnswerLineList" item="i" index="index">
+				when id=#{i.id} then #{i.created_time}
+			</foreach>
+		</trim>
+		
+		
+
+	</trim>
+	where
+	<foreach collection="supAnswerLineList" separator="or" item="i" index="index">
+		id=#{i.id}
+	</foreach>
+</update>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.jnhouse.app.bean.SupAnswerLine">
     update fke_sup_answer_line
     <set>
@@ -160,9 +186,6 @@
       </if>
       <if test="answer != null">
         answer = #{answer,jdbcType=VARCHAR},
-      </if>
-      <if test="photo != null">
-        photo = #{photo,jdbcType=VARCHAR},
       </if>
       <if test="score != null">
         score = #{score,jdbcType=REAL},
@@ -179,13 +202,12 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.jnhouse.app.bean.SupAnswerLine">
+  <update id="update" parameterType="com.jnhouse.app.bean.SupAnswerLine">
     update fke_sup_answer_line
     set header_id = #{header_id,jdbcType=INTEGER},
       problem_id = #{problem_id,jdbcType=INTEGER},
       answer_num = #{answer_num,jdbcType=INTEGER},
       answer = #{answer,jdbcType=VARCHAR},
-      photo = #{photo,jdbcType=VARCHAR},
       score = #{score,jdbcType=REAL},
       is_delete = #{is_delete,jdbcType=INTEGER},
       updated_time = #{updated_time,jdbcType=TIMESTAMP},

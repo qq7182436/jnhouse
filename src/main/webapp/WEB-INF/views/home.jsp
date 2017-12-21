@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -69,7 +70,7 @@ iframe{border:none;}
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
       <!-- Sidebar toggle button-->
-      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+      <a href="javascript:void(0);" class="sidebar-toggle" data-toggle="push-menu" role="button">
         <span class="sr-only">Toggle navigation</span>
       </a>
       <!-- Navbar Right Menu -->
@@ -77,7 +78,7 @@ iframe{border:none;}
         <ul class="nav navbar-nav">
           <!-- Messages: style can be found in dropdown.less-->
           <li class="dropdown messages-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-envelope-o"></i>
               <span class="label label-success">4</span>
             </a>
@@ -87,7 +88,7 @@ iframe{border:none;}
                 <!-- inner menu: contains the actual data -->
                 <ul class="menu">
                   <li><!-- start message -->
-                    <a href="#">
+                    <a href="javascript:void(0);">
                       <div class="pull-left">
                         <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                       </div>
@@ -100,7 +101,7 @@ iframe{border:none;}
                   </li>
                   <!-- end message -->
                   <li>
-                    <a href="#">
+                    <a href="javascript:void(0);">
                       <div class="pull-left">
                         <img src="dist/img/user3-128x128.jpg" class="img-circle" alt="User Image">
                       </div>
@@ -112,7 +113,7 @@ iframe{border:none;}
                     </a>
                   </li>
                   <li>
-                    <a href="#">
+                    <a href="javascript:void(0);">
                       <div class="pull-left">
                         <img src="dist/img/user4-128x128.jpg" class="img-circle" alt="User Image">
                       </div>
@@ -124,7 +125,7 @@ iframe{border:none;}
                     </a>
                   </li>
                   <li>
-                    <a href="#">
+                    <a href="javascript:void(0);">
                       <div class="pull-left">
                         <img src="dist/img/user3-128x128.jpg" class="img-circle" alt="User Image">
                       </div>
@@ -136,7 +137,7 @@ iframe{border:none;}
                     </a>
                   </li>
                   <li>
-                    <a href="#">
+                    <a href="javascript:void(0);">
                       <div class="pull-left">
                         <img src="dist/img/user4-128x128.jpg" class="img-circle" alt="User Image">
                       </div>
@@ -149,7 +150,7 @@ iframe{border:none;}
                   </li>
                 </ul>
               </li>
-              <li class="footer"><a href="#">See All Messages</a></li>
+              <li class="footer"><a href="javascript:void(0);">See All Messages</a></li>
             </ul>
           </li>
           <!-- Notifications: style can be found in dropdown.less -->
@@ -206,7 +207,7 @@ iframe{border:none;}
                 <!-- inner menu: contains the actual data -->
                 <ul class="menu">
                   <li><!-- Task item -->
-                    <a href="#">
+                    <a href="javascript:void(0);">
                       <h3>
                         Design some buttons
                         <small class="pull-right">20%</small>
@@ -221,7 +222,7 @@ iframe{border:none;}
                   </li>
                   <!-- end task item -->
                   <li><!-- Task item -->
-                    <a href="#">
+                    <a href="javascript:void(0);">
                       <h3>
                         Create a nice theme
                         <small class="pull-right">40%</small>
@@ -236,7 +237,7 @@ iframe{border:none;}
                   </li>
                   <!-- end task item -->
                   <li><!-- Task item -->
-                    <a href="#">
+                    <a href="javascript:void(0);">
                       <h3>
                         Some task I need to do
                         <small class="pull-right">60%</small>
@@ -251,7 +252,7 @@ iframe{border:none;}
                   </li>
                   <!-- end task item -->
                   <li><!-- Task item -->
-                    <a href="#">
+                    <a href="javascript:void(0);">
                       <h3>
                         Make beautiful transitions
                         <small class="pull-right">80%</small>
@@ -268,13 +269,13 @@ iframe{border:none;}
                 </ul>
               </li>
               <li class="footer">
-                <a href="#">View all tasks</a>
+                <a href="javascript:void(0);">View all tasks</a>
               </li>
             </ul>
           </li>
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
               <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
               <span class="hidden-xs">${user.username }</span>
             </a>
@@ -292,13 +293,13 @@ iframe{border:none;}
               <li class="user-body">
                 <div class="row">
                   <div class="col-xs-4 text-center">
-                    <a href="#">Followers</a>
+                    <a href="javascript:void(0);">Followers</a>
                   </div>
                   <div class="col-xs-4 text-center">
-                    <a href="#">Sales</a>
+                    <a href="javascript:void(0);">Sales</a>
                   </div>
                   <div class="col-xs-4 text-center">
-                    <a href="#">Friends</a>
+                    <a href="javascript:void(0);">Friends</a>
                   </div>
                 </div>
                 <!-- /.row -->
@@ -306,7 +307,7 @@ iframe{border:none;}
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">详情</a>
+                  <a href="javascript:void(0);" class="btn btn-default btn-flat">详情</a>
                 </div>
                 <div class="pull-right">
                   <a href="#" onclick="index.action" class="btn btn-default btn-flat">注销</a>
@@ -316,7 +317,7 @@ iframe{border:none;}
           </li>
           <!-- Control Sidebar Toggle Button -->
           <li>
-            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+            <a href="javascript:void(0);" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
           </li>
         </ul>
       </div>
@@ -334,11 +335,11 @@ iframe{border:none;}
         </div>
         <div class="pull-left info">
           <p>${user.username }</p>
-          <a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
+          <a href="javascript:void(0);"><i class="fa fa-circle text-success"></i> 在线</a>
         </div>
       </div>
       <!-- search form -->
-      <form action="#" method="get" class="sidebar-form">
+      <form action="javascript:void(0);" method="get" class="sidebar-form">
         <div class="input-group">
           <input type="text" name="q" class="form-control" placeholder="Search...">
           <span class="input-group-btn">
@@ -352,211 +353,39 @@ iframe{border:none;}
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
-        <li class="active treeview menu-open">
-          <a href="#">
-            <i class="fa fa-dashboard"></i> <span>系统管理</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li class="active"><a  href="javascript:;" onclick="reIframeHeight('dept_views.action');" ><i class="fa fa-circle-o"></i> 部门管理</a></li>
-            <li><a onclick="reIframeHeight('menu/menu_views.action');" href="javascript:;" ><i class="fa fa-circle-o"></i> 菜单管理</a></li>
-            <li><a onclick="reIframeHeight('role/role_views.action');" href="javascript:;" ><i class="fa fa-circle-o"></i> 角色管理</a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-files-o"></i>
-            <span>Layout Options</span>
-            <span class="pull-right-container">
-              <span class="label label-primary pull-right">4</span>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> Top Navigation</a></li>
-            <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> Boxed</a></li>
-            <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i> Fixed</a></li>
-            <li><a href="pages/layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
-          </ul>
-        </li>
-        <li>
-          <a href="pages/widgets.html">
-            <i class="fa fa-th"></i> <span>Widgets</span>
-            <span class="pull-right-container">
-              <small class="label pull-right bg-green">new</small>
-            </span>
-          </a>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-pie-chart"></i>
-            <span>Charts</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="pages/charts/chartjs.html"><i class="fa fa-circle-o"></i> ChartJS</a></li>
-            <li><a href="pages/charts/morris.html"><i class="fa fa-circle-o"></i> Morris</a></li>
-            <li><a href="pages/charts/flot.html"><i class="fa fa-circle-o"></i> Flot</a></li>
-            <li><a href="pages/charts/inline.html"><i class="fa fa-circle-o"></i> Inline charts</a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-laptop"></i>
-            <span>UI Elements</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="pages/UI/general.html"><i class="fa fa-circle-o"></i> General</a></li>
-            <li><a href="pages/UI/icons.html"><i class="fa fa-circle-o"></i> Icons</a></li>
-            <li><a href="pages/UI/buttons.html"><i class="fa fa-circle-o"></i> Buttons</a></li>
-            <li><a href="pages/UI/sliders.html"><i class="fa fa-circle-o"></i> Sliders</a></li>
-            <li><a href="pages/UI/timeline.html"><i class="fa fa-circle-o"></i> Timeline</a></li>
-            <li><a href="pages/UI/modals.html"><i class="fa fa-circle-o"></i> Modals</a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-edit"></i> <span>Forms</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="pages/forms/general.html"><i class="fa fa-circle-o"></i> General Elements</a></li>
-            <li><a href="pages/forms/advanced.html"><i class="fa fa-circle-o"></i> Advanced Elements</a></li>
-            <li><a href="pages/forms/editors.html"><i class="fa fa-circle-o"></i> Editors</a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-table"></i> <span>Tables</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="pages/tables/simple.html"><i class="fa fa-circle-o"></i> Simple tables</a></li>
-            <li><a href="pages/tables/data.html"><i class="fa fa-circle-o"></i> Data tables</a></li>
-          </ul>
-        </li>
-        <li>
-          <a href="pages/calendar.html">
-            <i class="fa fa-calendar"></i> <span>Calendar</span>
-            <span class="pull-right-container">
-              <small class="label pull-right bg-red">3</small>
-              <small class="label pull-right bg-blue">17</small>
-            </span>
-          </a>
-        </li>
-        <li>
-          <a href="pages/mailbox/mailbox.html">
-            <i class="fa fa-envelope"></i> <span>Mailbox</span>
-            <span class="pull-right-container">
-              <small class="label pull-right bg-yellow">12</small>
-              <small class="label pull-right bg-green">16</small>
-              <small class="label pull-right bg-red">5</small>
-            </span>
-          </a>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-folder"></i> <span>Examples</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="pages/examples/invoice.html"><i class="fa fa-circle-o"></i> Invoice</a></li>
-            <li><a href="pages/examples/profile.html"><i class="fa fa-circle-o"></i> Profile</a></li>
-            <li><a href="pages/examples/login.html"><i class="fa fa-circle-o"></i> Login</a></li>
-            <li><a href="pages/examples/register.html"><i class="fa fa-circle-o"></i> Register</a></li>
-            <li><a href="pages/examples/lockscreen.html"><i class="fa fa-circle-o"></i> Lockscreen</a></li>
-            <li><a href="pages/examples/404.html"><i class="fa fa-circle-o"></i> 404 Error</a></li>
-            <li><a href="pages/examples/500.html"><i class="fa fa-circle-o"></i> 500 Error</a></li>
-            <li><a href="pages/examples/blank.html"><i class="fa fa-circle-o"></i> Blank Page</a></li>
-            <li><a href="pages/examples/pace.html"><i class="fa fa-circle-o"></i> Pace Page</a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-share"></i> <span>Multilevel</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
-            <li class="treeview">
-              <a href="#"><i class="fa fa-circle-o"></i> Level One
-                <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="#"><i class="fa fa-circle-o"></i> Level Two</a></li>
-                <li class="treeview">
-                  <a href="#"><i class="fa fa-circle-o"></i> Level Two
-                    <span class="pull-right-container">
-                      <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                  </a>
-                  <ul class="treeview-menu">
-                    <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
-                    <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-            <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
-          </ul>
-        </li>
-        <li><a href="https://adminlte.io/docs"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
-        <li class="header">LABELS</li>
-        <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
-        <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
-        <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
+        <c:forEach items="${menuList }" var="menu" varStatus="status">
+	        <c:if test="${menu.father_id == 0 }" >
+	        	<c:if test="${!status.last && !status.first}" >
+			     	</ul>
+		        	</li>
+			    </c:if>
+	        	<li class="treeview">
+		          <a href="javascript:void(0);">
+		            <i class="fa fa-dashboard"></i> <span>${menu.menu_name }</span>
+		            <span class="pull-right-container">
+		              <i class="fa fa-angle-left pull-right"></i>
+		            </span>
+		          </a>
+		          <ul class="treeview-menu">
+		    </c:if>
+		    <c:if test="${menu.father_id != 0 }" >
+	        	 <li id="li-${menu.id }"><a  href="javascript:void(0);" onclick="reIframeHeight('${menu.url }',${menu.id });" ><i class="fa fa-circle-o"></i> ${menu.menu_name }</a></li>
+		    </c:if>
+		     <c:if test="${status.last}" >
+		     	</ul>
+	        	</li>
+		    </c:if>     
+        </c:forEach>
       </ul>
     </section>
     <!-- /.sidebar -->
   </aside>
 
-  <iframe   id="content" scroll="no"  min-height=""  src="dept_views.action"></iframe>
+  <iframe   id="content" scroll="no"  min-height=""  src="login/main.action"></iframe>
 
   
 
 </div>
-<!-- ./wrapper -->
-
-<%-- <!-- jQuery 3 -->
-<script src="<%=basePath%>bower_components/jquery/dist/jquery.min.js"></script>
-<!-- Bootstrap 3.3.7 -->
-<script src="<%=basePath%>bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<!-- FastClick -->
-<script src="<%=basePath%>bower_components/fastclick/lib/fastclick.js"></script>
-<!-- AdminLTE App -->
-<script src="<%=basePath%>dist/js/adminlte.min.js"></script>
-<!-- Sparkline -->
-<script src="<%=basePath%>bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
-<!-- jvectormap  -->
-<script src="<%=basePath%>plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
-<script src="<%=basePath%>plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-<!-- SlimScroll -->
-<script src="<%=basePath%>bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-<!-- ChartJS -->
-<script src="<%=basePath%>bower_components/Chart.js/Chart.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="<%=basePath%>dist/js/pages/dashboard2.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="<%=basePath%>dist/js/demo.js"></script>
-<script src="<%=basePath%>self/js/iframe.js"></script>
- --%>
-<!-- jQuery 3 -->
 <script src="<%=basePath%>bower_components/jquery/dist/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="<%=basePath%>bower_components/jquery-ui/jquery-ui.min.js"></script>
@@ -592,7 +421,6 @@ iframe{border:none;}
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="<%=basePath%>dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="<%=basePath%>dist/js/demo.js"></script>
 <script src="<%=basePath%>self/js/iframe.js"></script>
 </script>
 </body>

@@ -34,6 +34,7 @@
                     <username>tomcat</username>
                     <password>tomcat</password>
                     <path>/jnhouse</path>
+                    <uriEncoding>UTF-8</uriEncoding>
                 </configuration>
             </plugin>
         </plugins> 

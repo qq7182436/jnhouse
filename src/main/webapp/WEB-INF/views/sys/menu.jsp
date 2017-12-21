@@ -19,6 +19,7 @@
 <!-- Bootstrap 3.3.7 -->
 <link rel="stylesheet"
 	href="<%=basePath%>bower_components/bootstrap/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="<%=basePath%>bower_components/Ionicons/css/ionicons.min.css">	
 <!-- Theme style -->
 <link rel="stylesheet" href="<%=basePath%>dist/css/AdminLTE.min.css">
 <link rel="stylesheet" href="<%=basePath%>zTree_v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
@@ -99,7 +100,7 @@
 		  var layer = layui.layer
 		  ,form = layui.form;
 		});
-		
+		var flag = 0;
 		function removeHoverDom(treeId, treeNode) {
 			if(treeNode == '1'){
 			var menu_id = $("#menu_id").val();
@@ -123,6 +124,7 @@
 							dataType : 'json', //返回的数据格式：json/xml/html/script/jsonp/text
 							success : function(data) {
 								$("#"+treeNode_1.tId).remove();
+								layer.msg('删除成功',{offset: '250px'});
 							},
 							error : function(data) {
 								alert("错误");
@@ -147,6 +149,7 @@
 				father_id = treeNode_1.pId
 			}
 			$("#father_id").val(father_id);
+			flag = 1;
 			$.ajax({
 				url : 'menu/add_level.action',
 				type : 'POST', //GET
@@ -172,17 +175,31 @@
 		}
 		
 		
-		function save_dept(){
+		function save_menu(){
 			var menu_level = $("#menu_level").val();
 			var father_id = $("#father_id").val();
+			var id = $("#menu_id").val();
 			var name = $("#name").val();
+			if(name == ''){
+				layer.msg('部门名称不能为空'); 
+				return false;
+			}
 			var sort = $("#sort").val();
+			if(sort == ''){
+				layer.msg('排序不能为空'); 
+				return false;
+			}
 			var menu_url = $("#menu_url").val();
+			if(menu_url == ''){
+				layer.msg('路径不能为空'); 
+				return false;
+			}
 			$.ajax({
 				url : 'menu/save_menu.action',
 				type : 'POST', //GET
 				async : true, //或false,是否异步
 				data : {
+					"id" : id,
 					"menu_level" : menu_level,
 					"menu_url" : menu_url,
 					"father_id" : father_id,
@@ -193,12 +210,20 @@
 				dataType : 'json', //返回的数据格式：json/xml/html/script/jsonp/text
 				success : function(data) {
 					var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-					alert(treeNode_1.getParentNode() + "----" + data.treeNode.name);
-					if(treeNode_1.getParentNode() == null){
-						zTree.addNodes(treeNode_1, data.treeNode);
+					if( null != id && "" != id){
+						var index = treeNode_1.getIndex()
+						zTree.removeNode(treeNode_1, false);
+						zTree.addNodes(treeNode_1.getParentNode(),index, data.treeNode);
 					}else{
-						zTree.addNodes(treeNode_1.getParentNode(), data.treeNode);
+						if(flag == 2){
+							zTree.addNodes(treeNode_1, data.treeNode);
+						}else{
+							zTree.addNodes(treeNode_1.getParentNode(), data.treeNode);
+						}
+						
 					}
+					layer.msg('完成',{offset: '250px'}); 
+					/* layer.msg('完成'); */
 				},
 				error : function(data) {
 					alert("错误");
@@ -209,6 +234,11 @@
 		
 		function add_next_levels(){
 			var menu_level = treeNode_1.menu_level;
+			flag = 2;
+			if(menu_level == 2){
+				layer.msg('菜单只能到两级'); 
+				return false;
+			}
 			menu_level = menu_level + 1;
 			$("#menu_level").val(menu_level);
 			var father_id = treeNode_1.id;
@@ -237,6 +267,10 @@
 				}
 			})
 		}
+		function reset_menu(){
+			$("#menuForm").reset();
+			$("#menu_id").val(''); 
+		}
 	</script>
 <style type="text/css">
 .content-wrapper, .main-footer {
@@ -253,7 +287,7 @@ body {
 
 .ztree li span.button.pIcon01_ico_open {
 	margin-right: 2px;
-	background: url(<%=basePath%>zTree_v3/css/zTreeStyle/img/diy/1_open.png)
+	background: url(<%=basePath%>zTree_v3/css/zTreeStyle/img/diy/13.gif)
 		no-repeat scroll 0 0 transparent;
 	vertical-align: top;
 	*vertical-align: middle
@@ -262,7 +296,7 @@ body {
 .ztree li span.button.pIcon01_ico_close {
 	margin-right: 2px;
 	background:
-		url(<%=basePath%>zTree_v3/css/zTreeStyle/img/diy/1_close.png)
+		url(<%=basePath%>zTree_v3/css/zTreeStyle/img/diy/12.gif)
 		no-repeat scroll 0 0 transparent;
 	vertical-align: top;
 	*vertical-align: middle
@@ -295,7 +329,7 @@ body {
 
 .ztree li span.button.icon03_ico_docu {
 	margin-right: 2px;
-	background: url(<%=basePath%>zTree_v3/css/zTreeStyle/img/diy/5.png)
+	background: url(<%=basePath%>zTree_v3/css/zTreeStyle/img/diy/14.gif)
 		no-repeat scroll 0 0 transparent;
 	vertical-align: top;
 	*vertical-align: middle
@@ -338,8 +372,8 @@ body {
 					菜单信息 <small>MENU INFORMATION</small>
 				</h1>
 				<ol class="breadcrumb">
-					<li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
-					<li><a href="#">系统管理</a></li>
+					<li><a href="javascript:void(0);"><i class="fa fa-dashboard"></i> 主页</a></li>
+					<li><a href="javascript:void(0);">系统管理</a></li>
 					<li class="active">菜单列表</li>
 				</ol>
 			</section>
@@ -347,90 +381,102 @@ body {
 			<!-- Main content -->
 			<section class="content">
 				<div class="row">
-					<div class="col-xs-12">
-						<div class="box" style="height:893px;">
-							<div class="panel panel-primary"
-								style="width: 300px; min-height: 300px;float:left;">
-								<div class="panel-heading">菜单列表</div>
+					<div class="col-md-3">
+						<div class="box box-primary">
+							<div class="box-header with-border">
+								<i class="ion ion-clipboard"></i>
+								<h3 class="box-title">菜单列表</h3>
+							</div>
+							<div class="box-body">
 								<div class="content_wrap">
 									<div class="zTreeDemoBackground left">
 										<ul id="treeDemo" class="ztree"></ul>
 									</div>
 								</div>
 							</div>
-							<div class="panel panel-default" style="float:right;width: 1326px;height:893px;">
-							  <div class="panel-body" style="padding-left: 150px;">
-							  	<div class="btn-group btn-group-justified" role="group" aria-label="..." style="margin-bottom: 20px;width:300px;">
-								  <div class="btn-group" role="group">
-								    <button id="add_same_level" type="button" onclick="add_same_levels();" class="btn btn-primary active" disabled="disabled">
-								    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-								    	添加同级
-								    </button>
+						</div>
+					</div>
+					<div class="col-md-9">
+						<div class="box box-primary">
+							<div class="box-header with-border">
+								<h3 class="box-title">内容</h3>
+							</div>
+						  	<div class="box-body box-profile">
+						  		<div class="btn-group btn-group-justified" role="group" aria-label="..." style="margin-bottom: 20px;width:300px;">
+							  <div class="btn-group">
+							    <button id="add_same_level" type="button" onclick="add_same_levels();" class="btn btn-info" disabled="disabled">
+							    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+							    	添加同级
+							    </button>
+							  </div>
+							  <div class="btn-group">
+							    <button type="button" onclick="add_next_levels();" class="btn btn-info" disabled="disabled">
+							    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+							  	  添加下级
+							    </button>
+							  </div>
+							  <div class="btn-group">
+							    <button type="button" class="btn btn-info" onclick="removeHoverDom('treeDemo', '1')">
+							    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+							    	删除
+							    </button>
+							  </div>
+							</div>
+							<form action="" id="menuForm">
+						    <div class="input-group" style="margin-bottom: 20px;">
+								  <div class="input-group-btn">
+								  <button type="button" class="btn btn-default" aria-label="Bold">
+								 	 部门
+								  </button>
 								  </div>
-								  <div class="btn-group" role="group">
-								    <button type="button" onclick="add_next_levels();" class="btn btn-primary active" disabled="disabled">
-								    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-								  	  添加下级
-								    </button>
+								  <input id="name" type="text" maxlength="20" required="required" style="width:70%" class="form-control" placeholder="部门名称" aria-describedby="sizing-addon1">
+							</div>
+							<div class="input-group" style="margin-bottom: 20px;">
+								  <div class="input-group-btn">
+								  <button  type="button" class="btn btn-default" aria-label="Bold">
+								  	父级
+								  </button>
 								  </div>
-								  <div class="btn-group" role="group">
-								    <button type="button" class="btn btn-primary active" onclick="removeHoverDom('treeDemo', '1')">
-								    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-								    	删除
-								    </button>
+								  <input id="father_name" readonly="readonly" type="text" style="width:70%" class="form-control" placeholder="上级部门" aria-describedby="sizing-addon1">
+							</div>
+							<div class="input-group" style="margin-bottom: 20px;">
+								  <div class="input-group-btn">
+								  <button type="button" class="btn btn-default" aria-label="Bold">
+								  	排序
+								  </button>
 								  </div>
-								</div>
-							    <div class="input-group input-group-lg" style="margin-bottom: 20px;">
-									  <div class="input-group-btn">
-									  <button type="button" class="btn btn-default" aria-label="Bold">
-									  <span class="glyphicon glyphicon-king"></span>
-									  </button>
-									  </div>
-									  <input id="name" type="text" style="width:70%" class="form-control" placeholder="部门名称" aria-describedby="sizing-addon1">
-								</div>
-								<div class="input-group input-group-lg" style="margin-bottom: 20px;">
-									  <div class="input-group-btn">
-									  <button  type="button" class="btn btn-default" aria-label="Bold">
-									  <span class="glyphicon glyphicon-pawn"></span>
-									  </button>
-									  </div>
-									  <input id="father_name" readonly="readonly" type="text" style="width:70%" class="form-control" placeholder="上级部门" aria-describedby="sizing-addon1">
-								</div>
-								<div class="input-group input-group-lg" style="margin-bottom: 20px;">
-									  <div class="input-group-btn">
-									  <button type="button" class="btn btn-default" aria-label="Bold">
-									  <span class="glyphicon glyphicon-th-list"></span>
-									  </button>
-									  </div>
-									  <input id="sort" type="text" style="width:70%" class="form-control" placeholder="编号" aria-describedby="sizing-addon1">
-								</div>
-								<div class="input-group input-group-lg" style="margin-bottom: 20px;">
-									  <div class="input-group-btn">
-									  <button type="button" class="btn btn-default" aria-label="Bold">
-									  <span class="glyphicon glyphicon-flash"></span>
-									  </button>
-									  </div>
-									  <input id="menu_url" type="text" style="width:70%" class="form-control" placeholder="地址" aria-describedby="sizing-addon1">
-								</div>
-								</div>
+								  <input id="sort" type="text" maxlength="11" required="required" style="width:70%" class="form-control" placeholder="编号" aria-describedby="sizing-addon1">
+							</div>
+							<div class="input-group" style="margin-bottom: 20px;">
+								  <div class="input-group-btn">
+								  <button type="button" class="btn btn-default" aria-label="Bold">
+								  	路径
+								  </button>
+								  </div>
+								  <input id="menu_url" maxlength="255" type="text" style="width:70%" class="form-control" placeholder="地址" aria-describedby="sizing-addon1">
+							</div>
+							</div>
+							<div class="box-footer">
 								<input type="hidden" name="hidden" id="menu_id">
 								<input type="hidden" name="hidden" id="menu_sort">
 								<input type="hidden" name="hidden" id="menu_level">
 								<input type="hidden" name="hidden" id="father_id">
 								<p style="margin-left:300px;">
-									<button type="button" onclick="save_dept()" class="btn btn-primary  btn-lg">
+									<button type="button" onclick="save_menu()" class="btn btn-info">
 										<span class="glyphicon glyphicon-floppy-save" ></span>
 									保存
 									</button>
-									<button type="reset" class="btn btn-primary  btn-lg" style="margin-left:160px;">
+									<button type="reset" onclick="reset_menu()"  class="btn btn-info" style="margin-left:160px;">
 										<span class="glyphicon glyphicon-refresh"></span>
 									清除
 									</button>
 								</p>
-							  </div>
 							</div>
+							</form>
 						</div>
+							
 					</div>
+				</div>
 			</section>
 			<!-- /.content -->
 		</div>
