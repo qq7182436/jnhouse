@@ -1,7 +1,7 @@
 package com.jnhouse.app.utils;
 
 
-import java.io.PrintStream;
+import java.io.File;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -315,9 +315,6 @@ public class DateTimeUtils
     return datemillis;
   }
 
-  public static void main(String[] args) {
-    System.out.println(convertStr10(1459881828L));
-  }
 
   public static Date getNowTime(String format)
   {
@@ -684,88 +681,47 @@ public class DateTimeUtils
     return iMonth;
   }
 
-  public static int getYears(Date date1, Date date2)
-  {
-    int iYear = 0;
-    try {
-      Calendar objCalendarDate1 = Calendar.getInstance();
-      objCalendarDate1.setTime(date1);
-      Calendar objCalendarDate2 = Calendar.getInstance();
-      objCalendarDate2.setTime(date2);
-      if (objCalendarDate2.equals(objCalendarDate1))
-        return 0;
-      if (objCalendarDate1.after(objCalendarDate2)) {
-        Calendar temp = objCalendarDate1;
-        objCalendarDate1 = objCalendarDate2;
-        objCalendarDate2 = temp;
+
+	public static File getYearAndMonthAndToday(String rootDir) {
+
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+		Date currTime = new Date();
+		String curTime = formatter.format(currTime);
+		File file = new File(rootDir +curTime);
+		System.out.println("--------------"+file.getAbsolutePath());
+		if (!file.exists()) {// 目录不存在则直接创建
+			file.mkdirs();
+		}
+		return file;
+
+	}
+  public static File timeFile(String rootDir){
+	  Calendar date = Calendar.getInstance();
+      File file = new File(rootDir + File.separator + date.get(Calendar.YEAR)
+              + File.separator + (date.get(Calendar.MONTH)+1) + File.separator
+              + date.get(Calendar.DAY_OF_MONTH));
+      System.out.println("---------------"+file.getAbsolutePath());
+      if(!file.exists()){//目录不存在则直接创建
+          file.mkdirs();
       }
-      iYear = objCalendarDate2.get(1) - objCalendarDate1
-        .get(1);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return iYear;
+      return file;
   }
-
-  public static String getDistanceTime(String str1, String str2)
-  {
-    DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-    long day = 0L;
-    long hour = 0L;
-    long min = 0L;
-    long sec = 0L;
-    try {
-      Date one = df.parse(str1);
-      Date two = df.parse(str2);
-      long time1 = one.getTime();
-      long time2 = two.getTime();
-      long diff;
-      if (time1 < time2)
-        diff = time2 - time1;
-      else {
-        diff = time1 - time2;
-      }
-      day = diff / 86400000L;
-      hour = diff / 3600000L - day * 24L;
-      min = diff / 60000L - day * 24L * 60L - hour * 60L;
-      sec = diff / 1000L - day * 24L * 60L * 60L - hour * 60L * 60L - min * 60L;
-    } catch (ParseException e) {
-      e.printStackTrace();
-    }
-
-    return day + "天" + hour + "小时" + min + "分";
-  }
-
-  public static int getAgeByccId(String ccId)
-  {
-    if (ccId != null) {
-      ccId = ccId.replaceAll("\\s*", "");
-      
-      if (ccId.length() == 18) {
-        String year = ccId.substring(6, 10);
-        String month = ccId.substring(10, 12);
-        String day = ccId.substring(12, 14);
-        return getYears(
-          formatDateTime(year + "-" + month + "-" + day, 
-          "yyyy-MM-dd"), getNowTime("yyyy-MM-dd"));
-      }
-      return 0;
-    }
-
-    return 0;
-  }
-
-  public static String convertStr10(long date_time)
-  {
-    int today = (int)(getDateMillis(getCurDate()) / 1000L);
-    int ytday = today - 86400;
-    if (date_time >= today) {
-      return "今天";
-    }
-    if (date_time >= ytday) {
-      return "昨天";
-    }
-    return getMonthAndDay(date_time * 1000L);
-  }
+  
+ //
+  public static Date stringToDate(String s){
+		
+		Date date=null;
+		try  
+		{  
+		    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");  
+		    date = sdf.parse(s);  
+		}  
+		catch (ParseException e)  
+		{  
+		    e.printStackTrace();
+		}
+		
+		
+		return date;
+	}
 }

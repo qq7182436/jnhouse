@@ -10,7 +10,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;  
 import javax.servlet.http.HttpSession;  
   
-import org.apache.log4j.Logger;  
+
 import org.apache.log4j.MDC;  
   
 import com.jnhouse.app.bean.User;  

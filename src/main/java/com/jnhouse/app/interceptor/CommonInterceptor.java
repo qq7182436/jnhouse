@@ -18,7 +18,11 @@ public class CommonInterceptor extends HandlerInterceptorAdapter{
 			User user = (User)request.getSession().getAttribute("user");
 			System.err.println(user);
 			if (null == user) {
-				 request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
+				
+				if(!request.getRequestURI().startsWith("/jnhouse/jc_house")){
+					 request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
+				}
+	 
 			}
 		}
 		

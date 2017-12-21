@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnhouse.app.dao.FkeEastDao">
+	<resultMap id="fkeEast" type="com.jnhouse.app.bean.FkeEast">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="company_id" jdbcType="INTEGER" property="company_id" />
+		<result column="area_id" jdbcType="INTEGER" property="area_id" />
+		<result column="is_business" jdbcType="INTEGER" property="is_business" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		
+		 <collection property="supAnswerHeaders" column="store_id"  ofType="com.jnhouse.app.bean.SupAnswerHeader">
+			<id column="id" property="id" />
+			<!-- <result column="store_id"  jdbcType="INTEGER"  property="store_id" /> -->
+			<result column="docking_man"   property="docking_man"/>
+			<result column="check_date"   property="check_date"/>
+			<result column="is_delete"  property="is_delete"/>
+		</collection> 
+	</resultMap>
+	
+    <select id="findStoreInfoList" resultMap="fkeEast">
+	SELECT
+	e.name,
+	u.id,
+	u.docking_man,
+	u.check_date
+	FROM
+	fke_sup_answer_header u, 2015_09_fangchanjn.fke_east e
+
+	WHERE
+	u.store_id = e.id
+	AND u.is_delete=#{is_delete,jdbcType=INTEGER} and u.is_delete=#{is_delete} order by u.updated_time desc
+   </select>
+</mapper>
