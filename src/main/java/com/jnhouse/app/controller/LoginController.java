@@ -33,7 +33,8 @@ public class LoginController extends BaseController{
 	public ModelAndView index(HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
 		/*deptAuthorityService.save(deptAuthority);*/
-		System.err.println("--------");
+		
+		System.err.println("configInfo.getImgUrl()--------"+ configInfo.getImgUrl());
 		modelAndView.setViewName("login");
 		return modelAndView;
 	}
@@ -43,6 +44,19 @@ public class LoginController extends BaseController{
 		ModelAndView modelAndView = new ModelAndView();
 		System.err.println("--------3");
 		modelAndView.setViewName("sys/dept");
+		return modelAndView;
+	}
+	
+	/**
+	 * iframe跳转主页
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="login/main")
+	public ModelAndView go_main(HttpServletRequest request) {
+		ModelAndView modelAndView = new ModelAndView();
+		System.err.println("--------3");
+		modelAndView.setViewName("sys/main");
 		return modelAndView;
 	}
 	
@@ -91,7 +105,6 @@ public class LoginController extends BaseController{
 				if (!menu_ids.contains(menu.getId())) {
 					menuList.add(menu);
 					menu_ids.add(menu.getId());
-					System.err.println(menu.getMenu_name() + "****************" + menu.getId());
 				}
 			}
 			request.getSession().setAttribute("menuList", menuList);

@@ -70,7 +70,7 @@ iframe{border:none;}
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
       <!-- Sidebar toggle button-->
-      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+      <a href="javascript:void(0);" class="sidebar-toggle" data-toggle="push-menu" role="button">
         <span class="sr-only">Toggle navigation</span>
       </a>
       <!-- Navbar Right Menu -->
@@ -78,7 +78,7 @@ iframe{border:none;}
         <ul class="nav navbar-nav">
           <!-- Messages: style can be found in dropdown.less-->
           <li class="dropdown messages-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-envelope-o"></i>
               <span class="label label-success">4</span>
             </a>
@@ -88,7 +88,7 @@ iframe{border:none;}
                 <!-- inner menu: contains the actual data -->
                 <ul class="menu">
                   <li><!-- start message -->
-                    <a href="#">
+                    <a href="javascript:void(0);">
                       <div class="pull-left">
                         <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                       </div>
@@ -101,7 +101,7 @@ iframe{border:none;}
                   </li>
                   <!-- end message -->
                   <li>
-                    <a href="#">
+                    <a href="javascript:void(0);">
                       <div class="pull-left">
                         <img src="dist/img/user3-128x128.jpg" class="img-circle" alt="User Image">
                       </div>
@@ -113,7 +113,7 @@ iframe{border:none;}
                     </a>
                   </li>
                   <li>
-                    <a href="#">
+                    <a href="javascript:void(0);">
                       <div class="pull-left">
                         <img src="dist/img/user4-128x128.jpg" class="img-circle" alt="User Image">
                       </div>
@@ -125,7 +125,7 @@ iframe{border:none;}
                     </a>
                   </li>
                   <li>
-                    <a href="#">
+                    <a href="javascript:void(0);">
                       <div class="pull-left">
                         <img src="dist/img/user3-128x128.jpg" class="img-circle" alt="User Image">
                       </div>
@@ -137,7 +137,7 @@ iframe{border:none;}
                     </a>
                   </li>
                   <li>
-                    <a href="#">
+                    <a href="javascript:void(0);">
                       <div class="pull-left">
                         <img src="dist/img/user4-128x128.jpg" class="img-circle" alt="User Image">
                       </div>
@@ -150,7 +150,7 @@ iframe{border:none;}
                   </li>
                 </ul>
               </li>
-              <li class="footer"><a href="#">See All Messages</a></li>
+              <li class="footer"><a href="javascript:void(0);">See All Messages</a></li>
             </ul>
           </li>
           <!-- Notifications: style can be found in dropdown.less -->
@@ -207,7 +207,7 @@ iframe{border:none;}
                 <!-- inner menu: contains the actual data -->
                 <ul class="menu">
                   <li><!-- Task item -->
-                    <a href="#">
+                    <a href="javascript:void(0);">
                       <h3>
                         Design some buttons
                         <small class="pull-right">20%</small>
@@ -222,7 +222,7 @@ iframe{border:none;}
                   </li>
                   <!-- end task item -->
                   <li><!-- Task item -->
-                    <a href="#">
+                    <a href="javascript:void(0);">
                       <h3>
                         Create a nice theme
                         <small class="pull-right">40%</small>
@@ -237,7 +237,7 @@ iframe{border:none;}
                   </li>
                   <!-- end task item -->
                   <li><!-- Task item -->
-                    <a href="#">
+                    <a href="javascript:void(0);">
                       <h3>
                         Some task I need to do
                         <small class="pull-right">60%</small>
@@ -252,7 +252,7 @@ iframe{border:none;}
                   </li>
                   <!-- end task item -->
                   <li><!-- Task item -->
-                    <a href="#">
+                    <a href="javascript:void(0);">
                       <h3>
                         Make beautiful transitions
                         <small class="pull-right">80%</small>
@@ -269,13 +269,13 @@ iframe{border:none;}
                 </ul>
               </li>
               <li class="footer">
-                <a href="#">View all tasks</a>
+                <a href="javascript:void(0);">View all tasks</a>
               </li>
             </ul>
           </li>
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
               <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
               <span class="hidden-xs">${user.username }</span>
             </a>
@@ -293,13 +293,13 @@ iframe{border:none;}
               <li class="user-body">
                 <div class="row">
                   <div class="col-xs-4 text-center">
-                    <a href="#">Followers</a>
+                    <a href="javascript:void(0);">Followers</a>
                   </div>
                   <div class="col-xs-4 text-center">
-                    <a href="#">Sales</a>
+                    <a href="javascript:void(0);">Sales</a>
                   </div>
                   <div class="col-xs-4 text-center">
-                    <a href="#">Friends</a>
+                    <a href="javascript:void(0);">Friends</a>
                   </div>
                 </div>
                 <!-- /.row -->
@@ -307,7 +307,7 @@ iframe{border:none;}
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">详情</a>
+                  <a href="javascript:void(0);" class="btn btn-default btn-flat">详情</a>
                 </div>
                 <div class="pull-right">
                   <a href="#" onclick="index.action" class="btn btn-default btn-flat">注销</a>
@@ -317,7 +317,7 @@ iframe{border:none;}
           </li>
           <!-- Control Sidebar Toggle Button -->
           <li>
-            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+            <a href="javascript:void(0);" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
           </li>
         </ul>
       </div>
@@ -335,11 +335,11 @@ iframe{border:none;}
         </div>
         <div class="pull-left info">
           <p>${user.username }</p>
-          <a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
+          <a href="javascript:void(0);"><i class="fa fa-circle text-success"></i> 在线</a>
         </div>
       </div>
       <!-- search form -->
-      <form action="#" method="get" class="sidebar-form">
+      <form action="javascript:void(0);" method="get" class="sidebar-form">
         <div class="input-group">
           <input type="text" name="q" class="form-control" placeholder="Search...">
           <span class="input-group-btn">
@@ -360,7 +360,7 @@ iframe{border:none;}
 		        	</li>
 			    </c:if>
 	        	<li class="treeview">
-		          <a href="#">
+		          <a href="javascript:void(0);">
 		            <i class="fa fa-dashboard"></i> <span>${menu.menu_name }</span>
 		            <span class="pull-right-container">
 		              <i class="fa fa-angle-left pull-right"></i>
@@ -369,7 +369,7 @@ iframe{border:none;}
 		          <ul class="treeview-menu">
 		    </c:if>
 		    <c:if test="${menu.father_id != 0 }" >
-	        	 <li id="li-${menu.id }"><a  href="javascript:;" onclick="reIframeHeight('${menu.url }',${menu.id });" ><i class="fa fa-circle-o"></i> ${menu.menu_name }</a></li>
+	        	 <li id="li-${menu.id }"><a  href="javascript:void(0);" onclick="reIframeHeight('${menu.url }',${menu.id });" ><i class="fa fa-circle-o"></i> ${menu.menu_name }</a></li>
 		    </c:if>
 		     <c:if test="${status.last}" >
 		     	</ul>
@@ -381,7 +381,7 @@ iframe{border:none;}
     <!-- /.sidebar -->
   </aside>
 
-  <iframe   id="content" scroll="no"  min-height=""  src="dept_views.action"></iframe>
+  <iframe   id="content" scroll="no"  min-height=""  src="login/main.action"></iframe>
 
   
 

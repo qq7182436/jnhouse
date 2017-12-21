@@ -17,18 +17,15 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.github.pagehelper.util.StringUtil;
 import com.jnhouse.app.bean.SupTemplate;
 import com.jnhouse.app.service.FileService;
 import com.jnhouse.app.utils.ResultData;
-import com.jnhouse.app.utils.SftpUtils;
-import com.jnhouse.app.utils.StringUtils;
 
 @Controller
 public class FileController extends BaseController{
 
 	
-	ObjectMapper objectMapper = new ObjectMapper();
+ObjectMapper objectMapper;
 	
 	
 	@Resource

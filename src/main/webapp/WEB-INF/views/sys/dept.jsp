@@ -20,6 +20,8 @@
 <!-- Bootstrap 3.3.7 -->
 <link rel="stylesheet"
 	href="<%=basePath%>bower_components/bootstrap/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="<%=basePath%>bower_components/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="<%=basePath%>bower_components/Ionicons/css/ionicons.min.css">	
 <!-- Theme style -->
 <link rel="stylesheet" href="<%=basePath%>zTree_v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
 <link rel="stylesheet" href="<%=basePath%>layui/css/layui.css" type="text/css">
@@ -112,7 +114,7 @@
 			if(treeNode == '1'){
 			var dept_id = $("#dept_id").val();
 			if(dept_id == ''){
-					layer.msg('请选择要删除的部门'); 
+					layer.msg('请选择要删除的部门',{offset: '250px'}); 
 					return false;
 			}
 			 layer.confirm('确定要删除吗？', {
@@ -131,6 +133,7 @@
 							dataType : 'json', //返回的数据格式：json/xml/html/script/jsonp/text
 							success : function(data) {
 								$("#"+treeNode_1.tId).remove();
+								layer.msg('删除成功',{offset: '250px'});
 							},
 							error : function(data) {
 								alert("错误");
@@ -273,7 +276,13 @@
 		}
 	</script>
 <style type="text/css">
-
+.content-wrapper, .main-footer {
+	margin-left: 0px;
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	width: 100%;
+}
 .ztree li span.button.pIcon01_ico_open {
 	margin-right: 2px;
 	background: url(zTree_v3/css/zTreeStyle/img/diy/1_open.png)
@@ -371,13 +380,9 @@
 	vertical-align: top;
 	*vertical-align: middle
 }
-.col-md-3, .col-md-9{
-	padding-right: 0px;
-	padding-left: 0px;
-}
 </style>
 </head>
-<body style="overflow: hidden;background-color: white;">
+<body style="background-color: #ecf0f5;">
 	<div>
 
 
@@ -389,8 +394,8 @@
 					部门信息 <small>DEPARTMENT INFORMATION</small>
 				</h1>
 				<ol class="breadcrumb">
-					<li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
-					<li><a href="#">系统管理</a></li>
+					<li><a href="javascript:void(0);"><i class="fa fa-dashboard"></i> 主页</a></li>
+					<li><a href="javascript:void(0);">系统管理</a></li>
 					<li class="active">部门管理</li>
 				</ol>
 			</section>
@@ -399,9 +404,12 @@
 			<section class="content">
 				<div class="row">
 					<div class="col-md-3">
-						<div class="box" style="height:893px;">
-							<div class="panel panel-info">
-								<div class="panel-heading">部门列表</div>
+						<div class="box box-primary">
+							<div class="box-header with-border">
+								<i class="ion ion-clipboard"></i>
+								<h3 class="box-title">菜单列表</h3>
+							</div>
+							<div class="box-body">
 								<div class="content_wrap">
 									<div class="zTreeDemoBackground left">
 										<ul id="treeDemo" class="ztree"></ul>
@@ -411,8 +419,11 @@
 						</div>
 					</div>	
 					<div class="col-md-9">
-						<div class="panel panel-default" style="height:893px;">
-						  <div class="panel-body">
+						<div class="box box-primary">
+						  <div class="box-header with-border">
+								<h3 class="box-title">内容</h3>
+						  </div>
+						  <div class="box-body box-profile">
 						  	<div class="btn-group btn-group-justified" role="group" aria-label="..." style="margin-bottom: 20px;width:300px;">
 							  <div class="btn-group" role="group">
 							    <button id="add_same_level" type="button" onclick="add_same_levels();" class="btn btn-info" disabled="disabled">
@@ -433,29 +444,29 @@
 							    </button>
 							  </div>
 							</div>
-						    <div class="input-group input-group-lg" style="margin-bottom: 20px;">
+						    <div class="input-group" style="margin-bottom: 20px;">
 								  <div class="input-group-btn">
 								  <button type="button" class="btn btn-default" aria-label="Bold">
 								  <!-- <span class="glyphicon glyphicon-king"></span> -->
-								  部门名称
+								  名称
 								  </button>
 								  </div>
 								  <input id="name" type="text" style="width:70%" class="form-control" placeholder="部门名称" aria-describedby="sizing-addon1">
 							</div>
-							<div class="input-group input-group-lg" style="margin-bottom: 20px;">
+							<div class="input-group" style="margin-bottom: 20px;">
 								  <div class="input-group-btn">
 								  <button  type="button" class="btn btn-default" aria-label="Bold">
 								  <!-- <span class="glyphicon glyphicon-pawn"></span> -->
-								  上级部门
+								  父级
 								  </button>
 								  </div>
 								  <input id="father_name" readonly="readonly" type="text" style="width:70%" class="form-control" placeholder="上级部门" aria-describedby="sizing-addon1">
 							</div>
-							<div class="input-group input-group-lg" style="margin-bottom: 20px;">
+							<div class="input-group" style="margin-bottom: 20px;">
 								  <div class="input-group-btn">
 								  <button type="button" class="btn btn-default" aria-label="Bold">
 								  <!-- <span class="glyphicon glyphicon-th-list"></span> -->
-								  排序号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								  排序
 								  </button>
 								  </div>
 								  <input id="sort" type="text" style="width:70%" class="form-control" placeholder="编号" aria-describedby="sizing-addon1">
@@ -463,7 +474,7 @@
 				            <div class="input-group" style="margin-bottom: 20px;">
 								  <div class="input-group-btn">
 								  <button type="button" class="btn btn-default" aria-label="Bold">
-								 部门角色&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								 角色
 								  </button>
 								  </div>
 								  <select class="form-control select2" id="select2" multiple="multiple" data-placeholder="请选择角色"
@@ -474,25 +485,25 @@
 				                </select>
 							</div>
 						</div>
-							 
-						<input type="hidden" name="hidden" id="dept_id">
-						<input type="hidden" name="hidden" id="dept_sort">
-						<input type="hidden" name="hidden" id="dept_level">
-						<input type="hidden" name="hidden" id="father_id">
-						<p style="margin-left:300px;">
-							<button type="button" onclick="save_dept()" class="btn btn-info">
-								<span class="glyphicon glyphicon-floppy-save" ></span>
-							保存
-							</button>
-							<button type="reset" class="btn btn-info" style="margin-left:160px;">
-								<span class="glyphicon glyphicon-refresh"></span>
-							清除
-							</button>
-						</p>
-					  </div>
+						  <div class="box-footer">	 
+							<input type="hidden" name="hidden" id="dept_id">
+							<input type="hidden" name="hidden" id="dept_sort">
+							<input type="hidden" name="hidden" id="dept_level">
+							<input type="hidden" name="hidden" id="father_id">
+							<p style="margin-left:300px;">
+								<button type="button" onclick="save_dept()" class="btn btn-info">
+									<span class="glyphicon glyphicon-floppy-save" ></span>
+								保存
+								</button>
+								<button type="reset" class="btn btn-info" style="margin-left:160px;">
+									<span class="glyphicon glyphicon-refresh"></span>
+								清除
+								</button>
+							</p>
+						  </div>
+					  	</div>
 					</div>
-						
-					</div>
+				</div>
 			</section>
 			<!-- /.content -->
 		</div>

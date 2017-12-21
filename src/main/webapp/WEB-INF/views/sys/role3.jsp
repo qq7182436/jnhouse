@@ -15,6 +15,7 @@
 <title>菜单管理</title>
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <link rel="stylesheet" href="<%=basePath%>bower_components/bootstrap/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="<%=basePath%>bower_components/font-awesome/css/font-awesome.min.css">
 <link rel="stylesheet" href="<%=basePath%>bower_components/Ionicons/css/ionicons.min.css">
 <link rel="stylesheet" href="<%=basePath%>dist/css/AdminLTE.min.css">
 <link rel="stylesheet" href="<%=basePath%>dist/css/skins/_all-skins.min.css">
@@ -58,8 +59,8 @@ body {
 					角色信息 <small>ROLE INFORMATION</small>
 				</h1>
 				<ol class="breadcrumb">
-					<li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
-					<li><a href="#">系统管理</a></li>
+					<li><a href="javascript:void(0);"><i class="fa fa-dashboard"></i> 主页</a></li>
+					<li><a href="javascript:void(0);">系统管理</a></li>
 					<li class="active">角色列表</li>
 				</ol>
 			</section>
@@ -68,113 +69,131 @@ body {
 			<section class="content">
 				<div class="row">
 					<div class="col-xs-12">
-						<div class="box" style="height: 893px;">
-							<div class="panel panel-primary"
-								style="width: 100%; min-height: 300px;float:left;">
-								<div class="panel-heading">角色列表</div>
-							<div class="panel-body">
-								<div class="col-md-6">
-								<div class="btn-group btn-group-justified" role="group" aria-label="..." style="margin-bottom: 10px;width:300px;">
-									  <div class="btn-group" role="group">
-									    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">
-									    <span class="glyphicon glyphicon-plus" aria-hidden="true" ></span>
-									    	添加
-									    </button>
-									  </div>
-									  <div class="btn-group" role="group">
-									    <button type="button" id="update_button" class="btn btn-info">
-									    <span class="glyphicon glyphicon-retweet" aria-hidden="true"></span>
-									  	  修改
-									    </button>
-									  </div>
-									  <div class="btn-group" role="group">
-									    <button type="button" class="btn btn-info" id="del_button">
-									    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-									    	删除
-									    </button>
-									  </div>
-									</div>
+						<div class="box box-primary">
+								<div class="box-header with-border">
+									<i class="ion ion-clipboard"></i>
+									<h3 class="box-title">角色列表</h3>
+								</div>
+								<div class="box-body">
+									<div class="col-md-6">
+										<div class="btn-group btn-group-justified" role="group"
+											aria-label="..." style="margin-bottom: 10px; width: 300px;">
+											<div class="btn-group" role="group">
+												<button type="button" class="btn btn-info"
+													data-toggle="modal" data-target="#myModal">
+													<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+													添加
+												</button>
+											</div>
+											<div class="btn-group" role="group">
+												<button type="button" id="update_button"
+													class="btn btn-info">
+													<span class="glyphicon glyphicon-retweet"
+														aria-hidden="true"></span> 修改
+												</button>
+											</div>
+											<div class="btn-group" role="group">
+												<button type="button" class="btn btn-info" id="del_button">
+													<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+													删除
+												</button>
+											</div>
+										</div>
 									</div>
 									<div class="col-md-6">
-								 <div style="width:200px;float:right;margin-bottom: 10px;" class="input-group input-group-sm">
-					                <input type="text" id="search_text" value="${role_name }" class="form-control"  placeholder="Search for...">
-					                    <span class="input-group-btn">
-					                      <button type="button" id="go_search" class="btn btn-info btn-flat">Go!</button>
-					                    </span>
-					              </div>
-					              </div>
-								<table class="table table-bordered table-hover">
-									<tr>
-										<th style="width: 10px"><input type="checkbox" name="roleCheck" id="checkTop" class="minimal"></th>
-										<th>角色名称</th>
-										<th>角色描述</th>
-										<th style="width: 340px">
-											操作
-									  	</th>
-									</tr>
-									<c:forEach items="${pageInfo.list }" var="roles">
+										<div style="width: 200px; float: right; margin-bottom: 10px;"
+											class="input-group input-group-sm">
+											<input type="text" id="search_text" value="${role_name }"
+												class="form-control" placeholder="Search for..."> <span
+												class="input-group-btn">
+												<button type="button" id="go_search"
+													class="btn btn-info btn-flat">Go!</button>
+											</span>
+										</div>
+									</div>
+									<table class="table table-bordered table-hover">
 										<tr>
-											<td><input type="checkbox" name="roleCheck" class="minimal" value="${roles.id }"></td>
-											<td id="td-name-${roles.id }">${roles.role_name }</td>
-											<td id="td-describe-${roles.id }">${roles.role_describe }</td>
-											<td>
-											    <button type="button" onclick="changeRole(${roles.id })" class="btn btn-info btn-sm">
-												    <span class="glyphicon glyphicon-retweet" aria-hidden="true"></span>
-												  	  修改
-										    	</button>
-											    <button type="button" name="del_btn" onclick="deleteRole(${roles.id })" class="btn btn-danger btn-sm">
-												    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-												  	  删除
-											    </button>
-											    <button type="button" name="del_btn" onclick="changeMenu(${roles.id })" class="btn btn-success btn-sm">
-												    <span class="glyphicon glyphicon-modal-window" aria-hidden="true"></span>
-												  	  配置菜单
-											    </button>
-										    </td>
+											<th width="5%"><input type="checkbox"
+												name="roleCheck" id="checkTop" class="minimal"></th>
+											<th width="35%">角色名称</th>
+											<th width="35%">角色描述</th>
+											<th width="25%">操作</th>
 										</tr>
-									</c:forEach>
-								</table>
-								<div class="col-md-6">
-									当前<span class="label label-primary">${pageInfo.pageNum }</span>
-									页，总共当前<span class="label label-primary">${pageInfo.pages }</span>
-									页，总共<span class="label label-primary">${pageInfo.total }</span>
-									记录
+										<c:forEach items="${pageInfo.list }" var="roles">
+											<tr>
+												<td>
+												<input type="checkbox" name="roleCheck"
+													class="minimal" value="${roles.id }"></td>
+												<td id="td-name-${roles.id }">${roles.role_name }</td>
+												<td id="td-describe-${roles.id }">${roles.role_describe }</td>
+												<td>
+													<button type="button" onclick="changeRole(${roles.id })"
+														class="btn btn-info btn-sm">
+														<span class="glyphicon glyphicon-retweet"
+															aria-hidden="true"></span> 修改
+													</button>
+													<button type="button" name="del_btn"
+														onclick="deleteRole(${roles.id })"
+														class="btn btn-danger btn-sm">
+														<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+														删除
+													</button>
+													<button type="button" name="del_btn"
+														onclick="changeMenu(${roles.id })"
+														class="btn btn-success btn-sm">
+														<span class="glyphicon glyphicon-modal-window"
+															aria-hidden="true"></span> 配置菜单
+													</button>
+												</td>
+											</tr>
+										</c:forEach>
+									</table>
 								</div>
-								<div class="col-md-6">
-								<nav aria-label="Page navigation">
-									<input type="hidden" name="pageNum" id="pageNum" value="${pageInfo.pageNum}">
-								  <ul class="pagination pagination-lg  no-margin pull-right">
-								  	<li><a href="<%=basePath%>role/role_views.action?pageNum=1">首页</a></li>
-								  	 <c:if test="${pageInfo.hasPreviousPage }">
-									  	 <li>
-									      <a href="<%=basePath%>role/role_views.action?pageNum=${pageInfo.pageNum-1}&role_name=${role_name}" aria-label="Previous">
-									        <span aria-hidden="true">&laquo;</span>
-									      </a>
-									     </li>
-								  	 </c:if>
-								    
-								    <c:forEach items="${pageInfo.navigatepageNums }" var="page_num">
-								    	<c:if test="${page_num == pageInfo.pageNum}">
-								    	<li class="active"><a href="<%=basePath%>role/role_views.action?pageNum=${page_num}&role_name=${role_name}">${page_num}</a></li>
-								    	</c:if>
-								    	<c:if test="${page_num != pageInfo.pageNum}">
-								    	<li><a href="<%=basePath%>role/role_views.action?pageNum=${page_num}&role_name=${role_name}">${page_num}</a></li>
-								    	</c:if>
-								    </c:forEach>
-								     <c:if test="${pageInfo.hasNextPage }">
-									     <li>
-									      <a href="<%=basePath%>role/role_views.action?pageNum=${pageInfo.pageNum+1}&role_name=${role_name}" aria-label="Next">
-									        <span aria-hidden="true">&raquo;</span>
-									      </a>
-									    </li>
-								  	 </c:if>
-								    
-								    <li><a href="<%=basePath%>role/role_views.action?pageNum=${pageInfo.pages}&role_name=${role_name}"">末页</a></li>
-								  </ul>
-								</nav>
+								<div class="box-footer with-border">
+									<div class="col-md-6">
+										当前<span class="label label-primary">${pageInfo.pageNum }</span>
+										页，总共当前<span class="label label-primary">${pageInfo.pages }</span>
+										页，总共<span class="label label-primary">${pageInfo.total }</span>
+										记录
+									</div>
+									<div class="col-md-6">
+										<nav aria-label="Page navigation">
+											<input type="hidden" name="pageNum" id="pageNum"
+												value="${pageInfo.pageNum}">
+											<ul class="pagination  no-margin pull-right">
+												<li><a
+													href="<%=basePath%>role/role_views.action?pageNum=1">首页</a></li>
+												<c:if test="${pageInfo.hasPreviousPage }">
+													<li><a
+														href="<%=basePath%>role/role_views.action?pageNum=${pageInfo.pageNum-1}&role_name=${role_name}"
+														aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+													</a></li>
+												</c:if>
+
+												<c:forEach items="${pageInfo.navigatepageNums }"
+													var="page_num">
+													<c:if test="${page_num == pageInfo.pageNum}">
+														<li class="active"><a
+															href="<%=basePath%>role/role_views.action?pageNum=${page_num}&role_name=${role_name}">${page_num}</a></li>
+													</c:if>
+													<c:if test="${page_num != pageInfo.pageNum}">
+														<li><a
+															href="<%=basePath%>role/role_views.action?pageNum=${page_num}&role_name=${role_name}">${page_num}</a></li>
+													</c:if>
+												</c:forEach>
+												<c:if test="${pageInfo.hasNextPage }">
+													<li><a
+														href="<%=basePath%>role/role_views.action?pageNum=${pageInfo.pageNum+1}&role_name=${role_name}"
+														aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+													</a></li>
+												</c:if>
+
+												<li><a
+													href="<%=basePath%>role/role_views.action?pageNum=${pageInfo.pages}&role_name=${role_name}"">末页</a></li>
+											</ul>
+										</nav>
+									</div>
 								</div>
-							</div>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -336,8 +355,14 @@ body {
 			    		  }
 			    		  
 			    		});
-		    		var pageNum = $("#pageNum").val();
-		    		window.location.href="role/role_delete.action?ids="+ids + "&pageNum=" + pageNum; 
+		    		layer.confirm('确定删除该角色吗？', {
+			    		  btn: ['是','否'] //按钮
+			    		 ,offset: '250px'
+			    		}, function(){
+			    			var pageNum = $("#pageNum").val();
+			    			window.location.href="role/role_delete.action?ids="+ids + "&pageNum=" + pageNum; 
+			    		}, function(){
+			    		});
 		    	}
 		    	
 		    });
@@ -420,28 +445,30 @@ body {
 				
 				}
 		  function changeMenu(id){
-			  $("input[name^='menuCheck']").iCheck('uncheck');
-			  $.ajax({
-					url : 'menu/query_role_menus.action',
-					type : 'POST', //GET
-					async : true, //或false,是否异步
-					data : {
-						"role" : id
-					},
-					timeout : 5000, //超时时间
-					dataType : 'json', //返回的数据格式：json/xml/html/script/jsonp/text
-					success : function(data) {
-						var list = data.msg;
-						$.each( list, function(i, n){
-							$("input[name='menuCheck-"+n+"']").iCheck('check');
-				    		});
-					},
-					error : function(data) {
-						alert("错误");
-						console.log('错误')
-					}
-				})
-	    		$("#role_id").val(id);
+			  if('' != id){
+				  $("input[name^='menuCheck']").iCheck('uncheck');
+				  $.ajax({
+						url : 'menu/query_role_menus.action',
+						type : 'POST', //GET
+						async : true, //或false,是否异步
+						data : {
+							"role" : id
+						},
+						timeout : 5000, //超时时间
+						dataType : 'json', //返回的数据格式：json/xml/html/script/jsonp/text
+						success : function(data) {
+							var list = data.msg;
+							$.each( list, function(i, n){
+								$("input[name='menuCheck-"+n+"']").iCheck('check');
+					    		});
+						},
+						error : function(data) {
+							alert("错误");
+							console.log('错误')
+						}
+					})
+		    		$("#role_id").val(id);
+			  }
 	    		$('#myMenu').modal('show');
 			}
 	</script>

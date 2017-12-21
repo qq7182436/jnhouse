@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jnhouse.app.bean.Menu;
+import com.jnhouse.app.bean.User;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -134,21 +135,39 @@ public class MenuController extends BaseController{
 	public  JSONObject save_dept(HttpServletRequest request) {
 		JSONObject jsonObject = null;
 		try {
-			Integer menu_level = Integer.valueOf(request.getParameter("menu_level"));
-			Integer father_id = Integer.valueOf(request.getParameter("father_id"));
+			String menu_level = request.getParameter("menu_level");
+			String father_id = request.getParameter("father_id");
 			String name = request.getParameter("name");
-			Integer sort = Integer.valueOf(request.getParameter("sort"));
+			String sort = request.getParameter("sort");
+			String id = request.getParameter("id");
 			String menu_url = request.getParameter("menu_url");
+			User user = (User)request.getSession().getAttribute("user");
 			Menu menu = new Menu();
-			menu.setFather_id(father_id);
+			if (null != father_id && !"".equals(father_id)) {
+				menu.setFather_id(Integer.valueOf(father_id));
+			}
+			if (null != sort && !"".equals(sort)) {
+				menu.setSort(Integer.valueOf(sort));
+			}
+			if (null != menu_level && !"".equals(menu_level)) {
+				menu.setMenu_level(Integer.valueOf(menu_level));
+			}
 			menu.setMenu_name(name);
-			menu.setSort(sort);
-			menu.setMenu_level(menu_level);
 			menu.setUrl(menu_url);
-			menu.setIs_delete(1);
-			menu.setCreated_by(1);
-			menu.setUpdated_by(1);
-			menuService.save(menu);
+			if (null != user) {
+				menu.setCreated_by(user.getId());
+				menu.setUpdated_by(user.getId());
+			}else {
+				menu.setCreated_by(1);
+				menu.setUpdated_by(1);
+			}
+			//如果id不为空，则为更新
+			if (null != id && !"".equals(id)) {
+				menu.setId(Integer.valueOf(id));
+				menuService.update(menu);
+			}else {
+				menuService.save(menu);
+			}
 			System.err.println(menu.getId() + "###########");
 			Menu menu2 = menuService.getById(menu.getId());
 			JSONObject jsonobj = new JSONObject(); 

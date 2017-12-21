@@ -1,6 +1,5 @@
 package com.jnhouse.app.controller;
 
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,12 +36,6 @@ public class SupTemplateController extends BaseController{
 	
 	@Resource
 	SupTemplateService supTemplateService;
-	
-	
-	
-	
-	//private static final Logger LOG = LoggerFactory.getLogger(FtpsFileList.class);
-	
 
 	private Logger log = Logger.getLogger(SupTemplateController.class);
 
@@ -69,6 +62,7 @@ public class SupTemplateController extends BaseController{
 		
 		return null;
 	}
+	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/jc_house/findAllfirstTemplate", method = RequestMethod.GET)
 	public @ResponseBody ObjectNode findAllfirstTemplate(HttpServletRequest reuqest) {
 		
@@ -112,12 +106,13 @@ public class SupTemplateController extends BaseController{
 		return re;
 	}
 	 
-/*	//**
+	/**
 	 * 二级,三级问题模版菜单列表
 	 * @param id
 	 * @return
-	 //*
-*/	@RequestMapping(value = "/jc_house/menu_problem_list", method = RequestMethod.GET)
+	 */
+	@SuppressWarnings("all")
+	@RequestMapping(value = "/jc_house/menu_problem_list", method = RequestMethod.GET)
 	public @ResponseBody ObjectNode templateList(HttpServletRequest reuqest) {
 	
 		ObjectNode re = objectMapper.createObjectNode();
@@ -223,7 +218,7 @@ public class SupTemplateController extends BaseController{
 		}
 		return re;
 	}
-		
+
 	@RequestMapping(value = "/jc_house/template")
 	public ModelAndView template_views(HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView();

@@ -62,9 +62,10 @@ public class RoleController extends BaseController {
 	public ModelAndView add_role(HttpServletRequest request,Role role) {
 		User user = (User)request.getSession().getAttribute("user");
 
-		System.err.println(role.getId() + "----##");
-		role.setUpdated_by(user.getId());
-		role.setCreated_by(user.getId());
+		if (null != user) {
+			role.setUpdated_by(user.getId());
+			role.setCreated_by(user.getId());
+		}
 		//id为空时 添加角色
 		if (null == role.getId()) {
 			roleService.save(role);
@@ -80,8 +81,10 @@ public class RoleController extends BaseController {
 		PageHelper.startPage(pageNum, 5);
 		List<Role> list = roleService.findAll();
 		PageInfo<Role> pageInfo = new PageInfo<>(list);
+		List<Menu> menus = menuService.findAll();
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("pageInfo", pageInfo);
+		modelAndView.addObject("menusList",menus);
 		modelAndView.setViewName("sys/role3");
 		return modelAndView;
 	}

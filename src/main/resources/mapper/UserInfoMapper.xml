@@ -60,6 +60,12 @@
     <result column="r9_time" jdbcType="INTEGER" property="r9_time" />
     <result column="summary" jdbcType="VARCHAR" property="summary" />
   </resultMap>
+  <resultMap id="resultMap" type="com.jnhouse.app.dto.UserInfoDto">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="realname" jdbcType="VARCHAR" property="realname" />
+    <result column="broker_mobile" jdbcType="VARCHAR" property="broker_mobile" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+  </resultMap>
   <sql id="Base_Column_List">
     id, realname, city_id, cityarea_id, cityarea2_id, broker_mobile, avatar, idcard_pic, 
     idcard, aptitude, business, signed, company, outlet, outlet_addr, post_code, com_tell, 
@@ -73,7 +79,7 @@
   <sql id="Base_Column_List_1">
     id, realname, broker_mobile, avatar
   </sql> 
-  <select id="findUserByName" parameterType="java.lang.String" resultType="com.jnhouse.app.dto.UserInfoDto">
+  <select id="findUserByName" parameterType="java.lang.String" resultMap="resultMap">
   	select 
   	id, realname, broker_mobile, avatar
   	from 2015_09_fangchanjn.fke_broker_info
