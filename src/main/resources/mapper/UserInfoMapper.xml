@@ -82,7 +82,7 @@
   <select id="findUserByName" parameterType="java.lang.String" resultMap="resultMap">
   	select 
   	id, realname, broker_mobile, avatar
-  	from 2015_09_fangchanjn.fke_broker_info
+  	from 20171206fangchan.fke_broker_info
   	where 1 = 1
   	<if test="username != null">
         and (realname like concat(concat('%',#{username}),'%')
