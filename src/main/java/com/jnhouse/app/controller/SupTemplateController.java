@@ -36,7 +36,7 @@ public class SupTemplateController extends BaseController{
 	
 	@Resource
 	SupTemplateService supTemplateService;
-	
+
 	private Logger log = Logger.getLogger(SupTemplateController.class);
 
 	/**
@@ -218,15 +218,15 @@ public class SupTemplateController extends BaseController{
 		}
 		return re;
 	}
-	
 
 	@RequestMapping(value = "/jc_house/template")
 	public ModelAndView template_views(HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("sys/template");
+		modelAndView.setViewName("Inspection/template");
 		return modelAndView;
 	}
 	
+	//获取模板列表
 	@RequestMapping(value = "/jc_house/fke_template",method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject fke_template(HttpServletRequest request) {
@@ -249,7 +249,7 @@ public class SupTemplateController extends BaseController{
 				jsonobj.put("open", true);
 				jsonobj.put("iconSkin", "pIcon01");
 			}else if (template.get(i).getMenu_level() == 1) {
-				jsonobj.put("iconSkin", "icon03");
+				jsonobj.put("iconSkin", "icon02");
 			}else {
 				jsonobj.put("iconSkin", "icon03");
 			}
@@ -261,6 +261,7 @@ public class SupTemplateController extends BaseController{
 		return jsonObject;
 	}
 	
+	//更改模板
 	@RequestMapping(value = "/jc_house/save_template",method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject save_template(HttpServletRequest request) {
@@ -276,6 +277,7 @@ public class SupTemplateController extends BaseController{
 		param.put("menu_title", name);
 		param.put("id", id);
 		try {
+			//更改模板
 			supTemplateService.updateTemplate(param);
 			json.put("success", true);
 		}catch(Exception e) {
@@ -286,6 +288,7 @@ public class SupTemplateController extends BaseController{
 		return json;
 	}
 	
+	//保存模板
 	@RequestMapping(value = "/jc_house/save_next_template",method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject save_next_template(HttpServletRequest request) {
@@ -317,6 +320,7 @@ public class SupTemplateController extends BaseController{
 		
 		return json;
 	}
+	//删除模板
 	@RequestMapping(value="/jc_house/delete_template",method = RequestMethod.POST)
 	@ResponseBody
 	public  JSONObject delete_dept(HttpServletRequest request) {

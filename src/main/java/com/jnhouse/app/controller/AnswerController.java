@@ -1,6 +1,8 @@
 package com.jnhouse.app.controller;
 
 
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,9 +18,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.jnhouse.app.bean.SupAnswerHeader;
 import com.jnhouse.app.bean.SupTemplate;
-import com.jnhouse.app.bean.TemAnswer;
+import com.jnhouse.app.dto.TemAnswer;
 import com.jnhouse.app.service.AnswerService;
 import com.jnhouse.app.service.SupTemplateService;
+
+import net.sf.json.JSONObject;
 
 
 @Controller
@@ -32,42 +36,102 @@ public class AnswerController {
 	
 	@RequestMapping(value="/answer")
 	public ModelAndView to_answer(HttpServletRequest request,HttpServletResponse response) {
-		return new ModelAndView("sys/answer");
+		return new ModelAndView("Inspection/answer");
 	}
 	
-	
+	//获取答案主表数据
     @RequestMapping(value="/selectAnswer")
     @ResponseBody
-    @SuppressWarnings("all")
-    public List selectAnswer(HttpServletRequest request,HttpServletResponse response) {
+    public List<SupAnswerHeader> selectAnswer(HttpServletRequest request,HttpServletResponse response) {
     	Map<String,Object> map = new HashMap<>();
         List<SupAnswerHeader> answer = answerService.selectAnswer(map);
         return answer;
     }
-    
-    @RequestMapping(value="/temAnswer")
+    //获取模板下的子节点
+    @RequestMapping(value="/answerList")
     @ResponseBody
-    public List temAnswer(HttpServletRequest request,HttpServletResponse response) {
+    public List<SupTemplate> answerList(HttpServletRequest request,HttpServletResponse response) {
     	String id = request.getParameter("template_id");
     	Map<String,Object> map = new HashMap<>();
     	map.put("parent_id", id);
         List<SupTemplate> temp = templateService.fke_template(map);
         return temp;
     }
-    
-    @RequestMapping(value="/title_answer")
-    @ResponseBody
-    public List title_answer(HttpServletRequest request,HttpServletResponse response) {
+    //获取答案明细
+    @RequestMapping(value="/temAnswer")
+    @ResponseBody   
+    public List<TemAnswer> temAnswer(HttpServletRequest request,HttpServletResponse response) {
     	String id = request.getParameter("template_id");
-    	String store_id = request.getParameter("store_id");
-    	String check_date = request.getParameter("check_date");
-    	String docking_man = request.getParameter("docking_man");
+    	String header_id = request.getParameter("header_id");
     	Map<String,Object> map = new HashMap<>();
     	map.put("parent_id", id);
-    	map.put("store_id",store_id);
-    	map.put("check_date", check_date);
-    	map.put("docking_man", docking_man);
-        List<TemAnswer> tem = answerService.temAnswer(map);
-        return tem;
+    	map.put("header_id", header_id);
+    	
+    	//判断是否有子模板
+    	List<SupTemplate> template = templateService.isHaveLevelCount(id);
+    	for(SupTemplate ty : template) {
+    		int templId = ty.getId();
+    		List<SupTemplate> late = templateService.isHaveLevelCount(String.valueOf(templId));
+    		if(late.size() > 0) {
+    			map.put("levelCount", "level");  
+    			break;
+    		}   		
+    	}  	
+    	return answerService.temAnswer(map);
+    }
+    //共享
+    @RequestMapping(value="/share")
+    @ResponseBody
+    public void share(HttpServletRequest request,HttpServletResponse response) {
+    	String header_id = request.getParameter("header_id");
+    	String dept_id = request.getParameter("dept_id");
+    	Map<String,Object> par = new HashMap<>();
+    	JSONObject json = new JSONObject();
+    	par.put("header_id", header_id);
+    	par.put("dept_id", dept_id);
+    	try {
+    		PrintWriter out = response.getWriter();
+    		//判断有没有共享过，0为没有共享
+    		int isHave = answerService.getHeader_dept(par);
+    	   	if(isHave == 0) {
+    	   		answerService.shareByheaderId(par); 
+        		json.put("success","共享成功");
+    	   	}else {
+    	   		json.put("success","您已共享");
+    	   	}
+    	   	out.println(json);
+    		out.flush();
+    		out.close();		
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    @RequestMapping(value="/isHave")
+    @ResponseBody
+    public List isHave(HttpServletRequest request,HttpServletResponse response) {
+    	String id = request.getParameter("id");
+    	
+    	//判断模板下是否还有子项，0位没有
+    	List<SupTemplate> levelCount = templateService.isHaveLevelCount(id);
+    	
+    	return levelCount;
+    }
+    
+    @RequestMapping(value="/deleteHeader")
+    @ResponseBody
+    public void deleteHeader(HttpServletRequest request,HttpServletResponse response) {
+    	String header_id = request.getParameter("id");
+    	JSONObject json = new JSONObject();
+    	try {
+    		PrintWriter out = response.getWriter();
+    		answerService.deleteHeader(header_id);
+    		json.put("success", true);
+    		out.println(json);
+    		out.flush();
+    		out.close();
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    	
     }
 }

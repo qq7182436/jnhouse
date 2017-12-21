@@ -25,7 +25,7 @@ import com.jnhouse.app.utils.ResultData;
 public class FileController extends BaseController{
 
 	
-	ObjectMapper objectMapper;
+ObjectMapper objectMapper;
 	
 	
 	@Resource
