@@ -209,4 +209,9 @@
   <delete id="delete_template" parameterType="int">
   	delete from fke_supervision_template where id = #{id} or parent_id=#{id}
   </delete>
+  <select id="isHaveLevelCount" parameterType="String" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from fke_supervision_template where parent_id=#{param}
+  </select>
 </mapper>

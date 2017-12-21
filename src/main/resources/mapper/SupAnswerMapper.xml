@@ -545,4 +545,74 @@
 			and header.docking_man = #{docking_man}
 		</if>
 	</select>
+=======
+	from fke_sup_answer_header
+  </select>
+  <select id="temAnswer" resultType="com.jnhouse.app.dto.TemAnswer" parameterType="Map">
+  SELECT
+	template.menu_title AS title,
+	template.id AS id,
+	template.score as score,
+	line.answer_num AS answerNum,
+	line.answer AS answer,
+	file.file_url fileUrl,
+	file.file_name fileName
+
+FROM
+	fke_supervision_template template left join fke_sup_answer_line line on line.problem_id = template.id
+	left join fke_sup_answer_header header on line.header_id = header.id
+	left join fke_ansfile_rel rel on rel.answer_line_id = line.id 
+	left join fke_file file on file.id = rel.file_id where 1 = 1
+  	<if test="parent_id!=null and ''!=parent_id">
+  		
+  		<if test="levelCount == null">
+  			and template.parent_id=#{parent_id}
+  		</if>
+  		<if test="levelCount != null">
+  			and template.parent_id in(select id from fke_supervision_template where parent_id=#{parent_id})
+  		</if>
+  	</if>
+  	<if test="header_id!=null and ''!=header_id">
+  		and header.id = #{header_id}
+  	</if>
+  	
+  </select>
+  
+  <select id="getHeader_dept" parameterType="Map" resultType="int">
+  	select count(0) from fke_sup_answer_header_dept where 1 = 1
+  	<if test="header_id!=null and ''!=header_id">
+  		and header_id = #{header_id}
+  	</if>
+  	<if test="dept_id!=null and ''!=dept_id">
+  		and dept_id = #{dept_id}
+  	</if>
+  </select>
+  <insert id="insertheader_dept" parameterType="Map">
+ 	INSERT INTO fke_sup_answer_header_dept (
+		header_id,template_id,store_id,check_date,store_around,start_time,end_time,broker_num,customer_num,
+		docking_man,recording,is_delete,updated_time,created_time,dept_id ) 
+		SELECT id,template_id,store_id,check_date,store_around,start_time,end_time,broker_num,customer_num,docking_man,recording,
+		is_delete,updated_time,created_time,#{dept_id} 
+	FROM
+		fke_sup_answer_header 
+	WHERE
+		id = #{header_id}
+  </insert>
+  
+  <insert id="insertline_dept" parameterType="Map">
+  	INSERT INTO fke_sup_answer_line_dept ( 
+  		header_id, problem_id, answer_num, answer, score, is_delete, updated_time, created_time, dept_id ) 
+  		SELECT header_id,problem_id,answer_num,answer,score,is_delete,updated_time,created_time,#{dept_id}
+	FROM
+		fke_sup_answer_line 
+	WHERE
+		header_id =#{header_id}
+  	
+  </insert>
+ <delete id="deleteHeader" parameterType="String">
+    delete from fke_sup_answer_header where id=#{id}
+ </delete>
+ <delete id="deleteLine" parameterType="String">
+    delete from fke_sup_answer_line where header_id=#{id}
+ </delete>
 </mapper>

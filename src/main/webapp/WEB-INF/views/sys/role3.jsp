@@ -355,8 +355,14 @@ body {
 			    		  }
 			    		  
 			    		});
-		    		var pageNum = $("#pageNum").val();
-		    		window.location.href="role/role_delete.action?ids="+ids + "&pageNum=" + pageNum; 
+		    		layer.confirm('确定删除该角色吗？', {
+			    		  btn: ['是','否'] //按钮
+			    		 ,offset: '250px'
+			    		}, function(){
+			    			var pageNum = $("#pageNum").val();
+			    			window.location.href="role/role_delete.action?ids="+ids + "&pageNum=" + pageNum; 
+			    		}, function(){
+			    		});
 		    	}
 		    	
 		    });
@@ -439,28 +445,30 @@ body {
 				
 				}
 		  function changeMenu(id){
-			  $("input[name^='menuCheck']").iCheck('uncheck');
-			  $.ajax({
-					url : 'menu/query_role_menus.action',
-					type : 'POST', //GET
-					async : true, //或false,是否异步
-					data : {
-						"role" : id
-					},
-					timeout : 5000, //超时时间
-					dataType : 'json', //返回的数据格式：json/xml/html/script/jsonp/text
-					success : function(data) {
-						var list = data.msg;
-						$.each( list, function(i, n){
-							$("input[name='menuCheck-"+n+"']").iCheck('check');
-				    		});
-					},
-					error : function(data) {
-						alert("错误");
-						console.log('错误')
-					}
-				})
-	    		$("#role_id").val(id);
+			  if('' != id){
+				  $("input[name^='menuCheck']").iCheck('uncheck');
+				  $.ajax({
+						url : 'menu/query_role_menus.action',
+						type : 'POST', //GET
+						async : true, //或false,是否异步
+						data : {
+							"role" : id
+						},
+						timeout : 5000, //超时时间
+						dataType : 'json', //返回的数据格式：json/xml/html/script/jsonp/text
+						success : function(data) {
+							var list = data.msg;
+							$.each( list, function(i, n){
+								$("input[name='menuCheck-"+n+"']").iCheck('check');
+					    		});
+						},
+						error : function(data) {
+							alert("错误");
+							console.log('错误')
+						}
+					})
+		    		$("#role_id").val(id);
+			  }
 	    		$('#myMenu').modal('show');
 			}
 	</script>

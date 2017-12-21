@@ -234,8 +234,7 @@
 							mess += "<tr><td>";
 							mess += "<input type='checkbox'  name='menuCheck-" + userList[i].id + "' class='minimal' value='" + userList[i].id+"' ></td>"
 							mess += "<td>" + userList[i].realname + "</td>";
-							mess += "<td>" + userList[i].broker_mobile + "</td>";
-							mess += "<td>" + userList[i].avatar + "</td></tr>";
+							mess += "<td>" + userList[i].broker_mobile + "</td></tr>";
 						}
 
 						$("#dataTable tbody").append(mess);
@@ -243,7 +242,7 @@
 							pms += "<div class='col-md-4'>";
 							pms += "当前<span class='label label-primary'>" + pageInfo.pageNum + "</span>";
 							pms += "页，当前共<span class='label label-primary'>" + pageInfo.pages + "</span>";
-							pms += "页，总共<span class='label label-primary'>" + pageInfo.total + "</span>记录</div>";
+							pms += "页，共<span class='label label-primary'>" + pageInfo.total + "</span>记录</div>";
 							pms += "<div class='col-md-8'>";
 							pms += "<nav aria-label='Page navigation'>";
 							pms += "<ul class='pagination  no-margin pull-right'>";
@@ -589,11 +588,8 @@
 							<thead>
 								<tr>
 									<th align="center" width="10%"><input type="checkbox" id="checkMenuTop" class="minimal"></th>
-									<th width="30%">用户名称</th>
-									<th width="30%">手机号</th>
-									<th width="30%">
-										操作
-								  	</th>
+									<th width="40%">用户名称</th>
+									<th width="40%">手机号</th>
 								</tr>
 							</thead>
 							<tbody>

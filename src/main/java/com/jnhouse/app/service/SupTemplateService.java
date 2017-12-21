@@ -21,5 +21,5 @@ public interface SupTemplateService extends BaseService<SupTemplate> {
 	void updateTemplate(Map<String,Object> param);
 	void insertNexteTemplate(Map<String,Object> param);
 	void delete_template(int id);
-
+	List<SupTemplate> isHaveLevelCount(String param);
 }
