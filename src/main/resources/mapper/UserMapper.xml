@@ -73,14 +73,14 @@
   <select id="findUser" parameterType="com.jnhouse.app.bean.User" resultMap="BaseResultMap">
   	select 
   	<include refid="Base_Column_List_1" />
-  	from 2015_09_fangchanjn.fke_member
+  	from 20171206fangchan.fke_member
   	where username = #{username,jdbcType=VARCHAR} and passwd = #{passwd,jdbcType=VARCHAR}
   	and is_broker = '1' and status = '1'
   </select>
     <select id="getById" parameterType="java.lang.Integer" resultType="com.jnhouse.app.bean.User">
   	select 
   	<include refid="Base_Column_List_1" />
-  	from 2015_09_fangchanjn.fke_member
+  	from 20171206fangchan.fke_member
   	where id = #{id,jdbcType=INTEGER} 
   	and is_broker = '1' and status = '1'
   </select>

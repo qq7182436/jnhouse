@@ -62,9 +62,9 @@
 			var zNodes;
 			var treeNode_1;
 			$.ajax({
-				url : 'dept/aJsonObject.action',
+				url : 'dept/aJsonObject.do',
 				type : 'POST', //GET
-				async : true, //或false,是否异步
+				async : false, //或false,是否异步
 				data : {
 					name : 'yang',
 					age : 25
