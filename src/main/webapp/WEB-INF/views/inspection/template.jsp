@@ -71,8 +71,8 @@
 		                treeObj.expandNode(nodes[i], false, false, true);
 		            }  */
 		            	
-					 /*关闭所有节点 
-					 $.fn.zTree.getZTreeObj("treeDemo").expandAll(false);  */
+					 /*关闭所有节点  
+					 $.fn.zTree.getZTreeObj("treeDemo").expandAll(false); */
 				},
 				error : function(data) {
 					alert("错误");
@@ -107,10 +107,11 @@
 		  var layer = layui.layer
 		  ,form = layui.form;
 		});
-		
+		var flag = 0;
 		function removeHoverDom(treeId, treeNode) {
 			if(treeNode == '1'){
 			var template_id = $("#menu_id").val();
+			var menu_level = $("#menu_level").val();
 			if(template_id == ''){
 					layer.msg('请选择要删除的模板'); 
 					return false;
@@ -125,7 +126,8 @@
 							type : 'POST', //GET
 							async : true, //或false,是否异步
 							data : {
-								"template_id" : template_id
+								"template_id" : template_id,
+								"menu_level" : menu_level
 							},
 							timeout : 5000, //超时时间
 							dataType : 'json', //返回的数据格式：json/xml/html/script/jsonp/text
@@ -155,6 +157,7 @@
 				father_id = treeNode_1.pId
 			}
 			$("#father_id").val(father_id);
+			flag = 1;
 			$.ajax({
 				url : 'menu/add_level.action',
 				type : 'POST', //GET
@@ -208,20 +211,24 @@
 				timeout : 5000, //超时时间
 				dataType : 'json', //返回的数据格式：json/xml/html/script/jsonp/text
 				success : function(data) {
-					 /* var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-					alert(treeNode_1.getParentNode() + "----" + data.treeNode.name);
-					if(treeNode_1.getParentNode() == null){
+					layer.msg("保存成功!");
+				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+					if( null != id && "" != id){
+					var index = treeNode_1.getIndex()
+					zTree.removeNode(treeNode_1, false);
+					zTree.addNodes(treeNode_1.getParentNode(),index, data.treeNode);
+				}else{
+					if(flag == 2){
 						zTree.addNodes(treeNode_1, data.treeNode);
 					}else{
 						zTree.addNodes(treeNode_1.getParentNode(), data.treeNode);
-					}  */
-					 if(data.success){
-						alert("更新成功");
-						location.reload();
 					}
-					else{
-						alert("fail")
-					} 
+					
+				}  
+						/* var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+						  layer.msg('添加成功',{offset: '250px'});		
+						  zTree.addNodes(treeNode_1.getParentNode(), data.treeNode); */
+										
 				},
 				error : function(data) {
 					alert("错误");
@@ -232,6 +239,7 @@
 		
 		 function add_next_levels(){
 			var menu_level = treeNode_1.menu_level;
+			flag = 2;
 			menu_level = menu_level + 1;
 			$("#menu_level").val(menu_level);
 			var father_id = treeNode_1.id;
@@ -260,6 +268,13 @@
 				}
 			})
 		} 
+		 
+function reset(){
+	$("#name").val('');
+	$("#father_name").val('');
+	$("#menu_level").val('');
+	$("#score").val('');
+}
 	</script>
 <style type="text/css">
 .content-wrapper, .main-footer {
@@ -291,6 +306,14 @@ body {
 	*vertical-align: middle
 }
 
+.ztree li span.button.pIcon01_ico_docu {
+	margin-right: 2px;
+	background:
+		url(zTree_v3/css/zTreeStyle/img/diy/bold_16x16.gif)
+		no-repeat scroll 0 0 transparent;
+	vertical-align: top;
+	*vertical-align: middle
+}
 .ztree li span.button.pIcon02_ico_open, .ztree li span.button.pIcon02_ico_close
 	{
 	margin-right: 2px;
@@ -336,6 +359,13 @@ body {
 	vertical-align: top;
 	*vertical-align: middle
 }
+.ztree li span.button.icon03_ico_close {
+	margin-right: 2px;
+	background: url(<%=basePath%>zTree_v3/css/zTreeStyle/img/diy/backup_16x16.gif)
+		no-repeat scroll 0 0 transparent;
+	vertical-align: top;
+	*vertical-align: middle
+}
 
 .ztree li span.button.icon04_ico_docu {
 	margin-right: 2px;
@@ -353,9 +383,9 @@ body {
 	*vertical-align: middle
 }
 
-.ztree li span.button.icon06_ico_docu {
+.ztree li span.button.icon02_ico_close {
 	margin-right: 2px;
-	background: url(<%=basePath%>zTree_v3/css/zTreeStyle/img/diy/8.png)
+	background: url(<%=basePath%>zTree_v3/css/zTreeStyle/img/diy/7.png)
 		no-repeat scroll 0 0 transparent;
 	vertical-align: top;
 	*vertical-align: middle
@@ -387,17 +417,23 @@ display: none;
 				<div class="row">
 					<div class="col-xs-12">
 						<div class="box" style="height:893px;">
-							<div class="panel panel-primary"
+							<div class="box box-primary"
 								style="width: 100%; min-height: 40%;float:left;">
-								<div class="panel-heading">模板列表</div>
+								<div class="box-header with-border">
+									<i class="ion ion-clipboard"></i>
+									<h3 class="box-title">模板列表</h3>
+								
+								</div>
 								<div class="content_wrap">
 									<div class="zTreeDemoBackground left">
 										<ul id="treeDemo" class="ztree"></ul>
 									</div>
 								</div>
 							</div>
-							<div class="panel panel-primary" style="float:right;width: 100%;height:60%;">
-							<div class="panel-heading">模板详情</div>
+							<div class="box box-primary" style="float:right;width: 100%;height:60%;">
+							<div class="box-header with-border">
+							<h3 class="box-title">模板详情</h3>
+							</div>
 							  <div class="panel-body" style="padding-left: 10px;">
 							  	<div class="btn-group btn-group-justified" role="group" aria-label="..." style="margin-bottom: 20px;width:300px;">
 								  <div class="btn-group" role="group">
@@ -461,7 +497,7 @@ display: none;
 										<span class="glyphicon glyphicon-floppy-save" ></span>
 									保存
 									</button>
-									<button type="reset" class="btn btn-info  btn-lg" style="margin-left:160px;">
+									<button type="button" class="btn btn-info  btn-lg" id="reset" onclick="reset()" style="margin-left:160px;">
 										<span class="glyphicon glyphicon-refresh"></span>
 									清除
 									</button>

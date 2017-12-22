@@ -156,4 +156,8 @@
       created_time = #{created_time,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="getDeptById" parameterType="String" resultType="Integer">
+  	select id from fke_dept where FIND_IN_SET(id,getDeptChild(#{dept_id}))
+  </select>
 </mapper>

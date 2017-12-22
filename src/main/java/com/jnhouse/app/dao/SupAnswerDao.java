@@ -17,4 +17,10 @@ public interface SupAnswerDao extends BaseDao<SupAnswerHeader>{
 	int getHeader_dept(Map<String,Object> map);
 	void deleteHeader(String id);
 	void deleteLine(String id);
+	
+	//查询答案主表数据
+	List<SupAnswerHeader> selectDeptShareAnswer(Map<String,Object> map);
+	void deleteDeptHeader(String id);
+	void deleteDeptLine(String id);
+	
 }

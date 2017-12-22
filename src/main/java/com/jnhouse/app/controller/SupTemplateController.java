@@ -265,7 +265,7 @@ public class SupTemplateController extends BaseController{
 	@RequestMapping(value = "/jc_house/save_template",method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject save_template(HttpServletRequest request) {
-		JSONObject json = new JSONObject();
+		JSONObject jsonObject = null;
 		String menu_level = request.getParameter("menu_level");//
 		String score = request.getParameter("score");
 		String name = request.getParameter("name");//menu_title
@@ -279,20 +279,38 @@ public class SupTemplateController extends BaseController{
 		try {
 			//更改模板
 			supTemplateService.updateTemplate(param);
-			json.put("success", true);
+			JSONObject jsonobj = new JSONObject(); 
+			SupTemplate te = supTemplateService.getMaxTemplate();
+			jsonobj.put("id",te.getId());
+			jsonobj.put("pId", te.getParent_id());
+			jsonobj.put("name", te.getMenu_title());
+			jsonobj.put("sort", te.getSort());
+			jsonobj.put("menu_level", te.getMenu_level());
+			jsonobj.put("score", te.getScore());
+			if (te.getMenu_level() == 0) {
+				jsonobj.put("open", false);
+				jsonobj.put("iconSkin", "pIcon01");
+			}else if (te.getMenu_level() == 1) {
+				jsonobj.put("iconSkin", "icon02");
+			}else {
+				jsonobj.put("iconSkin", "icon03");
+			}
+			jsonobj.put("success", true);
+			Map<String,Object> map = new HashMap<String,Object>();  
+			map.put("treeNode", jsonobj);
+			jsonObject = JSONObject.fromObject(map);			
 		}catch(Exception e) {
-			e.printStackTrace();
-			json.put("fail", true);
+			e.printStackTrace();			
 		}
 		
-		return json;
+		return jsonObject;
 	}
 	
 	//保存模板
 	@RequestMapping(value = "/jc_house/save_next_template",method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject save_next_template(HttpServletRequest request) {
-		JSONObject json = new JSONObject();
+		JSONObject jsonObject = null;
 		String menu_level = request.getParameter("menu_level");//
 		String score = request.getParameter("score");
 		String name = request.getParameter("name");//menu_title
@@ -312,25 +330,48 @@ public class SupTemplateController extends BaseController{
 		}
 		try {
 			supTemplateService.insertNexteTemplate(param);
-			json.put("success", true);
+			JSONObject jsonobj = new JSONObject(); 
+			SupTemplate te = supTemplateService.getMaxTemplate();
+			jsonobj.put("id",te.getId());
+			jsonobj.put("pId", te.getParent_id());
+			jsonobj.put("name", te.getMenu_title());
+			jsonobj.put("sort", te.getSort());
+			jsonobj.put("menu_level", te.getMenu_level());
+			jsonobj.put("score", te.getScore());
+			if (te.getMenu_level() == 0) {
+				jsonobj.put("open", false);
+				jsonobj.put("iconSkin", "pIcon01");
+			}else if (te.getMenu_level() == 1) {
+				jsonobj.put("iconSkin", "icon02");
+			}else {
+				jsonobj.put("iconSkin", "icon03");
+			}
+			jsonobj.put("success", true);
+			Map<String,Object> map = new HashMap<String,Object>();  
+			map.put("treeNode", jsonobj);
+			jsonObject = JSONObject.fromObject(map);
+			
 		}catch(Exception e) {
 			e.printStackTrace();
-			json.put("fail", true);
+			
 		}
 		
-		return json;
+		return jsonObject;
 	}
 	//删除模板
 	@RequestMapping(value="/jc_house/delete_template",method = RequestMethod.POST)
 	@ResponseBody
 	public  JSONObject delete_dept(HttpServletRequest request) {
+		Map<String,Object> map = new HashMap<String,Object>();
 		JSONObject jsonObject = new JSONObject();
 		String template_id = request.getParameter("template_id");
+		String menu_level = request.getParameter("menu_level");
+		map.put("template_id", template_id);
+		map.put("menu_level", menu_level);
 		try {			
 			int id = Integer.parseInt(template_id);
-			supTemplateService.delete_template(id);			  
-			jsonObject.put("msg", "删除成功");
-			
+			supTemplateService.delete_template(map);			  
+			jsonObject.put("msg", "删除成功");			
 		} catch (Exception e) {
 			e.printStackTrace();
 			jsonObject.put("msg", "删除失败");

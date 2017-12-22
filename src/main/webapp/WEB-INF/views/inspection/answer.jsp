@@ -163,6 +163,11 @@ display: none;
 }
 </style>
 <script type="text/javascript">
+//一般直接写在一个js文件中
+	layui.use(['layer', 'form'], function(){
+	  var layer = layui.layer
+	  ,form = layui.form;
+	});
 	$(function () {
 		$('#myModal').on('hidden.bs.modal', function (e) {
 			 $("#box").html(""); 
@@ -180,23 +185,21 @@ display: none;
 	    		toggle:"table",
 	    		showColumns:true,//显示 内容列下拉框
 	    		singleSelect:true,//禁止多选
+	    		clickToSelect:true,
 	    		columns: [{
-	    			checkbox:true,
-	    			clickToSelect:true
-	    			
+	    			checkbox:true    			
 	 		    }, 
 	 		    {
-	 		    	field: 'template_id',
-	 		        title: '模板',
-	 		        formatter:function(v){
-	 		        	if(v=='10'){return '模板一'}
-	 		       		else if(v=='11'){return '模板二';}
-	 		       		/* else if(v=='12'){return '模板三';} */
-	 		       		else if(v=='55'){return '标准模板';}
-	 		       		else{return '未知模板';} 
-	 		        },	 		       
+	 		    	field:'id',
+	 		    	title:'id',
+	 		    	visible:false
+	 		    },
+	 		    {
+	 		    	field: 'menu_title',
+	 		        title: '模板'	 		       
+	 		        
 	 		    },{	 		    	
-	 		        field: 'store_id',
+	 		        field: 'store_name',
 	 		        title: '门店'
 	 		    }, {
 	 		        field: 'check_date',
@@ -217,27 +220,32 @@ display: none;
 	 		        field: 'cz',
 	 		        title: '操作',
 	 		       	align:'center',
+	 		        
 	 		        formatter:function (v,r,i){
 	 		    	   var a = '<button type="button" class="btn btn-danger" id="buttona">删除 </button>';
-	 		    	   var b ='<button type="button" class="btn btn-primary" id="buttonb" style="margin-left:40px;">查看</button> ';
+	 		    	   var b ='<button type="button" class="btn btn-primary" id="buttonb" style="margin-left:10px;">查看</button> ';
 	 		    	   return a+ b;
 	 		       },events: {
-                       'click #buttona': function (e, value, row, index) {
-                           //删除操作
-                           if(confirm("答案明细将一并删除 ,确认删除此条记录？")){
-                        	   $.post('answer/deleteHeader.action',{id:row.id},function(data){
-                            	   if(data.success){
-                            		   alert("删除成功!");
-                            		   location.reload();
-                            	   }else{
-                            		   alert("删除失败 !请联系技术人员 ");
-                            	   }
-                               }
-                               ,'json')
-                           }else{
-                        	   return;
-                           }
-                         
+                       'click #buttona': function (e, value, row, index) {                   	   
+                           //删除操作\
+                          layer.confirm('答案明细将会一并删除,确定要删除吗？', {
+							  btn: ['删除', '取消'], //可以无限个按钮
+							  offset: '100px'
+							}, function(index){
+								layer.close(index);
+								 $.post('answer/deleteHeader.action',{id:row.id},function(data){
+	                            	if(data.success){
+		                            	layer.msg("删除成功!");
+		                            	$("#dataTable").bootstrapTable('remove',{field: 'id',values: [row.id]});
+	                            	}else{
+	                            		 layer.msg("删除失败 !请联系技术人员 ");
+	                            	 }
+	                               },'json') 
+	                               
+	                           
+								},function(index){
+									  //按钮【按钮二】的回调
+								});                       	                         
                     },
                     	'click #buttonb': function (e, value, row, index) {
                     		queryAnswerLine(row);
@@ -250,25 +258,15 @@ display: none;
 	
 function queryAnswerLine(row){
       $.post('answer/answerList.action',{template_id:row.template_id},function(data){
-    	  $("#basic-addon1").val(row.store_id);
+    	  $("#basic-addon1").val(row.store_name);
     	  $("#basic-addon2").val(row.docking_man);
     	  $("#basic-addon3").val(row.check_date);
+    	  $("#basic-addon4").val(row.menu_title);
     	  $("#basic-addon5").val(row.start_time);
     	  $("#basic-addon6").val(row.end_time);
     	  $("#basic-addon7").val(row.broker_num);
     	  $("#basic-addon8").val(row.customer_num);
-    	  $("#basic-addon9").val(row.store_around);
-    	  if(row.template_id=='10'){
-    		  $("#basic-addon4").val('模板一');
-    		}else if(row.template_id=='11'){
-    			$("#basic-addon4").val('模板二');
-    		/* }else if(row.template_id=='12'){
-    			$("#basic-addon4").val('模板三'); */
-    		}else if(row.template_id=='55'){
-    			$("#basic-addon4").val('标准模板');
-    		}else{
-    			$("#basic-addon4").val('未知模板');
-    		}
+    	  $("#basic-addon9").val(row.store_around);   	  
     	  $.each(data,function(i,item){  		  
     			  var str = "<div class='panel panel-primary'>"+
 				    "<div class='panel-heading' role='tab' id='"+i+"'>"+
@@ -284,9 +282,8 @@ function queryAnswerLine(row){
 				      "</div>"+
 				    "</div>"+
 				"</div>";	
-    		      								
-			$("#box").append(str); 
-			
+				
+			$("#box").append(str); 			
 			$(".table_").bootstrapTable({   		 
 	    		url:'answer/temAnswer.action?template_id='+item.id+"&header_id="+row.id,
 	    		//showHeader:false,不展示表头
@@ -343,19 +340,8 @@ function queryAnswerLine(row){
 	  });
 }
 
-
-function template(v){
-	if(v=='10'){return '模板一'}
-	else if(v=='11'){return '模板二';}
-	/* else if(v=='12'){return '模板三';} */
-	else if(v=='55'){return '标准模板';}
-	else{return '未知模板';}
-}
-
 function showDetails(rw,row){	
-
-	 /* $.post('answer/isHave.action',{id:rw.id},function(data){	
-		 
+	 /* $.post('answer/isHave.action',{id:rw.id},function(data){			 
 		if(data == null || ''==data){
 		    $("#answerDetail").val(rw.answer);
 			var path = rw.fileUrl+rw.fileName;
@@ -470,25 +456,34 @@ function share(){
 }
  function shareEnter(row){
 	 var dept_id = $("#hidden").val();
-	 var dept_name = $("#hid").val();
-	 if(confirm("确定共享给"+dept_name+"?")){
-		 $.ajax({
-				url:'answer/share.action',
-				type:'post',
-				data:{
-					header_id:row.id,
-					dept_id:dept_id
-				},
-				dataType:'json',
-				success:function(data){
-					alert(data.success);
-				},
-				error:function(data){
-					alert("未知错误,请联系技术人员");
-				}
-			});
+	 var dept_name = $("#hid").val();	 
+	 if(dept_id == null || dept_id == ''){
+		 layer.msg("请选择要共享的部门.");
+		 return;
 	 }
-	
+	 layer.confirm("确定共享给"+dept_name+"?",{
+		 btn: ['确定', '取消'], //可以无限个按钮
+		 offset: '100px'},function(index){
+			 layer.close(index);
+			 $.ajax({
+					url:'answer/share.action',
+					type:'post',
+					data:{
+						header_id:row.id,
+						dept_id:dept_id
+					},
+					dataType:'json',
+					success:function(data){
+						layer.msg(data.success);
+					},
+					error:function(data){
+						layer.msg("未知错误,请联系技术人员");
+					}
+				});
+		 },
+		 function(index){
+			  //按钮【按钮二】的回调
+		});	
 } 
 function onClick(event, treeId, treeNode, clickFlag){
 	$("#hidden").val(treeNode.id);

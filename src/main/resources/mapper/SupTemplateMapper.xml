@@ -165,12 +165,20 @@
 		 values
 			(#{parent_id}, #{menu_title},#{menu_level}, 0, #{score}, 1,#{updated_time},#{created_time})	
   </insert>
-  <delete id="delete_template" parameterType="int">
-  	delete from fke_supervision_template where id = #{id} or parent_id=#{id}
+  <delete id="delete_template" parameterType="Map">
+  	delete from fke_supervision_template where 1 = 1
+	<if test="template_id!=null and ''!=template_id">
+		and id in 
+		(select a.id from (select id from fke_supervision_template where FIND_IN_SET(id,getChildList(#{template_id})))a)
+	</if>
   </delete>
   <select id="isHaveLevelCount" parameterType="String" resultMap="BaseResultMap">
   	select 
     <include refid="Base_Column_List" />
     from fke_supervision_template where parent_id=#{param}
+  </select>
+  
+  <select id="getMaxTemplate" resultMap="BaseResultMap">
+  	select * from fke_supervision_template where id = (select max(id) from fke_supervision_template)
   </select>
 </mapper>

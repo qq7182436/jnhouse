@@ -55,4 +55,19 @@ public class AnswerServiceImpl implements AnswerService {
 	}
 
 
+	@Override
+	public List<SupAnswerHeader> selectDeptShareAnswer(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return answerdao.selectDeptShareAnswer(map);
+	}
+
+
+	@Override
+	public void deleteDeptHeader(String id) {
+		// TODO Auto-generated method stub
+		answerdao.deleteDeptHeader(id);
+		answerdao.deleteDeptLine(id);
+	}
+
+
 }

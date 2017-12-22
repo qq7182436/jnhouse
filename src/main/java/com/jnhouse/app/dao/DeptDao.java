@@ -1,5 +1,8 @@
 package com.jnhouse.app.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import com.jnhouse.app.bean.Dept;
 
 public interface DeptDao extends BaseDao<Dept>{
@@ -9,5 +12,9 @@ public interface DeptDao extends BaseDao<Dept>{
      *  
      * @return 
      */  
-	Integer findMaxValue(Dept dept); 
+	Integer findMaxValue(Dept dept);
+	
+	//获取部门下子部门
+	
+	List<Integer> getDeptById(String dept_id);
 }

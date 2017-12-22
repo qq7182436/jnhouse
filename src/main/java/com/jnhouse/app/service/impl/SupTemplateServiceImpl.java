@@ -93,15 +93,21 @@ public class SupTemplateServiceImpl extends BaseServiceImpl<SupTemplate> impleme
 	}
 
 	@Override
-	public void delete_template(int id) {
+	public void delete_template(Map<String,Object> map) {
 		// TODO Auto-generated method stub
-		supTemplateDao.delete_template(id);
+		supTemplateDao.delete_template(map);
 	}
 
 	@Override
 	public List<SupTemplate> isHaveLevelCount(String param) {
 		// TODO Auto-generated method stub
 		return supTemplateDao.isHaveLevelCount(param);
+	}
+
+	@Override
+	public SupTemplate getMaxTemplate() {
+		// TODO Auto-generated method stub
+		return supTemplateDao.getMaxTemplate();
 	}
 
 	

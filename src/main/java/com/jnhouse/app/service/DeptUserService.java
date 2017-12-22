@@ -37,4 +37,7 @@ public interface DeptUserService extends BaseService<DeptUser>{
 	 * @return
 	 */
 	void deleteByPrimaryKeys(@Param("ids") String[] ids);
+	
+	//根据用户id获取部门id
+	List<Integer> getDeptIdByUserId(Integer userId);
 }

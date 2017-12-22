@@ -40,8 +40,54 @@ public class SupAnswerHeader implements Serializable{
     private String updated_time;
 
     private String created_time;
+    
+    private String store_name;
+    
+    private String menu_title;
+    
+    private Integer header_id;
+    
+    private Integer dept_id;
+    
 
-    public Integer getId() {
+    
+	public Integer getDept_id() {
+		return dept_id;
+	}
+
+	public void setDept_id(Integer dept_id) {
+		this.dept_id = dept_id;
+	}
+
+	public Integer getHeader_id() {
+		return header_id;
+	}
+
+	public void setHeader_id(Integer header_id) {
+		this.header_id = header_id;
+	}
+
+	public String getMenu_title() {
+		return menu_title;
+	}
+
+	public void setMenu_title(String menu_title) {
+		this.menu_title = menu_title;
+	}
+
+	public String getStore_name() {
+		return store_name;
+	}
+
+	public void setStore_name(String store_name) {
+		this.store_name = store_name;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public Integer getId() {
         return id;
     }
 

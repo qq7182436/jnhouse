@@ -16,6 +16,10 @@
     <result column="is_delete" jdbcType="INTEGER" property="is_delete" />
     <result column="updated_time" jdbcType="TIMESTAMP" property="updated_time" />
     <result column="created_time" jdbcType="TIMESTAMP" property="created_time" />
+    <result column="name" jdbcType="VARCHAR" property="store_name" />
+    <result column="menu_title" jdbcType="VARCHAR" property="menu_title" />
+    <result column="header_id" jdbcType="INTEGER" property="header_id" />
+    <result column="dept_id" jdbcType="INTEGER" property="dept_id" />
   </resultMap>
   <sql id="Base_Column_List">
     id, template_id, date_format(check_date,'%Y-%m-%d') as check_date, store_id, store_around, start_time, end_time, broker_num, 
@@ -256,9 +260,27 @@
   </update>
   
   <select id="selectAnswer" resultMap="BaseResultMap" parameterType="Map">
-	select 
-		<include refid="Base_Column_List" />
-	from fke_sup_answer_header
+	SELECT
+		answer.id,
+		answer.template_id,
+		date_format( answer.check_date, '%Y-%m-%d' ) AS check_date,
+		answer.store_id,
+		answer.store_around,
+		answer.start_time,
+		answer.end_time,
+		answer.broker_num,
+		answer.customer_num,
+		answer.docking_man,
+		answer.recording,
+		answer.is_delete,
+		answer.updated_time,
+		answer.created_time,
+		east.NAME ,
+		template.menu_title 
+	FROM
+		fke_sup_answer_header answer
+		left join fke_supervision_template template on answer.template_id = template.id
+		LEFT JOIN 2015_09_fangchanjn.fke_east east ON east.id = answer.store_id
   </select>
   <select id="temAnswer" resultType="com.jnhouse.app.dto.TemAnswer" parameterType="Map">
   SELECT
@@ -328,5 +350,43 @@ FROM
     delete from fke_sup_answer_line where header_id=#{id}
  </delete>
  
+ <select id="selectDeptShareAnswer" parameterType="Map" resultMap="BaseResultMap">
+ 	SELECT
+		hd.id,
+		hd.header_id,
+		hd.template_id,
+		date_format(hd.check_date, '%Y-%m-%d' ) AS check_date,
+		hd.store_id,
+		hd.store_around,
+		hd.start_time,
+		hd.end_time,
+		hd.broker_num,
+		hd.customer_num,
+		hd.docking_man,
+		hd.recording,
+		hd.is_delete,
+		hd.updated_time,
+		hd.created_time,
+		hd.dept_id,
+		east.NAME ,
+		template.menu_title
+	FROM
+		fke_sup_answer_header_dept hd
+		left join fke_supervision_template template on hd.template_id = template.id
+		LEFT JOIN 2015_09_fangchanjn.fke_east east ON east.id = hd.store_id where 1 = 1
+		<if test="dept_id!=null">
+			<foreach collection="dept_id" item="i" index="index"  separator="or" open=" and " close=" ">			
+				hd.dept_id = #{i}			
+			</foreach>	
+		</if>		
+ </select>
+ 
+ <delete id="deleteDeptHeader" parameterType="String">
+    delete from fke_sup_answer_header_dept where id = #{id}    	
+    
+ </delete>
+ <delete id="deleteDeptLine" parameterType="String">
+    delete from fke_sup_answer_line_dept where id=#{id}
+ </delete>
  
 </mapper>
