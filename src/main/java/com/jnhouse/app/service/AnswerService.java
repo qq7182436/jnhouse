@@ -18,5 +18,5 @@ public interface AnswerService{
 	
 	//查询分享后答案主表数据
 	List<SupAnswerHeader> selectDeptShareAnswer(Map<String,Object> map);
-	void deleteDeptHeader(String id);
+	void deleteDeptHeader(Map<String,Object> map);
 }

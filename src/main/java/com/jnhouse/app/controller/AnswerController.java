@@ -93,25 +93,25 @@ public class AnswerController {
     @RequestMapping(value="/share")
     @ResponseBody
     public void share(HttpServletRequest request,HttpServletResponse response) {
-    	String header_id = request.getParameter("header_id");
-    	String dept_id = request.getParameter("dept_id");
+    	String header_id = request.getParameter("header_id");//获取要分享的header_id
+    	String dept_id = request.getParameter("dept_id");//获取部门id
     	Map<String,Object> par = new HashMap<>();
     	JSONObject json = new JSONObject();
     	par.put("header_id", header_id);
     	//获取该部门及下属部门id
     	List<Integer> depts = deptService.getDeptById(dept_id);
     	try {
-    		PrintWriter out = response.getWriter();		
-    		//遍历得到部门及下属部门id	
-    		for(Integer dept : depts) {
-    	   		par.put("dept_id", dept);
+    		PrintWriter out = response.getWriter();		   		
+    	   		par.put("dept_id", depts);
     	    	//判断有没有共享过，0为没有共享   
     	   		int isHave = answerService.getHeader_dept(par);
     	    	if(isHave == 0) {    	   			   	   			
-	    	   		answerService.shareByheaderId(par);	    	   			
-    	    	}
-    	   	}
-    		json.put("success","成功共享给此部门");
+	    	   		answerService.shareByheaderId(par);	  
+	    	   		json.put("success","成功共享给此部门");
+    	    	}  else {
+    	    		json.put("success","部门已共享或部门下有已共享过的部门，请重新选择");
+    	    	}  	   	
+    		
    			out.println(json);
     		out.flush();
     		out.close();
@@ -171,11 +171,17 @@ public class AnswerController {
     @RequestMapping(value="/deleteDeptHeader")
     @ResponseBody
     public void deleteDeptHeader(HttpServletRequest request,HttpServletResponse response) {
-    	String id = request.getParameter("id");   	
+    	String id = request.getParameter("id");
+    	String dept_id = request.getParameter("dept_id");
+    	String header_id = request.getParameter("header_id");
+    	Map<String,Object> param = new HashMap<>();
+    	param.put("id", id);
+    	param.put("header_id", header_id);
+    	param.put("dept_id", dept_id);
     	JSONObject json = new JSONObject();
     	try {
     		PrintWriter out = response.getWriter();
-    		answerService.deleteDeptHeader(id);
+    		answerService.deleteDeptHeader(param);
     		json.put("success", true);
     		out.println(json);
     		out.flush();

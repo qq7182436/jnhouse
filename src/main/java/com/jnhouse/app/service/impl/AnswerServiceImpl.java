@@ -63,10 +63,10 @@ public class AnswerServiceImpl implements AnswerService {
 
 
 	@Override
-	public void deleteDeptHeader(String id) {
+	public void deleteDeptHeader(Map<String,Object> map) {
 		// TODO Auto-generated method stub
-		answerdao.deleteDeptHeader(id);
-		answerdao.deleteDeptLine(id);
+		answerdao.deleteDeptHeader(map);
+		answerdao.deleteDeptLine(map);
 	}
 
 

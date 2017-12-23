@@ -171,7 +171,8 @@ display: none;
 	$(function () {
 		$('#myModal').on('hidden.bs.modal', function (e) {
 			 $("#box").html(""); 
-		});				
+		});	
+		
 		/*模态框点击 事件
 		$('#dataTable').on('click-row.bs.table', function (e, row, element) {
 	   		queryAnswerLine(row);     
@@ -451,7 +452,9 @@ function share(){
 				alert("错误");
 				console.log('错误')
 			}
-		})	
+		})
+		$("#hidden").val('');
+		$("#hid").val('');
 	$('#myModalThree').modal("show");
 }
  function shareEnter(row){

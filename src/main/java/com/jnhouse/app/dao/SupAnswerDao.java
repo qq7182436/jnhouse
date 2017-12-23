@@ -20,7 +20,7 @@ public interface SupAnswerDao extends BaseDao<SupAnswerHeader>{
 	
 	//查询答案主表数据
 	List<SupAnswerHeader> selectDeptShareAnswer(Map<String,Object> map);
-	void deleteDeptHeader(String id);
-	void deleteDeptLine(String id);
+	void deleteDeptHeader(Map<String,Object> map);
+	void deleteDeptLine(Map<String,Object> map);
 	
 }

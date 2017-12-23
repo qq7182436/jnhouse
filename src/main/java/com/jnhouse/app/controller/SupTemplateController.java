@@ -280,7 +280,7 @@ public class SupTemplateController extends BaseController{
 			//更改模板
 			supTemplateService.updateTemplate(param);
 			JSONObject jsonobj = new JSONObject(); 
-			SupTemplate te = supTemplateService.getMaxTemplate();
+			SupTemplate te = supTemplateService.selectByPrimaryKey(Integer.parseInt(id));
 			jsonobj.put("id",te.getId());
 			jsonobj.put("pId", te.getParent_id());
 			jsonobj.put("name", te.getMenu_title());

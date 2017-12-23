@@ -22,4 +22,5 @@ public interface SupTemplateDao extends BaseDao<SupTemplate>{
 	void delete_template(Map<String,Object> map);
 	List<SupTemplate> isHaveLevelCount(String param);
 	SupTemplate getMaxTemplate();
+	SupTemplate selectByPrimaryKey(Integer id);
 }

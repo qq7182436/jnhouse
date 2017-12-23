@@ -110,6 +110,12 @@ public class SupTemplateServiceImpl extends BaseServiceImpl<SupTemplate> impleme
 		return supTemplateDao.getMaxTemplate();
 	}
 
+	@Override
+	public SupTemplate selectByPrimaryKey(Integer id) {
+		// TODO Auto-generated method stub
+		return supTemplateDao.selectByPrimaryKey(id);
+	}
+
 	
 
 	

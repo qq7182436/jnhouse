@@ -317,31 +317,42 @@ FROM
   	<if test="header_id!=null and ''!=header_id">
   		and header_id = #{header_id}
   	</if>
-  	<if test="dept_id!=null and ''!=dept_id">
-  		and dept_id = #{dept_id}
+  	<if test="dept_id!=null">
+  	<foreach collection="dept_id" open=" and" close=" " item="i" separator=" or ">
+  		dept_id = #{i}
+  	</foreach>
+  		 
   	</if>
   </select>
   <insert id="insertheader_dept" parameterType="Map">
- 	INSERT INTO fke_sup_answer_header_dept (
-		header_id,template_id,store_id,check_date,store_around,start_time,end_time,broker_num,customer_num,
-		docking_man,recording,is_delete,updated_time,created_time,dept_id ) 
-		SELECT id,template_id,store_id,check_date,store_around,start_time,end_time,broker_num,customer_num,docking_man,recording,
-		is_delete,updated_time,created_time,#{dept_id} 
-	FROM
-		fke_sup_answer_header 
-	WHERE
-		id = #{header_id}
+  INSERT INTO fke_sup_answer_header_dept (header_id,template_id,store_id,check_date,store_around,start_time,end_time,broker_num,customer_num,docking_man,recording,is_delete,updated_time,created_time,dept_id ) 
+  	select a.* from (
+	  <if test="dept_id!=null">
+	  	<foreach collection="dept_id" item="i" separator="union all" open="(" close=")">	  		
+				SELECT id,template_id,store_id,check_date,store_around,start_time,end_time,broker_num,customer_num,docking_man,recording,
+				is_delete,updated_time,created_time,#{i} 
+			FROM
+				fke_sup_answer_header 
+			WHERE
+				id = #{header_id}
+	  	</foreach>
+	  </if>
+ 	)a
   </insert>
   
   <insert id="insertline_dept" parameterType="Map">
-  	INSERT INTO fke_sup_answer_line_dept ( 
-  		header_id, problem_id, answer_num, answer, score, is_delete, updated_time, created_time, dept_id ) 
-  		SELECT header_id,problem_id,answer_num,answer,score,is_delete,updated_time,created_time,#{dept_id}
-	FROM
-		fke_sup_answer_line 
-	WHERE
+  INSERT INTO fke_sup_answer_line_dept (header_id, problem_id, answer_num, answer, score, is_delete, updated_time, created_time, dept_id ) 
+  select a.* from (
+  	<if test="dept_id!=null">
+	  	<foreach collection="dept_id" item="i" separator="union all" open="(" close=")" >	  	
+	  		SELECT header_id,problem_id,answer_num,answer,score,is_delete,updated_time,created_time,#{i}
+		FROM
+			fke_sup_answer_line 
+		WHERE
 		header_id =#{header_id}
-  	
+  		</foreach>
+  	</if>
+  	)a
   </insert>
  <delete id="deleteHeader" parameterType="String">
     delete from fke_sup_answer_header where id=#{id}
@@ -382,11 +393,26 @@ FROM
  </select>
  
  <delete id="deleteDeptHeader" parameterType="String">
-    delete from fke_sup_answer_header_dept where id = #{id}    	
+    delete from fke_sup_answer_header_dept where 1 = 1 
+    <if test="id!=null and ''!=id">
+    	and id = #{id}
+    </if>
+    <if test="dept_id!=null and ''!=dept_id">
+    	and dept_id = #{dept_id}
+    </if>
+    <if test="header_id!=null and ''!=header_id">
+    	and header_id = #{header_id}
+    </if>    	
     
  </delete>
  <delete id="deleteDeptLine" parameterType="String">
-    delete from fke_sup_answer_line_dept where id=#{id}
+    delete from fke_sup_answer_line_dept where 1 = 1 
+    <if test="dept_id!=null and ''!=dept_id">
+    	and dept_id = #{dept_id}
+    </if>
+    <if test="header_id!=null and ''!=header_id">
+    	and header_id = #{header_id}
+    </if>    	
  </delete>
  
 </mapper>

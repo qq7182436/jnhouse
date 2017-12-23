@@ -212,22 +212,25 @@
 				dataType : 'json', //返回的数据格式：json/xml/html/script/jsonp/text
 				success : function(data) {
 					layer.msg("保存成功!");
-				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+					var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+					 if(data.treeNode.id == id){
+						location.reload();
+					} 
+					
+					nodes = zTree.getSelectedNodes(); 
 					if( null != id && "" != id){
 					var index = treeNode_1.getIndex()
-					zTree.removeNode(treeNode_1, false);
+					//zTree.removeNode(treeNode_1, false);
 					zTree.addNodes(treeNode_1.getParentNode(),index, data.treeNode);
-				}else{
-					if(flag == 2){
-						zTree.addNodes(treeNode_1, data.treeNode);
 					}else{
-						zTree.addNodes(treeNode_1.getParentNode(), data.treeNode);
-					}
+						if(flag == 2){
+							zTree.addNodes(treeNode_1, data.treeNode);
+						}else{
+							zTree.addNodes(treeNode_1.getParentNode(), data.treeNode);
+						}
 					
-				}  
-						/* var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-						  layer.msg('添加成功',{offset: '250px'});		
-						  zTree.addNodes(treeNode_1.getParentNode(), data.treeNode); */
+					}  
+					
 										
 				},
 				error : function(data) {

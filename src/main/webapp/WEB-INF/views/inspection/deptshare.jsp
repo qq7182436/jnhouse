@@ -127,13 +127,12 @@ body {
  		       },events: {
                    'click #buttona': function (e, value, row, index) {                   	   
                        //删除操作\
-                       console.log(row);return;
                       layer.confirm('答案明细将会一并删除,确定要删除吗？', {
 						  btn: ['删除', '取消'], //可以无限个按钮
 						  offset: '100px'
 						}, function(index){
 							layer.close(index);
-							 $.post('answer/deleteDeptHeader.action',{id:row.id},function(data){
+							 $.post('answer/deleteDeptHeader.action',{id:row.id,dept_id:row.dept_id,header_id:row.header_id},function(data){
                             	if(data.success){
 	                            	layer.msg("删除成功!");
 	                            	$("#dataTable").bootstrapTable('remove',{field: 'id',values: [row.id]});
