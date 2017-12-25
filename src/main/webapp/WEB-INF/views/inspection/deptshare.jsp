@@ -116,6 +116,10 @@ body {
  		        title: '访问结束时间'	 		       
  		    },
  		   {
+ 		        field: 'dept_name',
+ 		        title: '部门'	 		       
+ 		    },
+ 		   {
  		        field: 'cz',
  		        title: '操作',
  		       	align:'center',

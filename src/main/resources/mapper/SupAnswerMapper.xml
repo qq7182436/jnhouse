@@ -20,6 +20,7 @@
     <result column="menu_title" jdbcType="VARCHAR" property="menu_title" />
     <result column="header_id" jdbcType="INTEGER" property="header_id" />
     <result column="dept_id" jdbcType="INTEGER" property="dept_id" />
+    <result column="dept_name" jdbcType="VARCHAR" property="dept_name" />
   </resultMap>
   <sql id="Base_Column_List">
     id, template_id, date_format(check_date,'%Y-%m-%d') as check_date, store_id, store_around, start_time, end_time, broker_num, 
@@ -318,8 +319,9 @@ FROM
   		and header_id = #{header_id}
   	</if>
   	<if test="dept_id!=null">
-  	<foreach collection="dept_id" open=" and" close=" " item="i" separator=" or ">
-  		dept_id = #{i}
+  		and dept_id in
+  	<foreach collection="dept_id" open=" (" close=" )" item="i" separator=",">
+  		 #{i}
   	</foreach>
   		 
   	</if>
@@ -328,7 +330,7 @@ FROM
   INSERT INTO fke_sup_answer_header_dept (header_id,template_id,store_id,check_date,store_around,start_time,end_time,broker_num,customer_num,docking_man,recording,is_delete,updated_time,created_time,dept_id ) 
   	select a.* from (
 	  <if test="dept_id!=null">
-	  	<foreach collection="dept_id" item="i" separator="union all" open="(" close=")">	  		
+	  	<foreach collection="dept_id" item="i" separator="UNION ALL">	  		
 				SELECT id,template_id,store_id,check_date,store_around,start_time,end_time,broker_num,customer_num,docking_man,recording,
 				is_delete,updated_time,created_time,#{i} 
 			FROM
@@ -344,7 +346,7 @@ FROM
   INSERT INTO fke_sup_answer_line_dept (header_id, problem_id, answer_num, answer, score, is_delete, updated_time, created_time, dept_id ) 
   select a.* from (
   	<if test="dept_id!=null">
-	  	<foreach collection="dept_id" item="i" separator="union all" open="(" close=")" >	  	
+	  	<foreach collection="dept_id" item="i" separator="UNION ALL" >	  	
 	  		SELECT header_id,problem_id,answer_num,answer,score,is_delete,updated_time,created_time,#{i}
 		FROM
 			fke_sup_answer_line 
@@ -379,12 +381,15 @@ FROM
 		hd.updated_time,
 		hd.created_time,
 		hd.dept_id,
+		dept.dept_name,
 		east.NAME ,
 		template.menu_title
 	FROM
 		fke_sup_answer_header_dept hd
+		LEFT JOIN fke_dept dept on dept.id = hd.dept_id
 		left join fke_supervision_template template on hd.template_id = template.id
 		LEFT JOIN 2015_09_fangchanjn.fke_east east ON east.id = hd.store_id where 1 = 1
+		
 		<if test="dept_id!=null">
 			<foreach collection="dept_id" item="i" index="index"  separator="or" open=" and " close=" ">			
 				hd.dept_id = #{i}			
