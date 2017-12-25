@@ -400,8 +400,8 @@ function showDetails(rw,row){
 	$("input[name='checkbox']").each(function(){
 		$(this).removeAttr("checked");
 		if($(this).val() ==rw.answerNum){       	
-            $(this).attr("checked", true);
-            $(this).attr("readonly", "readonly");
+            $(this).prop("checked", true);
+            $(this).prop("readonly", "readonly");
         }
     });
 	$("#picture").append(img);
