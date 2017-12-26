@@ -197,13 +197,6 @@ public class DeptController extends BaseController{
 			jsonobj.put("name", depts.get(i).getDept_name());
 			jsonobj.put("sort", depts.get(i).getSort());
 			jsonobj.put("dept_level", depts.get(i).getDept_level());
-
-			/*List<Integer> deptAuthorList = deptAuthorityService.findByDeptId(depts.get(i).getId());
-			jsonobj.put("role_ids", deptAuthorList);*/
-
-			deptAuthorList = deptAuthorityService.findByDeptId(depts.get(i).getId());
-			jsonobj.put("role_ids", deptAuthorList);
-
 			if (depts.get(i).getDept_level() == 1) {
 				jsonobj.put("open", true);
 				jsonobj.put("iconSkin", "pIcon01");
