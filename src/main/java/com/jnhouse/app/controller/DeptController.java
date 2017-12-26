@@ -189,6 +189,7 @@ public class DeptController extends BaseController{
 		List<Dept> depts = deptService.findAll();
 		JSONArray jsonArray = new JSONArray();
 		JSONObject jsonobj = new JSONObject(); 
+		List<Integer> deptAuthorList = null;
 		Map<String,Object> map = new HashMap<String,Object>();
 		for (int i = 0; i < depts.size(); i++) {
 			jsonobj.put("id",depts.get(i).getId());
@@ -196,8 +197,13 @@ public class DeptController extends BaseController{
 			jsonobj.put("name", depts.get(i).getDept_name());
 			jsonobj.put("sort", depts.get(i).getSort());
 			jsonobj.put("dept_level", depts.get(i).getDept_level());
+
 			/*List<Integer> deptAuthorList = deptAuthorityService.findByDeptId(depts.get(i).getId());
 			jsonobj.put("role_ids", deptAuthorList);*/
+
+			deptAuthorList = deptAuthorityService.findByDeptId(depts.get(i).getId());
+			jsonobj.put("role_ids", deptAuthorList);
+
 			if (depts.get(i).getDept_level() == 1) {
 				jsonobj.put("open", true);
 				jsonobj.put("iconSkin", "pIcon01");

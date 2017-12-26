@@ -1,7 +1,13 @@
 package com.jnhouse.app.bean;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
+
+
+
+
 /**
  * 模版答案表
  * @author lou
@@ -13,11 +19,13 @@ public class SupAnswerHeader implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 
+	
 	private Integer id;
 
     private Integer template_id;
+   
 
-    private String check_date;
+    private Date check_date;
 
     private Integer store_id;
 
@@ -37,7 +45,8 @@ public class SupAnswerHeader implements Serializable{
 
     private Integer is_delete;
 
-    private String updated_time;
+    private Timestamp updated_time;
+
 
     private String created_time;
     
@@ -99,6 +108,8 @@ public class SupAnswerHeader implements Serializable{
 	}
 
 	public Integer getId() {
+    
+    public Integer getId() {
         return id;
     }
 
@@ -114,11 +125,11 @@ public class SupAnswerHeader implements Serializable{
         this.template_id = template_id;
     }
 
-    public String getCheck_date() {
+    public Date getCheck_date() {
         return check_date;
     }
 
-    public void setCheck_date(String check_date) {
+    public void setCheck_date(Date check_date) {
         this.check_date = check_date;
     }
 
@@ -194,19 +205,36 @@ public class SupAnswerHeader implements Serializable{
         this.is_delete = is_delete;
     }
 
-    public String getUpdated_time() {
-        return updated_time;
-    }
+	public Timestamp getUpdated_time() {
+		return updated_time;
+	}
 
-    public void setUpdated_time(String updated_time) {
-        this.updated_time = updated_time;
-    }
+	public void setUpdated_time(Timestamp updated_time) {
+		this.updated_time = updated_time;
+	}
 
-    public String getCreated_time() {
-        return created_time;
-    }
+	public String getCreated_time() {
+		return created_time;
+	}
 
-    public void setCreated_time(String created_time) {
-        this.created_time = created_time;
-    }
+	public void setCreated_time(String created_time) {
+		this.created_time = created_time;
+	}
+
+
+
+
+	
+
+
+	
+
+	
+
+	
+
+	
+
+
+  
 }

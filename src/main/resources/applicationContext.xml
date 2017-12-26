@@ -46,18 +46,36 @@
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPoint"/>
 	</aop:config>
 	
+	<bean name="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper" />
 	<!-- 配置事务增强-->
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
-			<tx:method name="*"/>
-			<tx:method name="get*" read-only="true"/>
+			
+			<!-- <tx:method name="get*" read-only="true"/>
 			<tx:method name="find*" read-only="true"/>
 			<tx:method name="del*" rollback-for="Exception"/>
 			<tx:method name="add*" rollback-for="Exception"/>
+
+			<tx:method name="save*" rollback-for="Exception" />
 			<tx:method name="insert*" rollback-for="Exception"/>
 			<tx:method name="select*" read-only="true"/>
 			<tx:method name="update*" rollback-for="Exception"/>
+			<tx:method name="*" />  -->
+
+		<tx:method name="get*" propagation="REQUIRED" />
+		<tx:method name="add*" propagation="REQUIRED" />
+		<tx:method name="find*" propagation="REQUIRED" />
+		<tx:method name="del*" propagation="REQUIRED" />
+		<tx:method name="insert*" propagation="REQUIRED" />
+		<tx:method name="select*" propagation="REQUIRED" />
+		<tx:method name="update*" propagation="REQUIRED" />
+		<tx:method name="save*" propagation="REQUIRED"/>
+
+		 <tx:method name="*" rollback-for="Exception"/><!--默认回滚机制是RuntimeException--> 
+
 		</tx:attributes>
 	</tx:advice>
 	<context:component-scan base-package="com.jnhouse.app"></context:component-scan> 
+	
+	<!-- <context:component-scan base-package="com.jnhouse.app.controller"></context:component-scan> -->
 </beans>

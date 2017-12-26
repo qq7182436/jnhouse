@@ -21,6 +21,47 @@
     from fke_supervision_template
     where id = #{id,jdbcType=INTEGER}
   </select>
+  
+  <!-- APP查询所有的模版  -->
+  <select id="findAllFirstTemplateTitle" parameterType="com.jnhouse.app.bean.SupTemplate" resultMap='BaseResultMap'>
+  	select id,menu_title from fke_supervision_template where menu_level =#{menu_level,jdbcType=INTEGER}
+  </select>
+	<!-- APP接口查询二,三级标题菜单 -->
+	<select id="findTemplateTitle" parameterType="com.jnhouse.app.bean.SupTemplate"
+		resultMap="BaseResultMap">
+		select id,menu_title from fke_supervision_template where parent_id 
+			= #{parent_id,jdbcType=INTEGER} and is_delete=1
+	</select>
+	<select id="findThreeProlem" resultMap="BaseResultMap">
+		SELECT
+		fst3.id ,
+		fst3.menu_title,
+		fst3.parent_id,
+		fst3.menu_level,
+		fst3.score
+		FROM
+		fke_supervision_template fst1
+		INNER JOIN
+		fke_supervision_template fst2
+		ON fst1.id
+		= fst2.parent_id
+		AND fst2.is_delete = 1
+		INNER JOIN
+		fke_supervision_template fst3
+		ON fst2.id
+		= fst3.parent_id
+		AND fst3.is_delete = 1
+		WHERE
+		fst1.id
+		= #{parent_id}
+		AND fst1.is_delete = 1
+		GROUP BY
+		fst3.id ,
+		fst3.menu_title,
+		fst3.parent_id,
+		fst3.menu_level,
+		fst3.score
+	</select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from fke_supervision_template
     where id = #{id,jdbcType=INTEGER}

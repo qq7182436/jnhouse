@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnhouse.app.dao.AnsFileRelDao">
+  <resultMap id="BaseResultMap" type="com.jnhouse.app.bean.AnsFileRel">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="answer_line_id" jdbcType="INTEGER" property="answer_line_id" />
+    <result column="file_id" jdbcType="INTEGER" property="file_id" />
+    <result column="is_delete" jdbcType="INTEGER" property="is_delete" />
+    <result column="updated_by" jdbcType="VARCHAR" property="updated_by" />
+    <result column="created_by" jdbcType="VARCHAR" property="created_by" />
+    <result column="updated_time" jdbcType="TIMESTAMP" property="updated_time" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="created_time" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, answer_line_id, file_id, is_delete, updated_by, created_by, updated_time, created_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from fke_ansfile_rel
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from fke_ansfile_rel
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="save" parameterType="com.jnhouse.app.bean.AnsFileRel">
+    insert into fke_ansfile_rel (answer_line_id, file_id, is_delete, 
+      updated_by, created_by, updated_time, 
+      created_time)
+    values (#{answer_line_id,jdbcType=INTEGER}, #{file_id,jdbcType=INTEGER}, #{is_delete,jdbcType=INTEGER}, 
+      #{updated_by,jdbcType=VARCHAR}, #{created_by,jdbcType=VARCHAR}, #{updated_time,jdbcType=TIMESTAMP}, 
+      #{created_time,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jnhouse.app.bean.AnsFileRel">
+    insert into fke_ansfile_rel
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="answer_line_id != null">
+        answer_line_id,
+      </if>
+      <if test="file_id != null">
+        file_id,
+      </if>
+      <if test="is_delete != null">
+        is_delete,
+      </if>
+      <if test="updated_by != null">
+        updated_by,
+      </if>
+      <if test="created_by != null">
+        created_by,
+      </if>
+      <if test="updated_time != null">
+        updated_time,
+      </if>
+      <if test="created_time != null">
+        created_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="answer_line_id != null">
+        #{answer_line_id,jdbcType=INTEGER},
+      </if>
+      <if test="file_id != null">
+        #{file_id,jdbcType=INTEGER},
+      </if>
+      <if test="is_delete != null">
+        #{is_delete,jdbcType=INTEGER},
+      </if>
+      <if test="updated_by != null">
+        #{updated_by,jdbcType=VARCHAR},
+      </if>
+      <if test="created_by != null">
+        #{created_by,jdbcType=VARCHAR},
+      </if>
+      <if test="updated_time != null">
+        #{updated_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created_time != null">
+        #{created_time,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+ 
+ 
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.jnhouse.app.bean.AnsFileRel">
+    update fke_ansfile_rel
+    <set>
+      <if test="answer_line_id != null">
+        answer_line_id = #{answer_line_id,jdbcType=INTEGER},
+      </if>
+      <if test="file_id != null">
+        file_id = #{file_id,jdbcType=INTEGER},
+      </if>
+      <if test="is_delete != null">
+        is_delete = #{is_delete,jdbcType=INTEGER},
+      </if>
+      <if test="updated_by != null">
+        updated_by = #{updated_by,jdbcType=VARCHAR},
+      </if>
+      <if test="created_by != null">
+        created_by = #{created_by,jdbcType=VARCHAR},
+      </if>
+      <if test="updated_time != null">
+        updated_time = #{updated_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created_time != null">
+        created_time = #{created_time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jnhouse.app.bean.AnsFileRel">
+    update fke_ansfile_rel
+    set answer_line_id = #{answer_line_id,jdbcType=INTEGER},
+      file_id = #{file_id,jdbcType=INTEGER},
+      is_delete = #{is_delete,jdbcType=INTEGER},
+      updated_by = #{updated_by,jdbcType=VARCHAR},
+      created_by = #{created_by,jdbcType=VARCHAR},
+      updated_time = #{updated_time,jdbcType=TIMESTAMP},
+      created_time = #{created_time,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

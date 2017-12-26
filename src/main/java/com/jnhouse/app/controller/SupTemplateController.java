@@ -1,13 +1,14 @@
 package com.jnhouse.app.controller;
 
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-
-
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -20,52 +21,34 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.jnhouse.app.bean.SupTemplate;
-import com.jnhouse.app.service.SupTemplateService;
 import com.jnhouse.app.utils.StringUtils;
-import java.util.Date;
-import java.text.SimpleDateFormat;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+
 
 @Controller
 public class SupTemplateController extends BaseController{
 
 	
-	ObjectMapper objectMapper = new ObjectMapper();
-	
 	
 	@Resource
-	SupTemplateService supTemplateService;
-
+	ObjectMapper objectMapper;
+	
 	private Logger log = Logger.getLogger(SupTemplateController.class);
 
+	
 	/**
-	 * 考核开始  -->点击考核开始按钮
-	 * @param request
+	 * App接口  模版展示
+	 * @param reuqest
 	 * @return
+	 * 
 	 */
-	@RequestMapping(value = "/jc_house/check_start",method = RequestMethod.POST)
-	public @ResponseBody ObjectNode checkStart (HttpServletRequest request){
-		ObjectNode re = objectMapper.createObjectNode();
-		
-		String store_id = (String) request.getParameter("store_id");// 门店的id
-		String template_id = (String) request.getParameter("template_id");//模版的id
-		String docking_man =(String) request.getParameter("docking_man");//对接人
-		String start_time = (String)request.getParameter("start_time");//访问开始时间
-		String store_around =(String) request.getParameter("store_around");//考核环境
-		String broker_num = (String)request.getParameter("broker_num");//顾客的数量
-		String customer_num = (String)request.getParameter("customer_num");//职业顾问的数量
-		
-		
-		
-		
-		
-		return null;
-	}
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings("all")
 	@RequestMapping(value = "/jc_house/findAllfirstTemplate", method = RequestMethod.GET)
 	public @ResponseBody ObjectNode findAllfirstTemplate(HttpServletRequest reuqest) {
 		
+		System.out.println("--------------");
 		ObjectNode re = objectMapper.createObjectNode();
 		ArrayNode nodeList = objectMapper.createArrayNode();
 		
@@ -106,86 +89,75 @@ public class SupTemplateController extends BaseController{
 		return re;
 	}
 	 
+	
 	/**
-	 * 二级,三级问题模版菜单列表
-	 * @param id
+	 * App 二级问题列表
+	 * 
+	 * @param reuqest
 	 * @return
 	 */
 	@SuppressWarnings("all")
 	@RequestMapping(value = "/jc_house/menu_problem_list", method = RequestMethod.GET)
 	public @ResponseBody ObjectNode templateList(HttpServletRequest reuqest) {
-	
+
 		ObjectNode re = objectMapper.createObjectNode();
 		ArrayNode nodeList = objectMapper.createArrayNode();
-		// ArrayNode nodeList2 = objectMapper.createArrayNode();
 
 		try {
 			String template_id = (String) reuqest.getParameter("template_id");// 模版的id
-
-			
-
 			SupTemplate supTemplate = new SupTemplate();
-			
-			
-			if(!StringUtils.isSpace(template_id)){
+
+			if (!StringUtils.isSpace(template_id)) {
 				supTemplate.setParent_id(Integer.parseInt(template_id));
-			}
-			else{
+			} else {
 				supTemplate.setParent_id(0);
 			}
 			supTemplate.setIs_delete(1);
-			
-			
-			List<SupTemplate> supTemplates =  supTemplateService.findTemplateTitle(supTemplate);
 
-			
+			List<SupTemplate> supTemplates = supTemplateService.findTemplateTitle(supTemplate);
+
 			SupTemplate subTemplate = null;
 			String id = "";
-			String template_title  = "";
+			String template_title = "";
 			if (supTemplates.size() > 0) {
-				//Map<String, SupTemplate> map = null;
 				for (int i = 0; i < supTemplates.size(); i++) {
 					ObjectNode re_node3 = objectMapper.createObjectNode();
 					ArrayNode nodeList2 = objectMapper.createArrayNode();
 					subTemplate = supTemplates.get(i);
-					// String template_title = map.get("menu_tile") ==null ? "" :
-					// map.get("menu_title").toString();
 					id = subTemplate.getId() == null ? "" : subTemplate.getId().toString();
-					template_title = subTemplate.getMenu_title() == null ? "" : subTemplate.getMenu_title().toString();
+					template_title = subTemplate.getMenu_title() == null ? "" : subTemplate.getMenu_title().toString();//一级问题的标题
 
-
+		
 					SupTemplate supTemplate2 = new SupTemplate();
-					if(!StringUtils.isSpace(id)){
+					if (!StringUtils.isSpace(id)) {
 						supTemplate2.setParent_id(Integer.parseInt(id));
-					}
-					else{
+					} else {
 						supTemplate2.setParent_id(0);
 					}
 					supTemplate2.setIs_delete(1);
-					List<SupTemplate> supTemplatesSec =  supTemplateService.findTemplateTitle(supTemplate2);
-					
+					List<SupTemplate> supTemplatesSec = null;
+
+					supTemplatesSec = supTemplateService.findThreeProlem(supTemplate2);
+					if(supTemplatesSec.size()<1){
+						supTemplatesSec = supTemplateService.findTemplateTitle(supTemplate2);
+					}
 					Map<String, Map<String, Object>> templateSecTitleMap = new HashMap<String, Map<String, Object>>();
 					Map<String, Object> templateIdMap = null;
 
 					for (SupTemplate supTemplate3 : supTemplatesSec) {
 						templateIdMap = new HashMap<String, Object>();
 						String secId = supTemplate3.getId() == null ? "" : supTemplate3.getId().toString();
-						String secTitle = supTemplate3.getMenu_title() == null ? "" : supTemplate3.getMenu_title().toString();
-						
-						System.err.println(secTitle+"***********");
+						String secTitle = supTemplate3.getMenu_title() == null ? ""
+								: supTemplate3.getMenu_title().toString();
+
 						// 如果此映射包含对于指定键的映射关系，则返回 true
 						if (templateSecTitleMap.containsKey(secId)) {
 
-							System.out.println("在Map集合中包含键名" + secId);
 						} else {
-							// System.out.println(templateSecTitleMap);
 							templateIdMap.put("sec_title", secTitle);
 							templateSecTitleMap.put(secId, templateIdMap);
 						}
 					}
-					
-
-
 					for (String secKey : templateSecTitleMap.keySet()) {
 						ObjectNode re_node2 = objectMapper.createObjectNode();
 						re_node2.put("secId", secKey);
@@ -195,18 +167,16 @@ public class SupTemplateController extends BaseController{
 						nodeList2.add(re_node2);
 					}
 
-					re_node3.put("templateMenu_id", template_id);//模版二级问题id
-					re_node3.put("templateMenu_title", template_title);//模版二级问题标题
+					re_node3.put("templateMenu_id", template_id);// 模版二级问题id
+					re_node3.put("templateMenu_title", template_title);// 模版二级问题标题
 					re_node3.put("sec_list", nodeList2);
 					nodeList.add(re_node3);
 
 				}
-				//re.put("date_list", nodeList);
 				re.put("date_list", nodeList);
 				re.put("code", "0");
 				re.put("message", "完成");
-			}
-			else{
+			} else {
 				re.put("code", "207");
 				re.put("message", "暂无数据");
 			}
@@ -214,12 +184,14 @@ public class SupTemplateController extends BaseController{
 			// TODO Auto-generated catch block
 			re.put("code", "-1");
 			re.put("message", "完成");
+
 			e.printStackTrace();
+			log.info("服务器异常");
 		}
 		return re;
 	}
 
-	@RequestMapping(value = "/jc_house/template")
+@RequestMapping(value = "/jc_house/template")
 	public ModelAndView template_views(HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("inspection/template");
@@ -379,6 +351,8 @@ public class SupTemplateController extends BaseController{
 
 		return jsonObject;
 	}
-
+	
+	
+	
 }
 
