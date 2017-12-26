@@ -196,8 +196,8 @@ public class DeptController extends BaseController{
 			jsonobj.put("name", depts.get(i).getDept_name());
 			jsonobj.put("sort", depts.get(i).getSort());
 			jsonobj.put("dept_level", depts.get(i).getDept_level());
-			List<Integer> deptAuthorList = deptAuthorityService.findByDeptId(depts.get(i).getId());
-			jsonobj.put("role_ids", deptAuthorList);
+			/*List<Integer> deptAuthorList = deptAuthorityService.findByDeptId(depts.get(i).getId());
+			jsonobj.put("role_ids", deptAuthorList);*/
 			if (depts.get(i).getDept_level() == 1) {
 				jsonobj.put("open", true);
 				jsonobj.put("iconSkin", "pIcon01");
@@ -208,6 +208,21 @@ public class DeptController extends BaseController{
 			}
 			jsonArray.add(jsonobj);
 		}
+		map.put("zNodes", jsonArray);
+		JSONObject jsonObject = JSONObject.fromObject(map);
+		return jsonObject;
+	}
+
+	@RequestMapping(value="/dept/findByDeptId",method = RequestMethod.POST)
+	@ResponseBody
+	public  JSONObject findByDeptId(HttpServletRequest request) {
+		String dept_id = request.getParameter("dept_id");
+		JSONArray jsonArray = new JSONArray();
+		JSONObject jsonobj = new JSONObject();
+		Map<String,Object> map = new HashMap<String,Object>();
+		List<Integer> deptAuthorList = deptAuthorityService.findByDeptId(Integer.parseInt(dept_id));
+		jsonobj.put("role_ids", deptAuthorList);
+		jsonArray.add(jsonobj);
 		map.put("zNodes", jsonArray);
 		JSONObject jsonObject = JSONObject.fromObject(map);
 		return jsonObject;
