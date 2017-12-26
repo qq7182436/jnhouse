@@ -69,7 +69,7 @@
 					name : 'yang',
 					age : 25
 				},
-				timeout : 5000, //超时时间
+				//timeout : 5000, //超时时间
 				dataType : 'json', //返回的数据格式：json/xml/html/script/jsonp/text
 				success : function(data) {
 					zNodes = data.zNodes;
@@ -84,8 +84,7 @@
 		})
 		
 		function onClick(event, treeId, treeNode, clickFlag) {
-			$("#name").val(treeNode.name);
-			 /* alert(treeNode.getParentNode());  */
+		/* 	$("#name").val(treeNode.name);			  
 			 if(treeNode.getParentNode() != null){
 				 $("#father_name").val(treeNode.getParentNode().name);
 			 }else{
@@ -102,6 +101,27 @@
 				  disabled: false
 				});
 			treeNode_1 = treeNode;
+			
+			 */			
+			$.post('dept/findByDeptId.action',{dept_id:treeNode.id},function(data){	
+				$("#name").val(treeNode.name);
+				 if(treeNode.getParentNode() != null){
+					 $("#father_name").val(treeNode.getParentNode().name);
+				 }else{
+					 $("#father_name").val(''); 
+				 }
+				$("#dept_id").val(treeNode.id);
+				$("#dept_sort").val(treeNode.sort);
+				$("#sort").val(treeNode.sort);
+				$("#dept_level").val(treeNode.dept_level);
+				$("#father_id").val(treeNode.pId);
+				var roles = $('#select2').select2();
+				roles.val(data.zNodes.role_ids).trigger("change");
+				$(".btn").prop({
+					  disabled: false
+					});
+				treeNode_1 = treeNode; 				
+			},'json');	
 		}	
 		
 		//一般直接写在一个js文件中

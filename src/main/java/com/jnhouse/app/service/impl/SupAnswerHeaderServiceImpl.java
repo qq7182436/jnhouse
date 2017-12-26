@@ -85,7 +85,7 @@ public class SupAnswerHeaderServiceImpl extends BaseServiceImpl<SupAnswerHeader>
 		// TODO Auto-generated method stub
 		
 		Timestamp ssuress = new Timestamp(System.currentTimeMillis());
-		supAnswerHeader.setCreated_time(ssuress);
+		supAnswerHeader.setCreated_time(String.valueOf(ssuress));
 		supAnswerHeader.setUpdated_time(ssuress);
 		int c = supAnswerHeaderDao.save(supAnswerHeader);
 		

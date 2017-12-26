@@ -47,11 +47,67 @@ public class SupAnswerHeader implements Serializable{
 
     private Timestamp updated_time;
 
-    private Timestamp created_time;
-    
-    
- 
 
+    private String created_time;
+    
+    private String store_name;
+    
+    private String menu_title;
+    
+    private Integer header_id;
+    
+    private Integer dept_id;
+    
+    private String dept_name;
+    
+    
+
+    
+	public String getDept_name() {
+		return dept_name;
+	}
+
+	public void setDept_name(String dept_name) {
+		this.dept_name = dept_name;
+	}
+
+	public Integer getDept_id() {
+		return dept_id;
+	}
+
+	public void setDept_id(Integer dept_id) {
+		this.dept_id = dept_id;
+	}
+
+	public Integer getHeader_id() {
+		return header_id;
+	}
+
+	public void setHeader_id(Integer header_id) {
+		this.header_id = header_id;
+	}
+
+	public String getMenu_title() {
+		return menu_title;
+	}
+
+	public void setMenu_title(String menu_title) {
+		this.menu_title = menu_title;
+	}
+
+	public String getStore_name() {
+		return store_name;
+	}
+
+	public void setStore_name(String store_name) {
+		this.store_name = store_name;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+    
     public Integer getId() {
         return id;
     }
@@ -156,11 +212,11 @@ public class SupAnswerHeader implements Serializable{
 		this.updated_time = updated_time;
 	}
 
-	public Timestamp getCreated_time() {
+	public String getCreated_time() {
 		return created_time;
 	}
 
-	public void setCreated_time(Timestamp created_time) {
+	public void setCreated_time(String created_time) {
 		this.created_time = created_time;
 	}
 

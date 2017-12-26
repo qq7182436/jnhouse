@@ -71,4 +71,10 @@ public class DeptUserServiceImpl extends BaseServiceImpl<DeptUser> implements De
 		deptUserDao.deleteByPrimaryKeys(ids);
 	}
 
+	@Override
+	public List<Integer> getDeptIdByUserId(Integer userId) {
+		// TODO Auto-generated method stub
+		return deptUserDao.getDeptIdByUserId(userId);
+	}
+
 }

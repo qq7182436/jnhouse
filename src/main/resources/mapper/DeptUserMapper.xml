@@ -200,4 +200,8 @@
       created_time = #{created_time,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="getDeptIdByUserId" parameterType="Integer" resultType="Integer">
+  	select dept_id from fke_dept_user where broker_id = #{userId}
+  </select>
 </mapper>

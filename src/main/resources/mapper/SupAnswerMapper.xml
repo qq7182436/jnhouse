@@ -1,36 +1,286 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jnhouse.app.dao.SupAnswerDao">
-	<resultMap id="BaseResultMap" type="com.jnhouse.app.bean.SupAnswerHeader">
-		<id column="id" jdbcType="INTEGER" property="id" />
-		<result column="template_id" jdbcType="INTEGER" property="template_id" />
-		<result column="check_date" jdbcType="DATE" property="check_date" />
-		<result column="store_id" jdbcType="INTEGER" property="store_id" />
-		<result column="store_around" jdbcType="VARCHAR" property="store_around" />
-		<result column="start_time" jdbcType="VARCHAR" property="start_time" />
-		<result column="end_time" jdbcType="VARCHAR" property="end_time" />
-		<result column="broker_num" jdbcType="INTEGER" property="broker_num" />
-		<result column="customer_num" jdbcType="INTEGER" property="customer_num" />
-		<result column="docking_man" jdbcType="VARCHAR" property="docking_man" />
-		<result column="recording" jdbcType="VARCHAR" property="recording" />
-		<result column="is_delete" jdbcType="INTEGER" property="is_delete" />
-		<result column="updated_time" jdbcType="TIMESTAMP" property="updated_time" />
-		<result column="created_time" jdbcType="TIMESTAMP" property="created_time" />
-	</resultMap>
-	<sql id="Base_Column_List">
-		id, template_id, date_format(check_date,'%Y-%m-%d') as
-		check_date,
-		store_id, store_around, start_time, end_time, broker_num,
-		customer_num, docking_man, recording, is_delete, updated_time,
-		created_time
-	</sql>
-	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
-		resultMap="BaseResultMap">
-		select
-		<include refid="Base_Column_List" />
-		from fke_sup_answer_header
-		where id = #{id,jdbcType=INTEGER}
-	</select>
+
+  <resultMap id="BaseResultMap" type="com.jnhouse.app.bean.SupAnswerHeader">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="template_id" jdbcType="INTEGER" property="template_id" />
+    <result column="check_date" jdbcType="DATE" property="check_date" />
+    <result column="store_id" jdbcType="INTEGER" property="store_id" />
+    <result column="store_around" jdbcType="VARCHAR" property="store_around" />
+    <result column="start_time" jdbcType="VARCHAR" property="start_time" />
+    <result column="end_time" jdbcType="VARCHAR" property="end_time" />
+    <result column="broker_num" jdbcType="INTEGER" property="broker_num" />
+    <result column="customer_num" jdbcType="INTEGER" property="customer_num" />
+    <result column="docking_man" jdbcType="VARCHAR" property="docking_man" />
+    <result column="recording" jdbcType="VARCHAR" property="recording" />
+    <result column="is_delete" jdbcType="INTEGER" property="is_delete" />
+    <result column="updated_time" jdbcType="TIMESTAMP" property="updated_time" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="created_time" />
+    <result column="name" jdbcType="VARCHAR" property="store_name" />
+    <result column="menu_title" jdbcType="VARCHAR" property="menu_title" />
+    <result column="header_id" jdbcType="INTEGER" property="header_id" />
+    <result column="dept_id" jdbcType="INTEGER" property="dept_id" />
+    <result column="dept_name" jdbcType="VARCHAR" property="dept_name" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, template_id, date_format(check_date,'%Y-%m-%d') as check_date, store_id, store_around, start_time, end_time, broker_num, 
+    customer_num, docking_man, recording, is_delete, updated_time, created_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from fke_sup_answer_header
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <insert id="insert" parameterType="com.jnhouse.app.bean.SupAnswerHeader">
+    insert into fke_sup_answer_header (template_id, check_date, store_id, 
+      store_around, start_time, end_time, 
+      broker_num, customer_num, docking_man, 
+      recording, is_delete, updated_time, 
+      created_time)
+    values (#{template_id,jdbcType=INTEGER}, #{check_date,jdbcType=DATE}, #{store_id,jdbcType=INTEGER}, 
+      #{store_around,jdbcType=VARCHAR}, #{start_time,jdbcType=VARCHAR}, #{end_time,jdbcType=VARCHAR}, 
+      #{broker_num,jdbcType=INTEGER}, #{customer_num,jdbcType=INTEGER}, #{docking_man,jdbcType=VARCHAR}, 
+      #{recording,jdbcType=VARCHAR}, #{is_delete,jdbcType=INTEGER}, #{updated_time,jdbcType=TIMESTAMP}, 
+      #{created_time,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jnhouse.app.bean.SupAnswerHeader">
+    insert into fke_sup_answer_header
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="template_id != null">
+        template_id,
+      </if>
+      <if test="check_date != null">
+        check_date,
+      </if>
+      <if test="store_id != null">
+        store_id,
+      </if>
+      <if test="store_around != null">
+        store_around,
+      </if>
+      <if test="start_time != null">
+        start_time,
+      </if>
+      <if test="end_time != null">
+        end_time,
+      </if>
+      <if test="broker_num != null">
+        broker_num,
+      </if>
+      <if test="customer_num != null">
+        customer_num,
+      </if>
+      <if test="docking_man != null">
+        docking_man,
+      </if>
+      <if test="recording != null">
+        recording,
+      </if>
+      <if test="is_delete != null">
+        is_delete,
+      </if>
+      <if test="updated_time != null">
+        updated_time,
+      </if>
+      <if test="created_time != null">
+        created_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="template_id != null">
+        #{template_id,jdbcType=INTEGER},
+      </if>
+      <if test="check_date != null">
+        #{check_date,jdbcType=DATE},
+      </if>
+      <if test="store_id != null">
+        #{store_id,jdbcType=INTEGER},
+      </if>
+      <if test="store_around != null">
+        #{store_around,jdbcType=VARCHAR},
+      </if>
+      <if test="start_time != null">
+        #{start_time,jdbcType=VARCHAR},
+      </if>
+      <if test="end_time != null">
+        #{end_time,jdbcType=VARCHAR},
+      </if>
+      <if test="broker_num != null">
+        #{broker_num,jdbcType=INTEGER},
+      </if>
+      <if test="customer_num != null">
+        #{customer_num,jdbcType=INTEGER},
+      </if>
+      <if test="docking_man != null">
+        #{docking_man,jdbcType=VARCHAR},
+      </if>
+      <if test="recording != null">
+        #{recording,jdbcType=VARCHAR},
+      </if>
+      <if test="is_delete != null">
+        #{is_delete,jdbcType=INTEGER},
+      </if>
+      <if test="updated_time != null">
+        #{updated_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created_time != null">
+        #{created_time,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map">
+    update fke_sup_answer_header
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.template_id != null">
+        template_id = #{record.template_id,jdbcType=INTEGER},
+      </if>
+      <if test="record.check_date != null">
+        check_date = #{record.check_date,jdbcType=DATE},
+      </if>
+      <if test="record.store_id != null">
+        store_id = #{record.store_id,jdbcType=INTEGER},
+      </if>
+      <if test="record.store_around != null">
+        store_around = #{record.store_around,jdbcType=VARCHAR},
+      </if>
+      <if test="record.start_time != null">
+        start_time = #{record.start_time,jdbcType=VARCHAR},
+      </if>
+      <if test="record.end_time != null">
+        end_time = #{record.end_time,jdbcType=VARCHAR},
+      </if>
+      <if test="record.broker_num != null">
+        broker_num = #{record.broker_num,jdbcType=INTEGER},
+      </if>
+      <if test="record.customer_num != null">
+        customer_num = #{record.customer_num,jdbcType=INTEGER},
+      </if>
+      <if test="record.docking_man != null">
+        docking_man = #{record.docking_man,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recording != null">
+        recording = #{record.recording,jdbcType=VARCHAR},
+      </if>
+      <if test="record.is_delete != null">
+        is_delete = #{record.is_delete,jdbcType=INTEGER},
+      </if>
+      <if test="record.updated_time != null">
+        updated_time = #{record.updated_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.created_time != null">
+        created_time = #{record.created_time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update fke_sup_answer_header
+    set id = #{record.id,jdbcType=INTEGER},
+      template_id = #{record.template_id,jdbcType=INTEGER},
+      check_date = #{record.check_date,jdbcType=DATE},
+      store_id = #{record.store_id,jdbcType=INTEGER},
+      store_around = #{record.store_around,jdbcType=VARCHAR},
+      start_time = #{record.start_time,jdbcType=VARCHAR},
+      end_time = #{record.end_time,jdbcType=VARCHAR},
+      broker_num = #{record.broker_num,jdbcType=INTEGER},
+      customer_num = #{record.customer_num,jdbcType=INTEGER},
+      docking_man = #{record.docking_man,jdbcType=VARCHAR},
+      recording = #{record.recording,jdbcType=VARCHAR},
+      is_delete = #{record.is_delete,jdbcType=INTEGER},
+      updated_time = #{record.updated_time,jdbcType=TIMESTAMP},
+      created_time = #{record.created_time,jdbcType=TIMESTAMP}
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jnhouse.app.bean.SupAnswerHeader">
+    update fke_sup_answer_header
+    <set>
+      <if test="template_id != null">
+        template_id = #{template_id,jdbcType=INTEGER},
+      </if>
+      <if test="check_date != null">
+        check_date = #{check_date,jdbcType=DATE},
+      </if>
+      <if test="store_id != null">
+        store_id = #{store_id,jdbcType=INTEGER},
+      </if>
+      <if test="store_around != null">
+        store_around = #{store_around,jdbcType=VARCHAR},
+      </if>
+      <if test="start_time != null">
+        start_time = #{start_time,jdbcType=VARCHAR},
+      </if>
+      <if test="end_time != null">
+        end_time = #{end_time,jdbcType=VARCHAR},
+      </if>
+      <if test="broker_num != null">
+        broker_num = #{broker_num,jdbcType=INTEGER},
+      </if>
+      <if test="customer_num != null">
+        customer_num = #{customer_num,jdbcType=INTEGER},
+      </if>
+      <if test="docking_man != null">
+        docking_man = #{docking_man,jdbcType=VARCHAR},
+      </if>
+      <if test="recording != null">
+        recording = #{recording,jdbcType=VARCHAR},
+      </if>
+      <if test="is_delete != null">
+        is_delete = #{is_delete,jdbcType=INTEGER},
+      </if>
+      <if test="updated_time != null">
+        updated_time = #{updated_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created_time != null">
+        created_time = #{created_time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jnhouse.app.bean.SupAnswerHeader">
+    update fke_sup_answer_header
+    set template_id = #{template_id,jdbcType=INTEGER},
+      check_date = #{check_date,jdbcType=DATE},
+      store_id = #{store_id,jdbcType=INTEGER},
+      store_around = #{store_around,jdbcType=VARCHAR},
+      start_time = #{start_time,jdbcType=VARCHAR},
+      end_time = #{end_time,jdbcType=VARCHAR},
+      broker_num = #{broker_num,jdbcType=INTEGER},
+      customer_num = #{customer_num,jdbcType=INTEGER},
+      docking_man = #{docking_man,jdbcType=VARCHAR},
+      recording = #{recording,jdbcType=VARCHAR},
+      is_delete = #{is_delete,jdbcType=INTEGER},
+      updated_time = #{updated_time,jdbcType=TIMESTAMP},
+      created_time = #{created_time,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectAnswer" resultMap="BaseResultMap" parameterType="Map">
+	SELECT
+		answer.id,
+		answer.template_id,
+		date_format( answer.check_date, '%Y-%m-%d' ) AS check_date,
+		answer.store_id,
+		answer.store_around,
+		answer.start_time,
+		answer.end_time,
+		answer.broker_num,
+		answer.customer_num,
+		answer.docking_man,
+		answer.recording,
+		answer.is_delete,
+		answer.updated_time,
+		answer.created_time,
+		east.NAME ,
+		template.menu_title 
+	FROM
+		fke_sup_answer_header answer
+		left join fke_supervision_template template on answer.template_id = template.id
+		LEFT JOIN 20171206fangchan.fke_east east ON east.id = answer.store_id
+</select>
 	<!-- App sql start -->
 	<resultMap type="com.jnhouse.app.dto.SupAnswerHeaderDTO" id="supAnswerHeaderDTOMap">
 		<id column="id" property="id" />
@@ -73,7 +323,7 @@
 		t.menu_title
 		FROM
 		fke_sup_answer_header h,
-		2015_09_fangchanjn.fke_east e,
+		20171206fangchan.fke_east e,
 		fke_supervision_template t
 		WHERE
 		h.store_id = e.id
@@ -258,296 +508,7 @@
 		fke_sup_answer_header
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
-	<insert id="insert" parameterType="com.jnhouse.app.bean.SupAnswerHeader">
-		insert into
-		fke_sup_answer_header (template_id, check_date, store_id,
-		store_around, start_time, end_time,
-		broker_num, customer_num,
-		docking_man,
-		recording, is_delete, updated_time,
-		created_time)
-		values
-		(#{template_id,jdbcType=INTEGER}, #{check_date,jdbcType=DATE},
-		#{store_id,jdbcType=INTEGER},
-		#{store_around,jdbcType=VARCHAR},
-		#{start_time,jdbcType=VARCHAR}, #{end_time,jdbcType=VARCHAR},
-		#{broker_num,jdbcType=INTEGER}, #{customer_num,jdbcType=INTEGER},
-		#{docking_man,jdbcType=VARCHAR},
-		#{recording,jdbcType=VARCHAR},
-		#{is_delete,jdbcType=INTEGER}, #{updated_time,jdbcType=TIMESTAMP},
-		#{created_time,jdbcType=TIMESTAMP})
-	</insert>
-	<insert id="insertSelective" parameterType="com.jnhouse.app.bean.SupAnswerHeader">
-		insert into fke_sup_answer_header
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="template_id != null">
-				template_id,
-			</if>
-			<if test="check_date != null">
-				check_date,
-			</if>
-			<if test="store_id != null">
-				store_id,
-			</if>
-			<if test="store_around != null">
-				store_around,
-			</if>
-			<if test="start_time != null">
-				start_time,
-			</if>
-			<if test="end_time != null">
-				end_time,
-			</if>
-			<if test="broker_num != null">
-				broker_num,
-			</if>
-			<if test="customer_num != null">
-				customer_num,
-			</if>
-			<if test="docking_man != null">
-				docking_man,
-			</if>
-			<if test="recording != null">
-				recording,
-			</if>
-			<if test="is_delete != null">
-				is_delete,
-			</if>
-			<if test="updated_time != null">
-				updated_time,
-			</if>
-			<if test="created_time != null">
-				created_time,
-			</if>
-		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="template_id != null">
-				#{template_id,jdbcType=INTEGER},
-			</if>
-			<if test="check_date != null">
-				#{check_date,jdbcType=DATE},
-			</if>
-			<if test="store_id != null">
-				#{store_id,jdbcType=INTEGER},
-			</if>
-			<if test="store_around != null">
-				#{store_around,jdbcType=VARCHAR},
-			</if>
-			<if test="start_time != null">
-				#{start_time,jdbcType=VARCHAR},
-			</if>
-			<if test="end_time != null">
-				#{end_time,jdbcType=VARCHAR},
-			</if>
-			<if test="broker_num != null">
-				#{broker_num,jdbcType=INTEGER},
-			</if>
-			<if test="customer_num != null">
-				#{customer_num,jdbcType=INTEGER},
-			</if>
-			<if test="docking_man != null">
-				#{docking_man,jdbcType=VARCHAR},
-			</if>
-			<if test="recording != null">
-				#{recording,jdbcType=VARCHAR},
-			</if>
-			<if test="is_delete != null">
-				#{is_delete,jdbcType=INTEGER},
-			</if>
-			<if test="updated_time != null">
-				#{updated_time,jdbcType=TIMESTAMP},
-			</if>
-			<if test="created_time != null">
-				#{created_time,jdbcType=TIMESTAMP},
-			</if>
-		</trim>
-	</insert>
-	<update id="updateByExampleSelective" parameterType="map">
-		update fke_sup_answer_header
-		<set>
-			<if test="record.id != null">
-				id = #{record.id,jdbcType=INTEGER},
-			</if>
-			<if test="record.template_id != null">
-				template_id = #{record.template_id,jdbcType=INTEGER},
-			</if>
-			<if test="record.check_date != null">
-				check_date = #{record.check_date,jdbcType=DATE},
-			</if>
-			<if test="record.store_id != null">
-				store_id = #{record.store_id,jdbcType=INTEGER},
-			</if>
-			<if test="record.store_around != null">
-				store_around = #{record.store_around,jdbcType=VARCHAR},
-			</if>
-			<if test="record.start_time != null">
-				start_time = #{record.start_time,jdbcType=VARCHAR},
-			</if>
-			<if test="record.end_time != null">
-				end_time = #{record.end_time,jdbcType=VARCHAR},
-			</if>
-			<if test="record.broker_num != null">
-				broker_num = #{record.broker_num,jdbcType=INTEGER},
-			</if>
-			<if test="record.customer_num != null">
-				customer_num = #{record.customer_num,jdbcType=INTEGER},
-			</if>
-			<if test="record.docking_man != null">
-				docking_man = #{record.docking_man,jdbcType=VARCHAR},
-			</if>
-			<if test="record.recording != null">
-				recording = #{record.recording,jdbcType=VARCHAR},
-			</if>
-			<if test="record.is_delete != null">
-				is_delete = #{record.is_delete,jdbcType=INTEGER},
-			</if>
-			<if test="record.updated_time != null">
-				updated_time = #{record.updated_time,jdbcType=TIMESTAMP},
-			</if>
-			<if test="record.created_time != null">
-				created_time = #{record.created_time,jdbcType=TIMESTAMP},
-			</if>
-		</set>
-	</update>
-	<update id="updateByExample" parameterType="map">
-		update
-		fke_sup_answer_header
-		set id = #{record.id,jdbcType=INTEGER},
-		template_id = #{record.template_id,jdbcType=INTEGER},
-		check_date =
-		#{record.check_date,jdbcType=DATE},
-		store_id =
-		#{record.store_id,jdbcType=INTEGER},
-		store_around =
-		#{record.store_around,jdbcType=VARCHAR},
-		start_time =
-		#{record.start_time,jdbcType=VARCHAR},
-		end_time =
-		#{record.end_time,jdbcType=VARCHAR},
-		broker_num =
-		#{record.broker_num,jdbcType=INTEGER},
-		customer_num =
-		#{record.customer_num,jdbcType=INTEGER},
-		docking_man =
-		#{record.docking_man,jdbcType=VARCHAR},
-		recording =
-		#{record.recording,jdbcType=VARCHAR},
-		is_delete =
-		#{record.is_delete,jdbcType=INTEGER},
-		updated_time =
-		#{record.updated_time,jdbcType=TIMESTAMP},
-		created_time =
-		#{record.created_time,jdbcType=TIMESTAMP}
-	</update>
-	<update id="updateByPrimaryKeySelective" parameterType="com.jnhouse.app.bean.SupAnswerHeader">
-		update fke_sup_answer_header
-		<set>
-			<if test="template_id != null">
-				template_id = #{template_id,jdbcType=INTEGER},
-			</if>
-			<if test="check_date != null">
-				check_date = #{check_date,jdbcType=DATE},
-			</if>
-			<if test="store_id != null">
-				store_id = #{store_id,jdbcType=INTEGER},
-			</if>
-			<if test="store_around != null">
-				store_around = #{store_around,jdbcType=VARCHAR},
-			</if>
-			<if test="start_time != null">
-				start_time = #{start_time,jdbcType=VARCHAR},
-			</if>
-			<if test="end_time != null">
-				end_time = #{end_time,jdbcType=VARCHAR},
-			</if>
-			<if test="broker_num != null">
-				broker_num = #{broker_num,jdbcType=INTEGER},
-			</if>
-			<if test="customer_num != null">
-				customer_num = #{customer_num,jdbcType=INTEGER},
-			</if>
-			<if test="docking_man != null">
-				docking_man = #{docking_man,jdbcType=VARCHAR},
-			</if>
-			<if test="recording != null">
-				recording = #{recording,jdbcType=VARCHAR},
-			</if>
-			<if test="is_delete != null">
-				is_delete = #{is_delete,jdbcType=INTEGER},
-			</if>
-			<if test="updated_time != null">
-				updated_time = #{updated_time,jdbcType=TIMESTAMP},
-			</if>
-			<if test="created_time != null">
-				created_time = #{created_time,jdbcType=TIMESTAMP},
-			</if>
-		</set>
-		where id = #{id,jdbcType=INTEGER}
-	</update>
-	<update id="updateByPrimaryKey" parameterType="com.jnhouse.app.bean.SupAnswerHeader">
-		update
-		fke_sup_answer_header
-		set template_id =
-		#{template_id,jdbcType=INTEGER},
-		check_date =
-		#{check_date,jdbcType=DATE},
-		store_id = #{store_id,jdbcType=INTEGER},
-		store_around = #{store_around,jdbcType=VARCHAR},
-		start_time =
-		#{start_time,jdbcType=VARCHAR},
-		end_time =
-		#{end_time,jdbcType=VARCHAR},
-		broker_num =
-		#{broker_num,jdbcType=INTEGER},
-		customer_num =
-		#{customer_num,jdbcType=INTEGER},
-		docking_man =
-		#{docking_man,jdbcType=VARCHAR},
-		recording =
-		#{recording,jdbcType=VARCHAR},
-		is_delete =
-		#{is_delete,jdbcType=INTEGER},
-		updated_time =
-		#{updated_time,jdbcType=TIMESTAMP},
-		created_time =
-		#{created_time,jdbcType=TIMESTAMP}
-		where id = #{id,jdbcType=INTEGER}
-	</update>
-
-	<select id="selectAnswer" resultMap="BaseResultMap"
-		parameterType="Map">
-		select
-		<include refid="Base_Column_List" />
-		from fke_sup_answer_header
-	</select>
-	<select id="temAnswer" resultType="com.jnhouse.app.bean.TemAnswer"
-		parameterType="Map">
-		SELECT
-		template.menu_title as title,
-		line.answer_num as answerNum,
-		line.answer as answer
-		from fke_supervision_template
-		template,fke_sup_answer_header
-		header,fke_sup_answer_line line
-		where
-		template.id = header.template_id
-		and header.id= line.header_id
-		<if test="parent_id!=null and ''!=parent_id">
-			and template.parent_id=#{parent_id}
-		</if>
-		<if test="store_id!=null and ''!=store_id">
-			and header.store_id = #{store_id}
-		</if>
-		<if test="check_date!=null and ''!=check_date">
-			and header.check_date = #{check_date}
-		</if>
-		<if test="docking_man!=null and ''!=docking_man">
-			and header.docking_man = #{docking_man}
-		</if>
-	</select>
-=======
-	from fke_sup_answer_header
-  </select>
+	
   <select id="temAnswer" resultType="com.jnhouse.app.dto.TemAnswer" parameterType="Map">
   SELECT
 	template.menu_title AS title,
@@ -583,31 +544,43 @@ FROM
   	<if test="header_id!=null and ''!=header_id">
   		and header_id = #{header_id}
   	</if>
-  	<if test="dept_id!=null and ''!=dept_id">
-  		and dept_id = #{dept_id}
+  	<if test="dept_id!=null">
+  		and dept_id in
+  	<foreach collection="dept_id" open=" (" close=" )" item="i" separator=",">
+  		 #{i}
+  	</foreach>
+  		 
   	</if>
   </select>
   <insert id="insertheader_dept" parameterType="Map">
- 	INSERT INTO fke_sup_answer_header_dept (
-		header_id,template_id,store_id,check_date,store_around,start_time,end_time,broker_num,customer_num,
-		docking_man,recording,is_delete,updated_time,created_time,dept_id ) 
-		SELECT id,template_id,store_id,check_date,store_around,start_time,end_time,broker_num,customer_num,docking_man,recording,
-		is_delete,updated_time,created_time,#{dept_id} 
-	FROM
-		fke_sup_answer_header 
-	WHERE
-		id = #{header_id}
+  INSERT INTO fke_sup_answer_header_dept (header_id,template_id,store_id,check_date,store_around,start_time,end_time,broker_num,customer_num,docking_man,recording,is_delete,updated_time,created_time,dept_id ) 
+  	select a.* from (
+	  <if test="dept_id!=null">
+	  	<foreach collection="dept_id" item="i" separator="UNION ALL">	  		
+				SELECT id,template_id,store_id,check_date,store_around,start_time,end_time,broker_num,customer_num,docking_man,recording,
+				is_delete,updated_time,created_time,#{i} 
+			FROM
+				fke_sup_answer_header 
+			WHERE
+				id = #{header_id}
+	  	</foreach>
+	  </if>
+ 	)a
   </insert>
   
   <insert id="insertline_dept" parameterType="Map">
-  	INSERT INTO fke_sup_answer_line_dept ( 
-  		header_id, problem_id, answer_num, answer, score, is_delete, updated_time, created_time, dept_id ) 
-  		SELECT header_id,problem_id,answer_num,answer,score,is_delete,updated_time,created_time,#{dept_id}
-	FROM
-		fke_sup_answer_line 
-	WHERE
+  INSERT INTO fke_sup_answer_line_dept (header_id, problem_id, answer_num, answer, score, is_delete, updated_time, created_time, dept_id ) 
+  select a.* from (
+  	<if test="dept_id!=null">
+	  	<foreach collection="dept_id" item="i" separator="UNION ALL" >	  	
+	  		SELECT header_id,problem_id,answer_num,answer,score,is_delete,updated_time,created_time,#{i}
+		FROM
+			fke_sup_answer_line 
+		WHERE
 		header_id =#{header_id}
-  	
+  		</foreach>
+  	</if>
+  	)a
   </insert>
  <delete id="deleteHeader" parameterType="String">
     delete from fke_sup_answer_header where id=#{id}
@@ -615,4 +588,64 @@ FROM
  <delete id="deleteLine" parameterType="String">
     delete from fke_sup_answer_line where header_id=#{id}
  </delete>
+
+ 
+ <select id="selectDeptShareAnswer" parameterType="Map" resultMap="BaseResultMap">
+ 	SELECT
+		hd.id,
+		hd.header_id,
+		hd.template_id,
+		date_format(hd.check_date, '%Y-%m-%d' ) AS check_date,
+		hd.store_id,
+		hd.store_around,
+		hd.start_time,
+		hd.end_time,
+		hd.broker_num,
+		hd.customer_num,
+		hd.docking_man,
+		hd.recording,
+		hd.is_delete,
+		hd.updated_time,
+		hd.created_time,
+		hd.dept_id,
+		dept.dept_name,
+		east.NAME ,
+		template.menu_title
+	FROM
+		fke_sup_answer_header_dept hd
+		LEFT JOIN fke_dept dept on dept.id = hd.dept_id
+		left join fke_supervision_template template on hd.template_id = template.id
+		LEFT JOIN 20171206fangchan.fke_east east ON east.id = hd.store_id where 1 = 1
+		
+		<if test="dept_id!=null">
+			<foreach collection="dept_id" item="i" index="index"  separator="or" open=" and " close=" ">			
+				hd.dept_id = #{i}			
+			</foreach>	
+		</if>		
+ </select>
+ 
+ <delete id="deleteDeptHeader" parameterType="String">
+    delete from fke_sup_answer_header_dept where 1 = 1 
+    <if test="id!=null and ''!=id">
+    	and id = #{id}
+    </if>
+    <if test="dept_id!=null and ''!=dept_id">
+    	and dept_id = #{dept_id}
+    </if>
+    <if test="header_id!=null and ''!=header_id">
+    	and header_id = #{header_id}
+    </if>    	
+    
+ </delete>
+ <delete id="deleteDeptLine" parameterType="String">
+    delete from fke_sup_answer_line_dept where 1 = 1 
+    <if test="dept_id!=null and ''!=dept_id">
+    	and dept_id = #{dept_id}
+    </if>
+    <if test="header_id!=null and ''!=header_id">
+    	and header_id = #{header_id}
+    </if>    	
+ </delete>
+ 
+
 </mapper>

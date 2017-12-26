@@ -15,4 +15,8 @@ public interface AnswerService{
 	//判断是否共享过
 	int getHeader_dept(Map<String,Object> map);
 	void deleteHeader(String id);
+	
+	//查询分享后答案主表数据
+	List<SupAnswerHeader> selectDeptShareAnswer(Map<String,Object> map);
+	void deleteDeptHeader(Map<String,Object> map);
 }
