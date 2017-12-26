@@ -107,7 +107,6 @@ public class SupAnswerHeader implements Serializable{
 		return serialVersionUID;
 	}
 
-	public Integer getId() {
     
     public Integer getId() {
         return id;
