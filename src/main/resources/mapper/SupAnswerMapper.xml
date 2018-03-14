@@ -279,7 +279,7 @@
 	FROM
 		fke_sup_answer_header answer
 		left join fke_supervision_template template on answer.template_id = template.id
-		LEFT JOIN 20171206fangchan.fke_east east ON east.id = answer.store_id
+		LEFT JOIN 2015_09_fangchanjn.fke_east east ON east.id = answer.store_id
 </select>
 	<!-- App sql start -->
 	<resultMap type="com.jnhouse.app.dto.SupAnswerHeaderDTO" id="supAnswerHeaderDTOMap">
@@ -323,7 +323,7 @@
 		t.menu_title
 		FROM
 		fke_sup_answer_header h,
-		20171206fangchan.fke_east e,
+		2015_09_fangchanjn.fke_east e,
 		fke_supervision_template t
 		WHERE
 		h.store_id = e.id
@@ -615,7 +615,7 @@ FROM
 		fke_sup_answer_header_dept hd
 		LEFT JOIN fke_dept dept on dept.id = hd.dept_id
 		left join fke_supervision_template template on hd.template_id = template.id
-		LEFT JOIN 20171206fangchan.fke_east east ON east.id = hd.store_id where 1 = 1
+		LEFT JOIN 2015_09_fangchanjn.fke_east east ON east.id = hd.store_id where 1 = 1
 		
 		<if test="dept_id!=null">
 			<foreach collection="dept_id" item="i" index="index"  separator="or" open=" and " close=" ">			

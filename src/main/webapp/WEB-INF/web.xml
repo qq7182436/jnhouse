@@ -27,7 +27,15 @@
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<load-on-startup>2</load-on-startup>
 	</servlet>
-
+	<servlet>  
+        <servlet-name>CXFServlet</servlet-name>  
+        <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>  
+        <load-on-startup>1</load-on-startup>  
+    </servlet>  
+    <servlet-mapping>  
+        <servlet-name>CXFServlet</servlet-name>  
+        <url-pattern>/ws/*</url-pattern>  
+    </servlet-mapping>  
 	<!-- Map all requests to the DispatcherServlet for handling -->
 	<servlet-mapping>
 		<servlet-name>dispatcherServlet</servlet-name>

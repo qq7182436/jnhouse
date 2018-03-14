@@ -31,7 +31,7 @@
   <select id="selectUserByDeptId" parameterType="com.jnhouse.app.dto.DeptUserDto" resultType="com.jnhouse.app.dto.DeptUserDto">
     select 
     fdu.id,fdu.dept_id,fdu.broker_id,fbi.realname,fm.username as mobile,fbi.avatar as photo
-    from fke_dept_user fdu,20171206fangchan.fke_member fm ,20171206fangchan.fke_broker_info fbi
+    from fke_dept_user fdu,2015_09_fangchanjn.fke_member fm ,20171206fangchan.fke_broker_info fbi
     where dept_id = #{dept_id,jdbcType=INTEGER}
     and fdu.is_delete = '1'
 	and fdu.broker_id = fm.id
