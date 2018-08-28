@@ -33,6 +33,8 @@ public interface SupTemplateDao extends BaseDao<SupTemplate>{
 	List<SupTemplate> fke_template(Map<String,Object> map);
 	void updateTemplate(Map<String,Object> param);
 	void insertNexteTemplate(Map<String,Object> param);
-	void delete_template(int id);
+	void delete_template(Map<String,Object> map);
 	List<SupTemplate> isHaveLevelCount(String param);
+	SupTemplate getMaxTemplate();
+	SupTemplate selectByPrimaryKey(Integer id);
 }

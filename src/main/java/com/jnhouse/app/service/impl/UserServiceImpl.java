@@ -3,6 +3,8 @@ package com.jnhouse.app.service.impl;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.jws.WebMethod;
+import javax.jws.WebService;
 
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,7 @@ import com.jnhouse.app.dto.UserInfoDto;
 import com.jnhouse.app.service.UserService;
 
 @Service
+@WebService(endpointInterface = "com.jnhouse.app.service.UserService")
 public class UserServiceImpl extends BaseServiceImpl<User> implements UserService {
 
 	@Resource
@@ -61,6 +64,19 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 	public List<UserInfoDto> findUserByName(String username) {
 		// TODO Auto-generated method stub
 		return userInfoDao.findUserByName(username);
+	}
+
+	@Override
+	public String add(String id, String name) {
+		// TODO Auto-generated method stub
+		return "ID:" + id + "|姓名:" + name;
+	}
+
+	@WebMethod(exclude=true)
+	@Override
+	public String add1(String id, String name) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.jnhouse.app.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -50,6 +51,12 @@ public class DeptServiceImpl extends BaseServiceImpl<Dept> implements DeptServic
 	public Integer findMaxValue(Dept dept) {
 		// TODO Auto-generated method stub
 		return deptDao.findMaxValue(dept);
+	}
+
+	@Override
+	public List<Integer> getDeptById(String dept_id) {
+		// TODO Auto-generated method stub
+		return deptDao.getDeptById(dept_id);
 	}
 
 }

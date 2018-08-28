@@ -61,192 +61,117 @@ body {
 #myModal{
 	overflow-y: auto;
 }
-
-.ztree li span.button.pIcon01_ico_open {
-	margin-right: 2px;
-	background: url(<%=basePath%>zTree_v3/css/zTreeStyle/img/diy/1_open.png)
-		no-repeat scroll 0 0 transparent;
-	vertical-align: top;
-	*vertical-align: middle
-}
-
-.ztree li span.button.pIcon01_ico_close {
-	margin-right: 2px;
-	background:
-		url(<%=basePath%>zTree_v3/css/zTreeStyle/img/diy/1_close.png)
-		no-repeat scroll 0 0 transparent;
-	vertical-align: top;
-	*vertical-align: middle
-}
-
-.ztree li span.button.pIcon02_ico_open, .ztree li span.button.pIcon02_ico_close
-	{
-	margin-right: 2px;
-	background: url(<%=basePath%>zTree_v3/css/zTreeStyle/img/diy/2.png)
-		no-repeat scroll 0 0 transparent;
-	vertical-align: top;
-	*vertical-align: middle
-}
-
-.ztree li span.button.icon01_ico_docu {
-	margin-right: 2px;
-	background: url(<%=basePath%>zTree_v3/css/zTreeStyle/img/diy/3.png)
-		no-repeat scroll 0 0 transparent;
-	vertical-align: top;
-	*vertical-align: middle
-}
-
-.ztree li span.button.icon02_ico_docu {
-	margin-right: 2px;
-	background: url(<%=basePath%>zTree_v3/css/zTreeStyle/img/diy/4.png)
-		no-repeat scroll 0 0 transparent;
-	vertical-align: top;
-	*vertical-align: middle
-}
-
-.ztree li span.button.icon03_ico_docu {
-	margin-right: 2px;
-	background: url(<%=basePath%>zTree_v3/css/zTreeStyle/img/diy/5.png)
-		no-repeat scroll 0 0 transparent;
-	vertical-align: top;
-	*vertical-align: middle
-}
-
-.ztree li span.button.icon04_ico_docu {
-	margin-right: 2px;
-	background: url(<%=basePath%>zTree_v3/css/zTreeStyle/img/diy/6.png)
-		no-repeat scroll 0 0 transparent;
-	vertical-align: top;
-	*vertical-align: middle
-}
-
-.ztree li span.button.icon05_ico_docu {
-	margin-right: 2px;
-	background: url(<%=basePath%>zTree_v3/css/zTreeStyle/img/diy/7.png)
-		no-repeat scroll 0 0 transparent;
-	vertical-align: top;
-	*vertical-align: middle
-}
-
-.ztree li span.button.icon06_ico_docu {
-	margin-right: 2px;
-	background: url(<%=basePath%>zTree_v3/css/zTreeStyle/img/diy/8.png)
-		no-repeat scroll 0 0 transparent;
-	vertical-align: top;
-	*vertical-align: middle
-}
-::-webkit-scrollbar {/*隐藏滚动条*/
-display: none;
-}
 </style>
 <script type="text/javascript">
+	layui.use(['layer', 'form'], function(){
+	  var layer = layui.layer
+	  ,form = layui.form;
+	});
 	$(function () {
-		$('#myModal').on('hidden.bs.modal', function (e) {
-			 $("#box").html(""); 
-		});				
-		/*模态框点击 事件
-		$('#dataTable').on('click-row.bs.table', function (e, row, element) {
-	   		queryAnswerLine(row);     
-	   	}); */  
-	   	//$("#example-advancedd").treetable({expandable:true});
-		 $("#dataTable").bootstrapTable({   		 
-	    		url:'answer/selectAnswer.action',
-	    		pagination:true,//分页
-	    		striped:true,//隔行变色
-	    		search:true,
-	    		toggle:"table",
-	    		showColumns:true,//显示 内容列下拉框
-	    		singleSelect:true,//禁止多选
-	    		columns: [{
-	    			checkbox:true,
-	    			clickToSelect:true
-	    			
-	 		    }, 
-	 		    {
-	 		    	field: 'template_id',
-	 		        title: '模板',
-	 		        formatter:function(v){
-	 		        	if(v=='10'){return '模板一'}
-	 		       		else if(v=='11'){return '模板二';}
-	 		       		/* else if(v=='12'){return '模板三';} */
-	 		       		else if(v=='55'){return '标准模板';}
-	 		       		else{return '未知模板';} 
-	 		        },	 		       
-	 		    },{	 		    	
-	 		        field: 'store_id',
-	 		        title: '门店'
-	 		    }, {
-	 		        field: 'check_date',
-	 		        title: '进店日期'		       
-	 		    },{
-	 		        field: 'docking_man',
-	 		        title: '对接人'	 		       
-	 		    },
-	 		   {
-	 		        field: 'start_time',
-	 		        title: '访问开始时间'	 		       
-	 		    },
-	 		  {
-	 		        field: 'end_time',
-	 		        title: '访问结束时间'	 		       
-	 		    },
-	 		   {
-	 		        field: 'cz',
-	 		        title: '操作',
-	 		        formatter:function (v,r,i){
-	 		    	   var a = '<button type="button" class="btn btn-danger" id="buttona" >删除 </button>';
-	 		    	   var b ='<button type="button" class="btn btn-primary" id="buttonb" >查看</button> ';
-	 		    	   return a+ b;
-	 		       },events: {
-                       'click #buttona': function (e, value, row, index) {
-                           //删除操作
-                           if(confirm("答案明细将一并删除 ,确认删除此条记录？")){
-                        	   $.post('answer/deleteHeader.action',{id:row.id},function(data){
-                            	   if(data.success){
-                            		   alert("删除成功!");
-                            		   location.reload();
-                            	   }else{
-                            		   alert("删除失败 !请联系技术人员 ");
-                            	   }
-                               }
-                               ,'json')
-                           }else{
-                        	   return;
-                           }
-                         
-                    },
-                    	'click #buttonb': function (e, value, row, index) {
-                    		queryAnswerLine(row);
-                    }
-                    
-	 		       }
-	 		    }]	 		    
-	 		});    
+	$('#myModal').on('hidden.bs.modal', function (e) {
+		 $("#box").html(""); 
+	});				
+	/*模态框点击 事件
+	$('#dataTable').on('click-row.bs.table', function (e, row, element) {
+   		queryAnswerLine(row);     
+   	}); */  
+   	//$("#example-advancedd").treetable({expandable:true});
+	 $("#dataTable").bootstrapTable({   		 
+    		url:'answer/selectDeptShareAnswer.action',
+    		pagination:true,//分页
+    		striped:true,//隔行变色
+    		search:true,
+    		toggle:"table",
+    		showColumns:true,//显示 内容列下拉框
+    		singleSelect:true,//禁止多选
+    		clickToSelect:true,
+    		columns: [{
+    			checkbox:true    			
+ 		    }, 
+ 		    {
+ 		    	field:'id',
+ 		    	title:'id',
+ 		    	visible:false
+ 		    },
+ 		    {
+ 		    	field: 'menu_title',
+ 		        title: '模板'	 		       
+ 		        
+ 		    },{	 		    	
+ 		        field: 'store_name',
+ 		        title: '门店'
+ 		    }, {
+ 		        field: 'check_date',
+ 		        title: '进店日期'		       
+ 		    },{
+ 		        field: 'docking_man',
+ 		        title: '对接人'	 		       
+ 		    },
+ 		   {
+ 		        field: 'start_time',
+ 		        title: '访问开始时间'	 		       
+ 		    },
+ 		  {
+ 		        field: 'end_time',
+ 		        title: '访问结束时间'	 		       
+ 		    },
+ 		   {
+ 		        field: 'dept_name',
+ 		        title: '部门'	 		       
+ 		    },
+ 		   {
+ 		        field: 'cz',
+ 		        title: '操作',
+ 		       	align:'center',
+ 		        
+ 		        formatter:function (v,r,i){
+ 		    	   var a = '<button type="button" class="btn btn-danger" id="buttona">删除 </button>';
+ 		    	   var b ='<button type="button" class="btn btn-primary" id="buttonb" style="margin-left:10px;">查看</button> ';
+ 		    	   return a+ b;
+ 		       },events: {
+                   'click #buttona': function (e, value, row, index) {                   	   
+                       //删除操作\
+                      layer.confirm('答案明细将会一并删除,确定要删除吗？', {
+						  btn: ['删除', '取消'], //可以无限个按钮
+						  offset: '100px'
+						}, function(index){
+							layer.close(index);
+							 $.post('answer/deleteDeptHeader.action',{id:row.id,dept_id:row.dept_id,header_id:row.header_id},function(data){
+                            	if(data.success){
+	                            	layer.msg("删除成功!");
+	                            	$("#dataTable").bootstrapTable('remove',{field: 'id',values: [row.id]});
+                            	}else{
+                            		 layer.msg("删除失败 !请联系技术人员 ");
+                            	 }
+                               },'json') 
+                               
+                           
+							},function(index){
+								  //按钮【按钮二】的回调
+							});                       	                         
+                },
+                	'click #buttonb': function (e, value, row, index) {
+                		queryAnswerLine(row);
+                }
+                
+ 		       }
+ 		    }]	 		    
+ 		});    
 }) ;
-	
+
 function queryAnswerLine(row){
-      $.post('answer/answerList.action',{template_id:row.template_id},function(data){
-    	  $("#basic-addon1").val(row.store_id);
-    	  $("#basic-addon2").val(row.docking_man);
-    	  $("#basic-addon3").val(row.check_date);
-    	  $("#basic-addon5").val(row.start_time);
-    	  $("#basic-addon6").val(row.end_time);
-    	  $("#basic-addon7").val(row.broker_num);
-    	  $("#basic-addon8").val(row.customer_num);
-    	  $("#basic-addon9").val(row.store_around);
-    	  if(row.template_id=='10'){
-    		  $("#basic-addon4").val('模板一');
-    		}else if(row.template_id=='11'){
-    			$("#basic-addon4").val('模板二');
-    		/* }else if(row.template_id=='12'){
-    			$("#basic-addon4").val('模板三'); */
-    		}else if(row.template_id=='55'){
-    			$("#basic-addon4").val('标准模板');
-    		}else{
-    			$("#basic-addon4").val('未知模板');
-    		}
-    	  $.each(data,function(i,item){  		  
-    			  var str = "<div class='panel panel-primary'>"+
+	  $.post('answer/answerList.action',{template_id:row.template_id},function(data){
+		  $("#basic-addon1").val(row.store_name);
+		  $("#basic-addon2").val(row.docking_man);
+		  $("#basic-addon3").val(row.check_date);
+		  $("#basic-addon4").val(row.menu_title);
+		  $("#basic-addon5").val(row.start_time);
+		  $("#basic-addon6").val(row.end_time);
+		  $("#basic-addon7").val(row.broker_num);
+		  $("#basic-addon8").val(row.customer_num);
+		  $("#basic-addon9").val(row.store_around);   	  
+		  $.each(data,function(i,item){  		  
+				  var str = "<div class='panel panel-primary'>"+
 				    "<div class='panel-heading' role='tab' id='"+i+"'>"+
 				      "<h4 class='panel-title'>"+
 				        "<a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapse"+i+"' aria-expanded='false' aria-controls='collapse"+i+"'>"+
@@ -260,11 +185,10 @@ function queryAnswerLine(row){
 				      "</div>"+
 				    "</div>"+
 				"</div>";	
-    		      								
-			$("#box").append(str); 
-			
+				
+			$("#box").append(str); 			
 			$(".table_").bootstrapTable({   		 
-	    		url:'answer/temAnswer.action?template_id='+item.id+"&header_id="+row.id,
+	    		url:'answer/temAnswer.action?template_id='+item.id+"&header_id="+row.header_id,
 	    		//showHeader:false,不展示表头
 	 			columns: [{
 	 		        field: 'title',
@@ -309,164 +233,48 @@ function queryAnswerLine(row){
 	 		    }]
 	 		    
 	 		}); 
-    	  });
-    	     	    	   	 
-    },'json');     
-      
+		  });
+		     	    	   	 
+	},'json');     
+	  
 	$('#myModal').modal("show");
 	 $("#share").on('click',function(){
 		 shareEnter(row); 
 	  });
 }
 
-
-function template(v){
-	if(v=='10'){return '模板一'}
-	else if(v=='11'){return '模板二';}
-	/* else if(v=='12'){return '模板三';} */
-	else if(v=='55'){return '标准模板';}
-	else{return '未知模板';}
-}
-
 function showDetails(rw,row){	
-
-	 /* $.post('answer/isHave.action',{id:rw.id},function(data){	
-		 
-		if(data == null || ''==data){
-		    $("#answerDetail").val(rw.answer);
-			var path = rw.fileUrl+rw.fileName;
-			var img = '<img alt="暂无图片" src="'+path+'" />'; 
-			/* var img = '<img alt="none" src="E:\123\20171220\1.jpg" /> '; 
-			$("#picture").empty();
-			$("input[name='checkbox']").each(function(){
-				$(this).removeAttr("checked");
-				if($(this).val() ==rw.answerNum){       	
-		            $(this).attr("checked", true);
-		            $(this).attr("readonly", "readonly");
-		        }
-		    });
-			$("#picture").append(img);
-			$('#myModaltwo').modal("show"); 			
-		}else {			
-				 $("#tb").bootstrapTable({
-					url:'answer/temAnswer.action?template_id='+rw.id+"&header_id="+row.id,
-		 			columns: [{
-		 		        field: 'title',
-		 		        title: '内容'		 		    
-		 		    },{
-		 		    	field:'answerNum',
-		 		    	title:'答案类型',
-		 		    	formatter:function(v){
-		 		    		if(v=="1"){
-		 		        		return '是';
-		 		        	}else if(v=='2'){
-		 		        		return '否';
-		 		        	}else{
-		 		        		return '其他';
-		 		        	}
-		 		    	}
-		 		    },{
-		 		    	field:"xs",
-		 		    	title:'详情',
-		 		    	 formatter:function(v,r,i){
-		 		    		return '<button type="button" class="btn btn-primary" id="buttone">查看 </button>';
-		 		    	},events:{
-		 		    		'click #buttone' : function (e, value, q, index) {
-		 		    			showDetails(q,row);
-		 	 		    	   }
-		 		    	} 
-		 		    }]		 		    
-		 		});			
-			$('#myModalfour').modal("show"); 
-			
-		}
-	},'json')  */ 
 	$("#answerDetail").val(rw.answer);
 	var path = rw.fileUrl+rw.fileName;
 	var img = '<img alt="暂无图片" src="'+path+'" />'; 
-	/* var img = '<img alt="none" src="E:\123\20171220\1.jpg" /> '; */
 	$("#picture").empty();
 	$("input[name='checkbox']").each(function(){
 		$(this).removeAttr("checked");
 		if($(this).val() ==rw.answerNum){       	
-            $(this).attr("checked", true);
-            $(this).attr("readonly", "readonly");
-        }
-    });
+	        $(this).attr("checked", true);
+	        $(this).attr("readonly", "readonly");
+	    }
+	});
 	$("#picture").append(img);
 	$('#myModaltwo').modal("show"); 		
 }
 
- function answer_num(v){
+function answer_num(v){
 	if(v=='0'){
 		return '否';
-	}else if(v=='1'){
-		return '是';
-	}else{
-		return '其他';
-	}
-} 
-function share(){	
-	var setting = {
-			data : {
-				simpleData : {
-					enable : true,
-					idKey: "id",
-					pIdKey: "pId",
-					rootPId: 0
-				}
-			},
-			callback: {
-				onClick: onClick
-			}
-			
-		};
-		var zNodes;
-		var treeNode_1;
-		$.ajax({
-			url : 'dept/aJsonObject.action',
-			type : 'POST', //GET
-			async : true, //或false,是否异步
-			data : {
-				name : 'yang',
-				age : 25
-			},
-			timeout : 5000, //超时时间
-			dataType : 'json', //返回的数据格式：json/xml/html/script/jsonp/text
-			success : function(data) {				
-				zNodes = data.zNodes;
-				$.fn.zTree.init($("#treeDemo"), setting, zNodes);
-			},
-			error : function(data) {
-				alert("错误");
-				console.log('错误')
-			}
-		})	
-	$('#myModalThree').modal("show");
-}
- function shareEnter(row){
-	 var dept_id = $("#hidden").val();
-	$.ajax({
-		url:'answer/share.action',
-		type:'post',
-		data:{
-			header_id:row.id,
-			dept_id:dept_id
-		},
-		dataType:'json',
-		success:function(data){
-			alert(data.success);
-		},
-		error:function(data){
-			alert("未知错误,请联系技术人员");
+		}else if(v=='1'){
+			return '是';
+		}else{
+			return '其他';
 		}
-	});
-} 
+	} 
 function onClick(event, treeId, treeNode, clickFlag){
 	$("#hidden").val(treeNode.id);
+	$("#hid").val(treeNode.name);
 }
 </script>
 </head>
+
 <body>
 <!-- 模态框start -->
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -506,8 +314,7 @@ function onClick(event, treeId, treeNode, clickFlag){
 					</div>				  
 				</div>
 			  </div>
-			</div>
-			
+			</div>			
 			<div class="row">
 			  <div class="col-md-6">
 			  	<div class="panel panel-primary">
@@ -540,15 +347,11 @@ function onClick(event, treeId, treeNode, clickFlag){
 				<div class="panel-heading">店铺环境(￣_,￣ )</div>		
 					<textarea class="form-control" rows="3" name=textarea id="basic-addon9" readonly></textarea>				
 			</div>
-			</div>
-			
-			<div class="box" id="box">				     				   					     								 
-			 <!-- <div class="panel panel-primary"><div class="panel-heading" role="tab" id="headingOne"><h4 class="panel-title"><a class="collapsed" role="button" data-toggle="collapse"  href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">店外环境</a></h4></div><div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne"><div class="panel-body"><table id="dataTableTwo" class="table-bordered"  data-pagination="true"  data-toggle="table" data-striped=true data-show-header="false" data-url="answer/temAnswer.action"><thead><tr><th data-field="title"></th><th data-field="answerNum" data-formatter="answer_num"></th><th data-field="" data-formatter="show"></th></tr></thead></table></div></div></div> --> 
-			</div>
-			
+			</div>			
+			<div class="box" id="box">				     				   					     								  
+			</div>	
 	      </div>
 	      <div class="modal-footer">
-	      	<button type="button" class="btn btn-success" onclick="share()">共享</button>
 	        <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>	        
 	      </div>
 	    </div>
@@ -595,35 +398,9 @@ function onClick(event, treeId, treeNode, clickFlag){
 	      </div>
 	    </div>
 	  </div>
-	</div>
-	
-	
+	</div>	
 <!-- 详情模态框end -->
-<!-- share模态框start -->
-<div class="modal fade" id="myModalThree" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-	<div class="modal-dialog" role="document">
-	  <div class="modal-content">
-	  	<div class="modal-body">
-	  		<div class="panel panel-primary">
-				<div class="panel-heading">部门列表</div>
-				<div class="content_wrap">
-					<div class="zTreeDemoBackground left">
-						<ul id="treeDemo" class="ztree"></ul>
-					</div>
-					<input type="hidden" id="hidden">
-				</div>
-			</div>
-	  	</div>
-	  	<div class="modal-footer">
-	      	<button type="button" class="btn btn-success" id="share">共享</button>
-	        <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>	        
-	    </div>
-	  </div>
-	 </div>
-	</div>
-</div>
-	
-<!-- share模态框end -->	
+
 		<div style="background-color: #ecf0f5;">
 			<section class="content-header">
 				<h1>
